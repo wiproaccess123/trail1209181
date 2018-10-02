@@ -1,0 +1,39 @@
+commonfields:
+  id: 23d91206-1672-440f-8f9b-bd26884dff3d
+  version: 10
+name: ActiveDirectoryDisableUser-Testing
+script: |
+  title = "Active Directory Query Results"
+  data = {
+      "HostName":"Rajkumar.v36",
+      "SamAccountName":"Ra952627",
+      "Email":"Rajkumar.v36@wipro.com",
+      "OrganizationalStructure":"CN=Raj,CN=Users,DC=itm,DC=wipro,DC=com",
+      "MobileNo":"+91-9003033308",
+      "AccountDisable":"False",
+      "PhysicalDeliveryOfficeName":"Chennai-CDC5",
+      "Memberof":"iTM-Engineering",
+      "ManagerName":"srikanth",
+      "Email":"srikanth.ramesh@wipro.com",
+      "MobileNo":"+91-9886666711"
+
+
+  }
+
+
+  res = {'Type': entryTypes['note'],
+  'Contents': data,
+  'ContentsFormat': formats['markdown'],
+  'HumanReadableFormat': formats['markdown'],
+  'HumanReadable': tableToMarkdown(title, data),
+  'EntryContext': data}
+
+  demisto.results(res)
+type: python
+tags: []
+enabled: true
+locked: true
+args:
+- name: Username
+scripttarget: 0
+runonce: false
