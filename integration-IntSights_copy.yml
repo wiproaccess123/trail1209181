@@ -1,0 +1,833 @@
+commonfields:
+  id: IntSights_copy
+  version: 7
+name: IntSights_copy
+display: IntSights_copy
+category: Forensics & Malware Analysis
+image: data:image/png;base64,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
+description: Use IntSights to manage and fetch alerts
+configuration:
+- display: Server URL (e.g. https://192.168.0.1)
+  name: server
+  defaultvalue: ""
+  type: 0
+  required: true
+- display: IOCs type to fetch as incidents
+  name: type
+  defaultvalue: ""
+  type: 0
+  required: false
+- display: Trust any certificate (unsecure)
+  name: insecure
+  defaultvalue: ""
+  type: 8
+  required: false
+- display: Use system proxy settings
+  name: proxy
+  defaultvalue: ""
+  type: 8
+  required: false
+- display: Fetch incidents
+  name: isFetch
+  defaultvalue: ""
+  type: 8
+  required: false
+- display: Incident type
+  name: incidentType
+  defaultvalue: ""
+  type: 13
+  required: false
+- display: ""
+  name: API_key
+  defaultvalue: ""
+  type: 0
+  required: true
+- display: ""
+  name: Account_ID
+  defaultvalue: ""
+  type: 0
+  required: true
+script:
+  script: |
+    var server = params.server.replace(/[\/]+$/, '') + '/';
+
+    var FILE_TYPE = 9;
+    var iocTypes = ['Domains', 'Urls', 'IpAddresses', 'Hashes'];
+
+    var urlDictionary = {
+        'login' : 'login',
+        'logout': 'logout',
+        'intsights-get-alerts': 'alerts',
+        'intsights-get-alert-image': 'alerts/image/%AlertID%/%ImageID%',
+        'intsights-get-alert-activities': 'alerts/get-activities/%AlertID%',
+        'intsights-check-new-notifications': 'alerts/check-new',
+        'intsights-get-notifications': 'alerts/get-notifications',
+        'intsights-ask-the-analyst': 'alerts/ask-the-analyst/%AlertID%',
+        'intsights-send-mail': 'alerts/mail-to-others/%AlertID%',
+        'intsights-remediate': 'alerts/resolve-request/%AlertID%',
+        'intsights-whitelist': 'alerts/report-white-list/%AlertID%',
+        'intsights-assign': 'alerts/assign/%AlertID%',
+        'intsights-unassign': 'alerts/unassign/%AlertID%',
+        'intsights-tag': 'alerts/add-tag/%AlertID%',
+        'intsights-untag': 'alerts/remove-tag/%AlertID%',
+        'intsights-comment': 'alerts/comment/%AlertID%',
+        'intsights-archive': 'alerts/archive/%AlertID%',
+        'intsights-change-severity': 'alerts/change-severity/%AlertID%',
+
+        'intsights-get-alert-by-id': 'alerts/get-alert',
+        'intsights-get-alert-preview': 'alerts/preview/%AlertID%',
+        'intsights-get-alert-db-file': 'alerts/db-file/%AlertID%',
+        'intsights-get-alert-whois-file': 'alerts/whois-file/%AlertID%',
+
+        'intsights-mark-alert-as-read': 'alerts/read/%AlertID%',
+        'intsights-mark-notifications-as-read': 'alerts/mark-notifications-as-read',
+
+        'intsights-get-iocs': 'iocs/iocs-by-type',
+        'intsights-search-iocs': 'iocs/search',
+        'intsights-ioc-download-csv': 'iocs/download-csv'
+    };
+
+    var methodDictionary = {
+        'login': 'POST',
+        'logout': 'GET',
+        'intsights-get-accounts': 'GET',
+        'intsights-get-alerts': 'GET',
+        'intsights-get-alert-image': 'GET',
+        'intsights-get-alert-activities': 'GET',
+        'intsights-check-new-notifications': 'GET',
+        'intsights-get-notifications': 'GET',
+        'intsights-ask-the-analyst': 'POST',
+        'intsights-send-mail': 'POST',
+        'intsights-remediate': 'PATCH',
+        'intsights-whitelist': 'PATCH',
+        'intsights-assign': 'PATCH',
+        'intsights-unassign': 'PATCH',
+        'intsights-tag': 'PATCH',
+        'intsights-untag': 'PATCH',
+        'intsights-comment': 'PATCH',
+        'intsights-archive': 'PATCH',
+        'intsights-change-severity': 'PATCH',
+
+        'intsights-get-alert-by-id': 'GET',
+        'intsights-get-alert-preview': 'GET',
+        'intsights-get-alert-db-file': 'GET',
+        'intsights-get-alert-whois-file': 'GET',
+
+        'intsights-mark-alert-as-read': 'PATCH',
+        'intsights-mark-notifications-as-read': 'POST',
+
+        'intsights-get-iocs': 'GET',
+        'intsights-search-iocs': 'GET',
+        'intsights-ioc-download-csv': 'GET'
+    };
+
+    var outputsDictionary = {
+        'intsights-get-alerts': [
+            {from: '_id', to: 'ID'},
+            {from: 'FoundDate', to: 'Found Date'},
+            {from: 'Details.Title', to: 'Title'},
+            {from: 'Details.Type', to: 'Type'},
+            {from: 'Details.Severity', to: 'Severity'},
+            {from: 'Details.Source', to: 'Source', parser: function(src) {
+                return 'Type: {0}\nNetwork Type: {1}\nURL: {2}\nDate: {3}'.format(src.Type, src.NetworkType, src.URL, src.Date)
+            }},
+            {from: 'Details.Description', to: 'Description'},
+            {from: 'Details.Recommendations', to: 'Recommendations'},
+        ],
+
+        'intsights-get-alert-activities': [
+            {from: 'Type', to: 'Type'},
+            {from: 'Initiator', to: 'Initiator', parser: function(initiator) {
+                return 'First Name: {0}\nLast Name: {1}'.format(initiator.FirstName, initiator.LastName)
+            }},
+            {from: 'CreatedDate', to: 'Created Date'},
+            {from: 'UpdateDate', to: 'Update Date'},
+            {from: '_id', to: 'ID'},
+            {from: 'ReadBy', to: 'Read By', parser: function(readBy) {
+                return readBy.join('\n');
+            }},
+            {from: 'IsRead', to: 'Is Read'}
+        ],
+
+        'intsights-check-new-notifications': [
+            {from: 'HasNew', to: 'Has New', parser: function(hasNew) {return '{0}'.format(hasNew)}},
+            {from: 'Date', to: 'Date'},
+        ],
+
+        'intsights-get-notifications': [
+            {from: '_id', to: 'ID'},
+            {from: 'Date', to: 'Date'},
+            {from: 'NotificationType', to: 'Notification Type'},
+            {from: 'Type', to: 'Type'},
+            {from: 'Severity', to: 'Severity'},
+        ],
+
+        'intsights-get-iocs': [
+            {from: 'AccountID', to: 'Account ID'},
+            {from: 'FirstSeen', to: 'First Seen'},
+            {from: 'LastSeen', to: 'Last Seen'},
+            {from: 'SourceID', to: 'Source ID'},
+            {from: 'Type', to: 'Type'},
+            {from: 'Value', to: 'Value'},
+            {from: '_id', to: 'ID'}
+        ],
+
+        'intsights-search-iocs': [
+            {from: 'ResultType', to: 'Result Type'},
+            {from: '_id', to: 'ID'},
+            {from: 'document.Compaign.AssociatedThreatActors', to: 'Campaign Threat Actors', parser: joinLines},
+            {from: 'document.Compaign.CampaignType', to: 'Campaign Type'},
+            {from: 'document.Compaign.SocialMediaProfilesOrGroups', to: 'Social Media', parser: joinLines},
+            {from: 'document.Compaign.TTPs', to: 'TTPs', parser: joinLines},
+            {from: 'document.Hashtags', to: 'Hashtags', parser: joinLines},
+            {from: 'document.Image', to: 'Image'},
+            {from: 'document.Malware', to: 'Malware'},
+            {from: 'document.Name', to: 'Name'},
+            {from: 'document.Nationalities', to: 'Nationalities', parser: joinLines},
+            {from: 'document.OtherNames', to: 'Other Names'},
+            {from: 'document.TargetedSectors', to: 'Targeted Sectors', parser: joinLines},
+            {from: 'document.TargetedStates', to: 'Targeted States', parser: joinLines},
+            {from: 'document.ThreatActor', to: 'Threat Actor'},
+            {from: 'document.Type', to: 'Document Type'},
+            {from: 'document.Thumb', to: 'Thumb'},
+            {from: 'document._id', to: 'Document ID'},
+        ]
+    };
+
+    var headersDictionary = {
+        'intsights-get-alerts': ['Found Date', 'Title', 'Type', 'Severity', 'Source', 'Description', 'Recommendations', 'ID'],
+        'intsights-get-alert-activities': ['ID', 'Type', 'Initiator', 'Created Date', 'Update Date', 'Read By', 'Is Read'],
+        'intsights-check-new-notifications': ['Date', 'Has New'],
+        'intsights-get-notifications': ['ID', 'Date', 'Notification Type', 'Type', 'Severity'],
+        'intsights-get-iocs': ['ID', 'Type', 'Value', 'Source ID', 'First Seen', 'Last Seen', 'Account ID'],
+        'intsights-search-iocs': ['ID', 'Result Type', 'Document Type', 'Document ID', 'Name', 'Nationalities', 'Severity', 'Targeted Sectors', 'Targeted States', 'Malware', 'Campaign Type', 'Campaign Threat Actors', 'Social Media', 'TTPs', 'Hashtags', 'Imgae', 'Hashtags', 'Image', 'OtherNames', 'Thumb', 'Threat Actor'],
+    }
+
+    var contextsDictionary = {
+        'intsights-get-alerts': 'Alerts',
+        'intsights-get-alert-activities': 'AlertActivities',
+        'intsights-get-notifications': 'Notifications',
+        'intsights-get-iocs': 'IOCs',
+        'intsights-search-iocs': 'SearchedIOCs'
+    }
+
+    var rawOutputCommands = [
+        'intsights-ask-the-analyst',
+        'intsights-send-mail',
+        'intsights-remediate',
+        'intsights-whitelist',
+        'intsights-assign',
+        'intsights-unassign',
+        'intsights-tag',
+        'intsights-untag',
+        'intsights-comment',
+        'intsights-archive',
+        'intsights-change-severity',
+        'intsights-mark-alert-as-read',
+        'intsights-mark-notifications-as-read',
+    ]
+
+    var mapObjFunction = function(mapFields, isOutput) {
+        return function(obj) {
+            var res = {};
+            mapFields.forEach(function(f) {
+                if (f.parser && isOutput && isOutput === true) {
+                    res[f.to] = f.parser(dq(obj, f.from)) || null;
+                } else {
+                    res[f.to] = dq(obj, f.from);
+                }
+            });
+
+            return res;
+        }
+    }
+
+    var joinLines = function(lines) {
+        return lines.join('\n');
+    }
+
+    var buildEmptyEntryContext = function() {
+        return {Type: entryTypes.note, Contents: null, ContentsFormat: formats.json, EntryContext: {}};
+    }
+
+    var getUrl = function(command, args) {
+        var url = urlDictionary[command];
+        if (args) {
+            url = replaceInTemplatesAndRemove(url, args);
+        }
+
+        return url + (methodDictionary[command] === 'GET' && args ? encodeToURLQuery(args) : '');
+    }
+
+    var createBody = function(command, args) {
+        return args ? JSON.stringify(args) : undefined;
+    }
+
+    var sendRequest = function(method, url, body, authCookies, logout) {
+        var httpParams = {
+            Method: method,
+            Headers: {
+                'Content-Type': ['application/json']
+            }
+        };
+
+        if (authCookies) {
+            httpParams.Cookies = authCookies;
+        }
+
+        if (method !== 'GET' && body) {
+            httpParams.Body = body;
+        }
+
+        var completeUrl = server + url;
+        var res = http(completeUrl, httpParams, params.insecure, params.proxy);
+
+        if (res.StatusCode < 200 || res.StatusCode >= 300) {
+            if (!logout) {
+                sendRequest(
+                    methodDictionary['logout'],
+                    getUrl('logout'),
+                    undefined,
+                    authCookies,
+                    true
+                );
+            }
+            throw 'Request to IntSights Failed.\nStatus code: ' + res.StatusCode + '.\nBody: ' + JSON.stringify(res.Body) + '.';
+            //throw 'Request to IntSights Failed';
+        }
+
+        return res;
+    }
+
+    var createFileName = function(command, args) {
+        var currentTime = new Date();
+        var fileName = command;
+        var keys = Object.keys(args);
+        for (var i = 0; i < keys.length; i++) {
+            fileName += '_' + keys[i] + '-' + args[keys[i]];
+        }
+
+        return fileName + '_at_' + currentTime.getTime();
+    }
+
+    var createIncidentFromIOC = function(ioc) {
+        var keys = Object.keys(ioc);
+        var labels = [];
+        for (var i = 0; i<keys.length; i++) {
+            labels.push({'type': keys[i], 'value': String(ioc[keys[i]])});
+        }
+
+        return {
+            'name': ioc.Type + ' ' + ioc.Value,
+            'labels': labels,
+            'rawJSON': JSON.stringify(ioc),
+        };
+    }
+
+    var login = function() {
+        return sendRequest(
+            methodDictionary['login'],
+            getUrl('login'),
+            createBody(
+                'login',
+                {Account_ID: params.Account_ID, API_Key: params.API_Key, Type: 'text'}
+            )
+        ).Cookies;
+    }
+
+    var getIocsTotal = function() {
+        var entries = [];
+        for (var i = 0; i < iocTypes.length; i++) {
+            args.Type = iocTypes[i];
+            var res = sendRequest(methodDictionary[command], getUrl(command, args), createBody(command, args), loginCookies).Body;
+            try {
+              result = JSON.parse(res);
+            } catch (err) {
+              throw 'JSON parsing failed, body: ' + res;
+            }
+            entries.push(parseResponse('intsights-get-iocs', result))
+        }
+
+        return entries;
+    }
+
+    var parseResponse = function(command, response) {
+        var entry = buildEmptyEntryContext();
+        var outputs = [];
+
+        if (rawOutputCommands.indexOf(command) != -1) {
+            outputs = response;
+        } else {
+            if (command == 'intsights-get-alert-by-id') {
+                if (response.Success !== true) {
+                    throw response.Data;
+                }
+                command = 'intsights-get-alerts';
+            }
+
+            var data = dq(response, 'Data');
+            if (command == 'intsights-get-notifications') {
+                data = dq(data, 'Results');
+            } else if (command == 'intsights-get-iocs') {
+                // go in one more level
+                data = dq(data, 'Data');
+            }
+
+            if (data.constructor !== Array) {
+                data = [data];
+            }
+
+            for (var i = 0; i < data.length; i++) {
+                var output = mapObjFunction(outputsDictionary[command], true)(data[i]);
+                outputs.push(output);
+            }
+
+            entry.Contents = data;
+            entry.ContentsFormat = formats.json;
+        }
+
+        entry.HumanReadable = tblToMd('IntSights: ' + command, outputs, headersDictionary[command]);
+
+        if (Object.keys(contextsDictionary).indexOf(command) != -1) {
+            var contextKey = contextsDictionary[command];
+            var contexts = dq(response, 'Data');
+
+            if (command == 'intsights-get-iocs') {
+                // go in one more level
+                contexts = dq(contexts, 'Data');
+            }
+
+            entry.EntryContext = {};
+            entry.EntryContext['IntSights.' + contextKey] = contexts;
+        }
+
+        return entry;
+    }
+
+    var getAlerts = function(startTime) {
+        command = 'intsights-get-alerts';
+        args.DateFrom = startTime;
+        var res = sendRequest(methodDictionary[command], getUrl(command, args), createBody(command, args), loginCookies).Body;
+        try {
+          result = JSON.parse(res);
+        } catch (err) {
+          throw 'JSON parsing failed, body: ' + res;
+        }
+        return result;
+    }
+
+    var createIncidentFromAlert = function(alert) {
+        return {
+            name: 'IntSights alert ' + alert._id,
+            rawJSON: JSON.stringify(alert)
+        }
+    }
+
+    var fetchIncidents = function(loginCookies) {
+        var lastRun = getLastRun();
+        var startTime = lastRun && lastRun.startTime ? lastRun.startTime : 0;
+        var res = getAlerts(startTime);
+        var incidents = [];
+        for (var i = 0; i < res.Data.length; i++) {
+            var alert = res.Data[i];
+            startTime = Math.max(startTime, Date.parse(alert.FoundDate));
+            incidents.push(createIncidentFromAlert(alert));
+        }
+        setLastRun({startTime: startTime});
+
+        return JSON.stringify(incidents);
+    }
+
+    var loginCookies = login();
+
+    var result;
+    var shouldParseResponse = false;
+    switch (command) {
+        case 'test-module':
+            result = loginCookies ? 'ok' : 'login failed';
+            break;
+
+        case 'fetch-incidents':
+            result = fetchIncidents(loginCookies);
+            break;
+
+        case 'intsights-get-alert-image':
+        case 'intsights-get-alert-db-file':
+        case 'intsights-get-alert-whois-file':
+        case 'intsights-ioc-download-csv':
+            var fileName = createFileName(command, args);
+            result = {
+                Type: FILE_TYPE,
+                FileID: saveFile(
+                    sendRequest(
+                        methodDictionary[command],
+                        getUrl(command, args),
+                        createBody(command, args),
+                        loginCookies
+                    ).Body
+                ),
+                File: fileName,
+                Contents: fileName
+            };
+            break;
+
+        case 'intsights-send-mail':
+            // convert comma-separated to array
+            args.Emails = args.Emails.split(',');
+            break;
+
+        case 'intsights-get-iocs-total':
+            command = 'intsights-get-iocs';
+            result = getIocsTotal();
+            break;
+
+        case 'intsights-whitelist':
+            args.IsHidden = JSON.parse(args.IsHidden);
+
+        case 'intsights-archive':
+            args.IsArchived = JSON.parse(args.IsArchived);
+
+        default:
+            res = sendRequest(
+                         methodDictionary[command],
+                         getUrl(command, args),
+                         createBody(command, args),
+                         loginCookies
+                     ).Body;
+            try {
+              result = JSON.parse(res);
+            } catch (err) {
+              throw 'JSON parsing failed, body: ' + res;
+            }
+
+            shouldParseResponse = true;
+    }
+
+    // logout
+    sendRequest(methodDictionary['logout'], getUrl('logout'), undefined, loginCookies, true);
+
+    return shouldParseResponse ? parseResponse(command, result) : result;
+  type: javascript
+  commands:
+  - name: intsights-get-alerts
+    arguments:
+    - name: NumOfResultForPage
+      description: Number of results per page
+    - name: PageNumber
+      description: Page number
+    - name: DateFrom
+      description: Start date to fetch from (GMT+0 time), format "YYYY-MM-DDTHH-mm-ss"
+    - name: DateTo
+      description: End date to fetch from (GMT+0 time), format "YYYY-MM-DDTHH-mm-ss"
+    - name: Accounts
+      description: Alert's customer by customer ID.  Can be multiple seperated by
+        commas
+    - name: ShowArchived
+      auto: PREDEFINED
+      predefined:
+      - "true"
+      - "false"
+      description: Show/Hide archived alerts
+    - name: Type
+      auto: PREDEFINED
+      predefined:
+      - AttackIndication
+      - DataLeakage
+      - Phishing
+      - BrandSecurity
+      - ExploitableData
+      - vip
+      description: Alert's type.  Can be multiple seperated by commas
+    - name: ResolveStatus
+      auto: PREDEFINED
+      predefined:
+      - NotSent
+      - Sent
+      - Response
+      - Resolved
+      description: Alert's resolve status.  Can be multiple seperated by commas
+    - name: NetworkType
+      auto: PREDEFINED
+      predefined:
+      - ClearWeb
+      - DarkWeb
+      description: Alert's network type.  Can be multiple seperated by commas
+    - name: Source
+      auto: PREDEFINED
+      predefined:
+      - ApplicationStores
+      - BlackMarkets
+      - HackingForums
+      - SocialMedia
+      - PasteSites
+      - Others
+      description: Alert's source type.  Can be multiple seperated by commas
+    - name: Assigned
+      auto: PREDEFINED
+      predefined:
+      - "true"
+      - "false"
+      description: Show only assigned alerts
+    - name: IsRead
+      auto: PREDEFINED
+      predefined:
+      - "true"
+      - "false"
+      description: Show only read/unread alerts
+    - name: FreeText
+      description: searches in Title, Description and source URL and alert ID
+    outputs:
+    - contextPath: IntSights.Alerts
+      description: Alerts details
+    description: Fetch alerts
+  - name: intsights-get-alert-image
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    - name: ImageID
+      required: true
+      description: Image's unique ID
+    description: Get's alert's image by ID
+  - name: intsights-get-alert-activities
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    outputs:
+    - contextPath: IntSights.AlertActivities
+      description: Alert activities details
+    description: Get all alert's activities
+  - name: intsights-check-new-notifications
+    arguments:
+    - name: Date
+      required: true
+      default: true
+      description: Checks for new notifications after this date, format "YYYY-MM-DDTHH-mm-ss"
+    description: Checks if there are new notifications after the given date
+  - name: intsights-get-notifications
+    arguments:
+    - name: NumOfResultForPage
+      description: Number of notifications per page
+    - name: PageNumber
+      description: Page number
+    outputs:
+    - contextPath: IntSights.Notifications
+      description: Notifications details
+    description: Returns list of the user's unread alerts and activities
+  - name: intsights-ask-the-analyst
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    - name: Question
+      required: true
+      description: Question added to the alert details
+    description: Send a question to Intsgights analyst about the requested alert
+  - name: intsights-send-mail
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    - name: Emails
+      required: true
+      description: Destination email addresses array (comma-separated)
+    - name: Question
+      required: true
+      description: Question added to the alert details
+    description: Send mail with the alert details and a question
+  - name: intsights-remediate
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    description: Send resolve request on the selected alert
+  - name: intsights-whitelist
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    - name: WhiteListReason
+      required: true
+      description: White list reason (text)
+    - name: IsHidden
+      required: true
+      auto: PREDEFINED
+      predefined:
+      - "true"
+      - "false"
+      description: Whether to hide the alert as well or not
+    description: Report the alert as white list
+  - name: intsights-assign
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    - name: AssigneeID
+      required: true
+      description: Assigned user ID
+    description: Assign an alert
+  - name: intsights-unassign
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    description: Unassign an alert
+  - name: intsights-tag
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    - name: TagName
+      required: true
+      description: The new tag string
+    description: Adds a tag to the alert
+  - name: intsights-untag
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    - name: TagID
+      required: true
+      description: Tags's unique ID to remove
+    description: Removes a tag from the alert
+  - name: intsights-comment
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    - name: Comment
+      required: true
+      description: Desired comment
+    description: Add a comment to the alert
+  - name: intsights-archive
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    - name: IsArchived
+      required: true
+      auto: PREDEFINED
+      predefined:
+      - "true"
+      - "false"
+      description: Desired archive status of the alert
+    description: Archive or Un-archive an alert
+  - name: intsights-get-alert-db-file
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    description: Get's alert's DB file by ID
+  - name: intsights-mark-alert-as-read
+    arguments:
+    - name: AlertID
+      required: true
+      description: Alert's unique ID
+    description: Marks the alert as read by the current user
+  - name: intsights-get-alert-whois-file
+    arguments:
+    - name: AlertID
+      required: true
+      default: true
+      description: Alert's unique ID
+    description: Get's alert's WHOIS file by ID
+  - name: intsights-get-iocs
+    arguments:
+    - name: Type
+      required: true
+      auto: PREDEFINED
+      predefined:
+      - Urls
+      - Hashes
+      - IpAddresses
+      - Domains
+      description: IOC's type
+    - name: NumOfResultForPage
+      description: Number of results per page
+    - name: PageNumber
+      description: Zero based page number
+    - name: FreeText
+      description: Search for IOC value
+    outputs:
+    - contextPath: IntSights.IOCs
+      description: IOCs details
+    description: Get count totals of the available IOCs
+  - name: intsights-search-iocs
+    arguments:
+    - name: Value
+      required: true
+      default: true
+      description: Desired IOC value
+    outputs:
+    - contextPath: IntSights.SearchedIOCs
+      description: Searched IOCs details
+    description: Search for exact IOC value
+  - name: intsights-ioc-download-csv
+    arguments:
+    - name: Type
+      required: true
+      default: true
+      auto: PREDEFINED
+      predefined:
+      - Urls
+      - Hashes
+      - IpAddresses
+      - Domains
+      description: IOC's type
+    - name: SubType
+      description: CnC,Tor,Phishing
+    description: Get CSV of the requested IOC type
+  - name: intsights-change-severity
+    arguments:
+    - name: AlertID
+      required: true
+      description: Alert's unique ID
+    - name: Severity
+      required: true
+      auto: PREDEFINED
+      predefined:
+      - High
+      - Medium
+      - Low
+      description: The desired severity
+    description: Change the alert's severity
+  - name: intsights-get-alert-by-id
+    arguments:
+    - name: AlertId
+      required: true
+      description: Alert's unique ID
+    outputs:
+    - contextPath: IntSights.Alerts
+      description: Alerts details
+    description: Returns alert object by alert ID
+  - name: intsights-mark-notifications-as-read
+    arguments: []
+    description: Marks all notifications as read by the current user
+  - name: intsights-get-iocs-total
+    arguments:
+    - name: NumOfResultForPage
+      description: Number of results per page
+    - name: PageNumber
+      description: Zero based page number
+    - name: FreeText
+      description: Search for IOC value
+    outputs:
+    - contextPath: IntSights.IOCs
+      description: IOCs details
+    description: Get all the IOCs
+  isfetch: true
+  runonce: false

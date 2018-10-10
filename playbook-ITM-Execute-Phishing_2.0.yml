@@ -1,0 +1,1508 @@
+id: a1a3788a-033d-4e47-84f9-c1c1d38febb5
+version: 7
+name: ITM-Execute-Phishing 2.0
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 7f498367-e986-4903-8acf-bfbc06fbc518
+    type: start
+    task:
+      id: 7f498367-e986-4903-8acf-bfbc06fbc518
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 602.5,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 59e6cdff-bd38-4632-8685-edc474ad9e41
+    type: regular
+    task:
+      id: 59e6cdff-bd38-4632-8685-edc474ad9e41
+      version: -1
+      name: Set Initial Incident Context
+      description: |-
+        Send an email with the specified parameters.
+        Attachments are provided as a comma-separated list of entry IDs.
+        Example usage: !SendEmail subject="File from war room" body="Please see the attached file. --DBot" to=jane@acme.com cc=john@acme.com attachIDs=89@3,46@3
+      script: IncidentToContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "34"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 602.5,
+          "y": 195
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: fe817503-cb82-40bd-8efb-4081a16ac9ae
+    type: regular
+    task:
+      id: fe817503-cb82-40bd-8efb-4081a16ac9ae
+      version: -1
+      name: Extract IP address from Email
+      description: Extract IPs from the given text and place them both as output and
+        in the context of a playbook.
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      extend-context: {}
+      text:
+        simple: ${Label/Email/text}${Label/Email/html}${File.Data}${EWS.Items}${ExcelContent}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 3695
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: e45b8962-86d2-490b-873b-1c566de55b49
+    type: regular
+    task:
+      id: e45b8962-86d2-490b-873b-1c566de55b49
+      version: -1
+      name: Extract URL from email
+      description: Extract URLs from the given text and place them both as output
+        and in the context of a playbook. If given an object, will convert to JSON.
+      script: URLfromHyperlink
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "111"
+    scriptarguments:
+      text:
+        simple: ${File.Data}${EWS.Items}${ExcelContent}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 3870
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: 0cf4b063-7b56-480c-829a-364a97811104
+    type: condition
+    task:
+      id: 0cf4b063-7b56-480c-829a-364a97811104
+      version: -1
+      name: Did we find any URL's
+      description: Check if a given value exists in the context. Will return 'no'
+        for empty empty arrays. To be used mostly with DQ and selectors.
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "17"
+      "yes":
+      - "13"
+    scriptarguments:
+      value:
+        simple: ${Chemours_URL}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 152.5,
+          "y": 4365
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: 3ff67523-aa0a-4e07-81af-83a92b9245a0
+    type: condition
+    task:
+      id: 3ff67523-aa0a-4e07-81af-83a92b9245a0
+      version: -1
+      name: Did we find any IP
+      description: Check if a given value exists in the context. Will return 'no'
+        for empty empty arrays. To be used mostly with DQ and selectors.
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "17"
+      "yes":
+      - "14"
+    scriptarguments:
+      value:
+        simple: ${IP.Address}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 602.5,
+          "y": 4365
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: 251e6b68-9dec-4230-83ee-c22aea526aa7
+    type: regular
+    task:
+      id: 251e6b68-9dec-4230-83ee-c22aea526aa7
+      version: -1
+      name: Check URL
+      description: Check if a given value exists in the context. Will return 'no'
+        for empty empty arrays. To be used mostly with DQ and selectors.
+      script: URLReputation
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "17"
+    scriptarguments:
+      data:
+        simple: ${URL.Data}
+      extend-context: {}
+      input:
+        simple: ${URL.Data}
+      url:
+        simple: ${Chemours_URL}
+      value:
+        simple: ${URL.Data}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 4540
+        }
+      }
+    note: false
+  "14":
+    id: "14"
+    taskid: 0c69b154-6622-463f-87c5-14bc916bad71
+    type: regular
+    task:
+      id: 0c69b154-6622-463f-87c5-14bc916bad71
+      version: -1
+      name: Check IP's
+      description: Check if a given value exists in the context. Will return 'no'
+        for empty empty arrays. To be used mostly with DQ and selectors.
+      script: IPReputation
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "17"
+    scriptarguments:
+      data:
+        simple: ${IP.Address}
+      extend-context: {}
+      input:
+        simple: ${IP.Address}
+      ip:
+        simple: ${IP.Address}
+      key:
+        simple: result
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 715,
+          "y": 4540
+        }
+      }
+    note: false
+  "17":
+    id: "17"
+    taskid: 6f1031f7-a449-4048-8311-17f597c96f7f
+    type: condition
+    task:
+      id: 6f1031f7-a449-4048-8311-17f597c96f7f
+      version: -1
+      name: Is Malicious Indicator Found?
+      description: Check if a given value exists in the context. Will return 'no'
+        for empty empty arrays. To be used mostly with DQ and selectors.
+      script: IsMaliciousIndicatorFoundV2
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "22"
+      "yes":
+      - "83"
+    scriptarguments:
+      extend-context: {}
+      first:
+        simple: ${DBotScore.Score}
+      includeSuspicious:
+        simple: "yes"
+      outputformat: {}
+      second:
+        simple: "1"
+      value:
+        simple: ${DBotScore.Score}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 490,
+          "y": 4715
+        }
+      }
+    note: false
+  "22":
+    id: "22"
+    taskid: 50d9806e-ccd1-4e61-8f33-3e1fdd478715
+    type: regular
+    task:
+      id: 50d9806e-ccd1-4e61-8f33-3e1fdd478715
+      version: -1
+      name: Extract Sender's IP from Header
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "48"
+    scriptarguments:
+      data:
+        simple: ${Label/Email/headers}
+      extend-context: {}
+      text:
+        simple: ${Label/Email/Header/Received}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 4890
+        }
+      }
+    note: false
+  "24":
+    id: "24"
+    taskid: 3f3548c3-ba57-4890-86d9-13060868745a
+    type: regular
+    task:
+      id: 3f3548c3-ba57-4890-86d9-13060868745a
+      version: -1
+      name: Notify the user that mail is genuine
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "25"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body:
+        simple: "Dear Colleague,\n\nThanks for reporting.\nWe have analyzed the email
+          shared, based on the analysis we are classifying this email as “Genuine”.\n\nIf
+          you are unaware of the sender or the content of the email :\n•\tIf the email
+          is internal, request you to confirm with the sender for the purpose of the
+          email.\n•\tIf the email is external, confirm with the vendor before clicking
+          on any URL present/opening the attachment.\n\nThanks and Regards,\nDemisto
+          Automation"
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: 'Re: ${incident.id} - ${incident.name} '
+      to:
+        simple: mohan.mittal@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 6640
+        }
+      }
+    note: false
+  "25":
+    id: "25"
+    taskid: 6c7bf8be-e54c-4b32-88ab-48ee9c6fb25b
+    type: regular
+    task:
+      id: 6c7bf8be-e54c-4b32-88ab-48ee9c6fb25b
+      version: -1
+      name: Close Investigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 6815
+        }
+      }
+    note: false
+  "26":
+    id: "26"
+    taskid: 9c41e9bc-ac51-4887-8d62-92ebc651b4f0
+    type: title
+    task:
+      id: 9c41e9bc-ac51-4887-8d62-92ebc651b4f0
+      version: -1
+      name: Respond to Recipients
+      type: title
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "63"
+    scriptarguments:
+      query: {}
+      rows: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1022.5,
+          "y": 6305
+        }
+      }
+    note: false
+  "34":
+    id: "34"
+    taskid: adf5b927-9b63-4ea2-8449-cd748ebf4910
+    type: regular
+    task:
+      id: adf5b927-9b63-4ea2-8449-cd748ebf4910
+      version: -1
+      name: Set Context for Subject
+      script: SetContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "52"
+    scriptarguments:
+      append: {}
+      key:
+        simple: OriginalSubject
+      keys:
+        simple: Original_Subject
+      parent:
+        simple: mails
+      password: {}
+      username: {}
+      value:
+        simple: ${Label/Email/subject}
+      values:
+        simple: ${Label/Email/subject},${Label/Email/from}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 602.5,
+          "y": 370
+        }
+      }
+    note: false
+  "44":
+    id: "44"
+    taskid: d1885556-f7e7-4c57-8926-8baef6f95530
+    type: condition
+    task:
+      id: d1885556-f7e7-4c57-8926-8baef6f95530
+      version: -1
+      name: Is IP malicious?
+      script: IsMaliciousIndicatorFoundV2
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "75"
+      "yes":
+      - "49"
+    scriptarguments:
+      first:
+        simple: ${DBotScore.Score}
+      includeSuspicious:
+        simple: "yes"
+      input:
+        simple: ${ipfinal}.${ip3}
+      ip: {}
+      second:
+        simple: "1"
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 5240
+        }
+      }
+    note: false
+  "47":
+    id: "47"
+    taskid: 3c51bf96-78d2-45fa-86a9-1c9981e0168e
+    type: title
+    task:
+      id: 3c51bf96-78d2-45fa-86a9-1c9981e0168e
+      version: -1
+      name: Check Indicator
+      type: title
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "9"
+      - "11"
+      - "96"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 4220
+        }
+      }
+    note: false
+  "48":
+    id: "48"
+    taskid: 33108d1b-7fb9-46d7-87e8-7f8a7007f040
+    type: regular
+    task:
+      id: 33108d1b-7fb9-46d7-87e8-7f8a7007f040
+      version: -1
+      name: Check IP
+      script: IPReputation
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "44"
+    scriptarguments:
+      extend-context: {}
+      ip:
+        simple: ${IP.Address}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 5065
+        }
+      }
+    note: false
+  "49":
+    id: "49"
+    taskid: bb63416d-50ea-4a1b-8437-3b5d5e9c03be
+    type: regular
+    task:
+      id: bb63416d-50ea-4a1b-8437-3b5d5e9c03be
+      version: -1
+      name: Notify to User that it is SPAM
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "25"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body:
+        simple: "Dear Colleague,\n\nThanks for reporting.\nWe have analyzed the email
+          shared, based on the analysis we are classifying this email as “Marketing
+          Spam”.  \n\nRequest you to delete this email permanently from your system.\n\nNote:
+          \n•\tKindly refrain from sharing your business email IDs or information
+          on online forums or social networks.\n•\tDo not accept requests from strangers
+          on social media.\n\n\nThanks and Regards,\nDemisto Automation"
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: 'Re: ${incident.id} - ${incident.name} '
+      to:
+        simple: mohan.mittal@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 6640
+        }
+      }
+    note: false
+  "52":
+    id: "52"
+    taskid: c9d08ac7-2a33-4252-8675-54404125db00
+    type: regular
+    task:
+      id: c9d08ac7-2a33-4252-8675-54404125db00
+      version: -1
+      name: Set Context for Sender Address
+      script: SetContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "103"
+    scriptarguments:
+      append: {}
+      key:
+        simple: OriginalSender
+      keys:
+        simple: Original_Subject
+      parent:
+        simple: mails
+      password: {}
+      username: {}
+      value:
+        simple: ${Label/Email/from}
+      values:
+        simple: ${Label/Email/subject},${Label/Email/from}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 602.5,
+          "y": 545
+        }
+      }
+    note: false
+  "63":
+    id: "63"
+    taskid: 012390e0-de93-4ec0-899d-a4341adf874b
+    type: regular
+    task:
+      id: 012390e0-de93-4ec0-899d-a4341adf874b
+      version: -1
+      name: Send Mail to Resolver Group to block the Sender
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "110"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body:
+        simple: "Hi Team,\nWe have received a Phishing email from the sender ${EWS.Items.From.Email}
+          with the subject line ${EWS.Items.Subject}. \nPlease block this Sender ${EWS.Items.From.Email}.\n\nRegards,\nDemisto
+          Automation"
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: '${incident.id} - ${incident.name} '
+      to:
+        simple: mohan.mittal@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1022.5,
+          "y": 6465
+        }
+      }
+    note: false
+  "65":
+    id: "65"
+    taskid: 98ed92e2-d36f-423a-8df3-a298af990d3c
+    type: regular
+    task:
+      id: 98ed92e2-d36f-423a-8df3-a298af990d3c
+      version: -1
+      name: Extract Sender's Domain
+      script: Extract_sender_domain
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "87"
+    scriptarguments:
+      SenderAddress:
+        simple: ${Label/Email/from}
+      value: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 3170
+        }
+      }
+    note: false
+  "75":
+    id: "75"
+    taskid: f559fe33-bad8-4485-8570-3fc21ec26c37
+    type: regular
+    task:
+      id: f559fe33-bad8-4485-8570-3fc21ec26c37
+      version: -1
+      name: 'To get Sender_ID  from "FROM" field of header analysis '
+      script: Get_Sender_ID
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "76"
+    scriptarguments:
+      From:
+        simple: ${Label/Email/from}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 5415
+        }
+      }
+    note: false
+  "76":
+    id: "76"
+    taskid: a5c1926f-3a30-4019-826a-4a799628bb71
+    type: regular
+    task:
+      id: a5c1926f-3a30-4019-826a-4a799628bb71
+      version: -1
+      name: To get spf value from "Authentication-Results" filed of email header
+      script: get_spf_value
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "81"
+    scriptarguments:
+      Authentication_Results:
+        simple: ${Label/Email/Header/Authentication-Results}
+      Received_spf:
+        simple: ${Label/Email/Header/Received-SPF}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 5590
+        }
+      }
+    note: false
+  "77":
+    id: "77"
+    taskid: 93a04356-67ba-4c17-852b-ccd3680e24a1
+    type: regular
+    task:
+      id: 93a04356-67ba-4c17-852b-ccd3680e24a1
+      version: -1
+      name: To get DKIM value from "Authentication-Results" filed of email header
+      script: get_dkim_value
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "78"
+    scriptarguments:
+      Authentication_Results:
+        simple: ${Label/Email/Header/Authentication-Results}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 5940
+        }
+      }
+    note: false
+  "78":
+    id: "78"
+    taskid: ccfa83af-8641-47be-8067-9f5597fdf2fe
+    type: condition
+    task:
+      id: ccfa83af-8641-47be-8067-9f5597fdf2fe
+      version: -1
+      name: Comparing Return Path with Sender ID
+      script: AreValuesEqual
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "82"
+      "yes":
+      - "24"
+    scriptarguments:
+      left:
+        simple: ${Label/Email/Header/Return-Path}
+      right:
+        simple: ${Sender_ID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 6115
+        }
+      }
+    note: false
+  "80":
+    id: "80"
+    taskid: 229b3cae-2b3e-4f4f-8cac-47ee1e82b525
+    type: condition
+    task:
+      id: 229b3cae-2b3e-4f4f-8cac-47ee1e82b525
+      version: -1
+      name: Checking whether DKIM value is "NONE"
+      script: AreValuesEqual
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "24"
+      "yes":
+      - "49"
+    scriptarguments:
+      left:
+        simple: ${dkim_value}
+      right:
+        simple: none
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 245,
+          "y": 6465
+        }
+      }
+    note: false
+  "81":
+    id: "81"
+    taskid: 095d59f3-8e66-494d-82eb-d8293c8b105b
+    type: regular
+    task:
+      id: 095d59f3-8e66-494d-82eb-d8293c8b105b
+      version: -1
+      name: To get value from "received-spf" field of email header
+      script: fetch_spf
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "77"
+    scriptarguments:
+      Received_spf:
+        simple: ${Label/Email/Header/Received-SPF}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 5765
+        }
+      }
+    note: false
+  "82":
+    id: "82"
+    taskid: 59238827-4574-4568-8b17-10b66190f9ca
+    type: condition
+    task:
+      id: 59238827-4574-4568-8b17-10b66190f9ca
+      version: -1
+      name: Checking whether SPF value is "NONE"
+      script: AreValuesEqual
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "24"
+      "yes":
+      - "80"
+    scriptarguments:
+      left:
+        simple: ${spf_value}${spf}
+      right:
+        simple: None
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 6290
+        }
+      }
+    note: false
+  "83":
+    id: "83"
+    taskid: 6dd4347c-0682-4eae-80b0-cc4ca36f950d
+    type: regular
+    task:
+      id: 6dd4347c-0682-4eae-80b0-cc4ca36f950d
+      version: -1
+      name: Send mail to Reported User that mail is malicious
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "26"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body:
+        simple: "Dear Colleague,\n\nThanks for reporting.\nWe have analyzed the email
+          shared, based on the analysis we are classifying this email as “Malicious”.
+          \ This malicious email was trying to infect your machine. Please don’t click
+          on any URL mentioned in the email or open the attachment enclosing the email.
+          We have reported this to Wipro’s email security solution provided.\n\nRequest
+          you to delete this email permanently from your system.\n\nBest Practices:
+          \n•\tDo not click on links or attachments if found suspicious or received
+          from unknown senders.\n•\tDo not share your business email IDs or information
+          on online forums or social networks.\n•\tNever respond to unsolicited emails
+          that ask for personal or business information.\n•\tDo not accept requests
+          from strangers on social media.\n•\tAs a best practice type the URL in the
+          address rather than clicking on the link to avoid potential phishing or
+          scam sites.\n•\tValidate the URL address by hovering the mouse over links
+          to verify the actual destination, even if the link comes from a trusted
+          source.\n\nPlease find the list of Recipients who received the same email.\n\nThanks
+          and Regards,\nSIAA-Automation"
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: ${OriginalSubject}
+      to:
+        simple: mohan.mittal@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1022.5,
+          "y": 6115
+        }
+      }
+    note: false
+  "85":
+    id: "85"
+    taskid: f09db82b-be73-40d0-8f0f-9fb07f065bec
+    type: condition
+    task:
+      id: f09db82b-be73-40d0-8f0f-9fb07f065bec
+      version: -1
+      name: Is there any attachment
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "106"
+      "yes":
+      - "86"
+    scriptarguments:
+      value:
+        simple: ${Label/Email/attachmentId}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 602.5,
+          "y": 1770
+        }
+      }
+    note: false
+  "86":
+    id: "86"
+    taskid: f0643e0f-4c48-4e4a-8141-1ede8b0a5c99
+    type: regular
+    task:
+      id: f0643e0f-4c48-4e4a-8141-1ede8b0a5c99
+      version: -1
+      name: Pull all the attachments
+      script: EWS|||ews-get-attachment
+      type: regular
+      iscommand: true
+      brand: EWS
+    nexttasks:
+      '#none#':
+      - "101"
+    scriptarguments:
+      attachment-id:
+        simple: ${Label/Email/attachmentId}
+      target-mailbox: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 715,
+          "y": 1945
+        }
+      }
+    note: false
+  "87":
+    id: "87"
+    taskid: ebc0aa22-7ec6-4308-8226-074d19aa4562
+    type: regular
+    task:
+      id: ebc0aa22-7ec6-4308-8226-074d19aa4562
+      version: -1
+      name: Decode the data
+      script: Decode
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "88"
+    scriptarguments:
+      input:
+        simple: ${Label/Email/text}${Label/Email/html}${EWS.Items}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 3345
+        }
+      }
+    note: false
+  "88":
+    id: "88"
+    taskid: b151f96c-e763-4289-8208-4f18a0e07156
+    type: regular
+    task:
+      id: b151f96c-e763-4289-8208-4f18a0e07156
+      version: -1
+      name: Double Decode
+      script: DoubleDecode
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      input:
+        simple: ${decode}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 3520
+        }
+      }
+    note: false
+  "90":
+    id: "90"
+    taskid: 047c2e58-471b-44cb-8f28-f9127fb8fda2
+    type: regular
+    task:
+      id: 047c2e58-471b-44cb-8f28-f9127fb8fda2
+      version: -1
+      name: Parse the Email
+      script: ParseEmailFiles
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "106"
+    scriptarguments:
+      entryid:
+        simple: ${File(val.Extension=='eml').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 817.5,
+          "y": 2295
+        }
+      }
+    note: false
+  "96":
+    id: "96"
+    taskid: e36e6e23-7b20-42c2-8144-b81518603fe1
+    type: playbook
+    task:
+      id: e36e6e23-7b20-42c2-8144-b81518603fe1
+      version: -1
+      name: File Enrichment - Generic
+      playbookId: File Enrichment - Generic
+      type: playbook
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "17"
+    separatecontext: true
+    view: |-
+      {
+        "position": {
+          "x": 1145,
+          "y": 4540
+        }
+      }
+    note: false
+  "97":
+    id: "97"
+    taskid: da4e6895-4610-4a64-8d2f-18c957277f91
+    type: condition
+    task:
+      id: da4e6895-4610-4a64-8d2f-18c957277f91
+      version: -1
+      name: Is there any .msg message attached
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "85"
+      "yes":
+      - "98"
+    scriptarguments:
+      value:
+        simple: ${Label/Email/attachmentItemsId}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 602.5,
+          "y": 1070
+        }
+      }
+    note: false
+  "98":
+    id: "98"
+    taskid: 21e4a79b-f626-4aed-8808-705520c33d55
+    type: regular
+    task:
+      id: 21e4a79b-f626-4aed-8808-705520c33d55
+      version: -1
+      name: Pull the .msg attachment
+      script: EWS|||ews-get-attachment-item
+      type: regular
+      iscommand: true
+      brand: EWS
+    nexttasks:
+      '#none#':
+      - "99"
+    scriptarguments:
+      attachment-id:
+        simple: ${Label/Email/attachmentItemsId}
+      target-mailbox: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 715,
+          "y": 1245
+        }
+      }
+    note: false
+  "99":
+    id: "99"
+    taskid: 998aac3f-4090-4b1d-8574-db3de8f8fd6b
+    type: condition
+    task:
+      id: 998aac3f-4090-4b1d-8574-db3de8f8fd6b
+      version: -1
+      name: Any attachment inside .msg file
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "85"
+      "yes":
+      - "100"
+    scriptarguments:
+      value:
+        simple: ${EWS.Items.Attachment.ID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 715,
+          "y": 1420
+        }
+      }
+    note: false
+  "100":
+    id: "100"
+    taskid: 81b03a15-df6f-4a46-8476-3516b5750d3c
+    type: regular
+    task:
+      id: 81b03a15-df6f-4a46-8476-3516b5750d3c
+      version: -1
+      name: Pull the attachments from .msg file
+      script: EWS|||ews-get-attachment
+      type: regular
+      iscommand: true
+      brand: EWS
+    nexttasks:
+      '#none#':
+      - "85"
+    scriptarguments:
+      attachment-id:
+        simple: ${EWS.Items.Attachment.ID}
+      target-mailbox: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 827.5,
+          "y": 1595
+        }
+      }
+    note: false
+  "101":
+    id: "101"
+    taskid: b2ae5bb1-037a-4e77-8aec-79c04d1181d6
+    type: condition
+    task:
+      id: b2ae5bb1-037a-4e77-8aec-79c04d1181d6
+      version: -1
+      name: Is there any eml attachment
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "106"
+      "yes":
+      - "90"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='eml').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 715,
+          "y": 2120
+        }
+      }
+    note: false
+  "103":
+    id: "103"
+    taskid: e61521a4-3ab4-438e-8c5e-4291c16ceae2
+    type: condition
+    task:
+      id: e61521a4-3ab4-438e-8c5e-4291c16ceae2
+      version: -1
+      name: Is there any  zip attachment
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "97"
+      "yes":
+      - "104"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='zip').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 602.5,
+          "y": 720
+        }
+      }
+    note: false
+  "104":
+    id: "104"
+    taskid: 61dd426c-65f8-4367-87f7-d87a54d2133d
+    type: regular
+    task:
+      id: 61dd426c-65f8-4367-87f7-d87a54d2133d
+      version: -1
+      name: Extract the zip file
+      script: UnzipFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "97"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='zip').EntryID}
+      fileName: {}
+      lastZipFileInWarroom: {}
+      password: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 715,
+          "y": 895
+        }
+      }
+    note: false
+  "105":
+    id: "105"
+    taskid: 524a769d-aa06-4b3f-8baf-f5d4878eb8d4
+    type: playbook
+    task:
+      id: 524a769d-aa06-4b3f-8baf-f5d4878eb8d4
+      version: -1
+      name: Chemours_Attachments Enrichment
+      description: Get file reputation using one or more integrations
+      playbookId: 0ced24ed-1414-4dec-8318-6e2c74c4ded4
+      type: playbook
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "65"
+    separatecontext: false
+    loop:
+      iscommand: false
+      exitCondition: ""
+      wait: 1
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 2995
+        }
+      }
+    note: false
+  "106":
+    id: "106"
+    taskid: 0dedeed3-2647-4845-84f8-7f52a1cb3eaf
+    type: condition
+    task:
+      id: 0dedeed3-2647-4845-84f8-7f52a1cb3eaf
+      version: -1
+      name: Search for all the zip files
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "105"
+      "yes":
+      - "107"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='zip').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 2470
+        }
+      }
+    note: false
+  "107":
+    id: "107"
+    taskid: 6b3e622e-e3e7-440b-8c6e-daba94faa645
+    type: regular
+    task:
+      id: 6b3e622e-e3e7-440b-8c6e-daba94faa645
+      version: -1
+      name: Extract all the zip file
+      script: UnzipFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "108"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='zip').EntryID}
+      fileName: {}
+      lastZipFileInWarroom: {}
+      password: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 715,
+          "y": 2645
+        }
+      }
+    note: false
+  "108":
+    id: "108"
+    taskid: 0a118f0a-b85d-4613-897c-a527985cd96d
+    type: regular
+    task:
+      id: 0a118f0a-b85d-4613-897c-a527985cd96d
+      version: -1
+      name: Remove duplicate files
+      script: AggregateFilesByHash
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "105"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 715,
+          "y": 2820
+        }
+      }
+    note: false
+  "110":
+    id: "110"
+    taskid: d8577538-3aa5-4e46-8d12-3bd4f3dd457b
+    type: regular
+    task:
+      id: d8577538-3aa5-4e46-8d12-3bd4f3dd457b
+      version: -1
+      name: Assign Resolver group  an Analyst
+      script: AssignAnalystToIncident
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "25"
+    scriptarguments:
+      assignBy: {}
+      email: {}
+      roles: {}
+      username: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1022.5,
+          "y": 6640
+        }
+      }
+    note: false
+  "111":
+    id: "111"
+    taskid: f105c6d7-2af4-4751-8aa3-b457d2a636aa
+    type: regular
+    task:
+      id: f105c6d7-2af4-4751-8aa3-b457d2a636aa
+      version: -1
+      name: Extract URL from safelink URL
+      script: get_url_from_safelink_url
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "47"
+    scriptarguments:
+      text:
+        simple: ${URL.Data}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 4045
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {
+      "78_24_yes": 0.89,
+      "80_24_no": 0.3,
+      "80_49_yes": 0.22,
+      "82_24_no": 0.37,
+      "82_80_yes": 0.43,
+      "9_13_yes": 0.6
+    },
+    "paper": {
+      "dimensions": {
+        "height": 6860,
+        "width": 1475,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs:
+- key: Phishing
+  value: {}
+  required: false
+  description: ""
+outputs: []

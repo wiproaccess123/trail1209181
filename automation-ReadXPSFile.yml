@@ -1,0 +1,36 @@
+commonfields:
+  id: e0534140-d3f4-41d7-8785-40e3490830a5
+  version: 185
+name: ReadXPSFile
+script: |
+  import fitz
+  res =demisto.getFilePath(demisto.args()['entryID'])
+  file = open(res['path'],'rb').read()
+  file_new=fitz.open(res['name'],file)
+  pagecount=file_new.pageCount
+  for sheet in range(pagecount):
+      page=file_new[sheet]
+      text=page.getText(output = "text")
+      ec = {}
+      ec["FileData"] = text
+      demisto.results({
+      "Type" : entryTypes["note"],
+      "ContentsFormat" : formats["text"],
+      "Contents" : text,
+      "EntryContext" : ec
+      })
+type: python
+tags:
+- Utility
+- ingestion
+enabled: true
+args:
+- name: entryID
+  required: true
+  default: true
+outputs:
+- contextPath: FileData
+  description: Parsed Data
+scripttarget: 0
+runonce: false
+dockerimage: demisto_pymupdf

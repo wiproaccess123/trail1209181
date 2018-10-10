@@ -1,0 +1,23 @@
+commonfields:
+  id: cb1f52dd-339b-4ff1-8e67-4bf3b4e5fe90
+  version: 48
+name: new_sudheer_test
+script: |
+  import json
+
+  jsondata = demisto.args()['data']
+
+  dicdata = json.loads(jsondata)
+
+  demisto.results(dir(demisto))
+
+  demisto.setContext("test",dicdata)
+type: python
+tags: []
+comment: testing python execution in demisto
+enabled: true
+args:
+- name: data
+  required: true
+scripttarget: 0
+runonce: false

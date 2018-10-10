@@ -1,0 +1,95 @@
+id: 0339579a-9920-4c0f-81cd-670bcb524970
+version: 7
+name: test
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 46c7480b-db8b-4b23-8093-75e8179665d0
+    type: start
+    task:
+      id: 46c7480b-db8b-4b23-8093-75e8179665d0
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 687cad15-a0ad-4780-8b28-f7ccf750acf4
+    type: regular
+    task:
+      id: 687cad15-a0ad-4780-8b28-f7ccf750acf4
+      version: -1
+      name: ReadFile
+      description: Load the contents of a file into context.
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 220
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 9d294530-93ec-4787-89e6-c3c7dc7cac95
+    type: regular
+    task:
+      id: 9d294530-93ec-4787-89e6-c3c7dc7cac95
+      version: -1
+      name: new_sudheer_test
+      description: testing python execution in demisto
+      script: cb1f52dd-339b-4ff1-8e67-4bf3b4e5fe90
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      data:
+        simple: ${FileData}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 405
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 450,
+        "width": 380,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

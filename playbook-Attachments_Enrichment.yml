@@ -1,0 +1,689 @@
+id: 0ced24ed-1414-4dec-8318-6e2c74c4ded4
+version: 3
+name: Attachments Enrichment
+description: Parse multiple attachment types
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 5abb12bd-b077-4c47-8f61-6e6f6ff3045d
+    type: start
+    task:
+      id: 5abb12bd-b077-4c47-8f61-6e6f6ff3045d
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1432,
+          "y": -58
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 3647ecf7-c89f-4ce1-8663-2600a28aa215
+    type: title
+    task:
+      id: 3647ecf7-c89f-4ce1-8663-2600a28aa215
+      version: -1
+      name: Different types of file enrichment
+      type: title
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "14"
+      - "15"
+      - "17"
+      - "20"
+      - "21"
+      - "23"
+      - "25"
+      - "27"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1432,
+          "y": 142
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 5132cdc6-df1b-46f0-8557-db2af7a26cc1
+    type: regular
+    task:
+      id: 5132cdc6-df1b-46f0-8557-db2af7a26cc1
+      version: -1
+      name: Read PDF File
+      description: Checks reputation of MD5
+      script: ReadPDFFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='pdf').EntryID}
+      maxFileSize: {}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 49,
+          "y": 515
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 51c1f30d-ebb5-4a52-864b-f98823108db7
+    type: title
+    task:
+      id: 51c1f30d-ebb5-4a52-864b-f98823108db7
+      version: -1
+      name: Testing other file formats
+      type: title
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "29"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1404,
+          "y": 1467
+        }
+      }
+    note: false
+  "14":
+    id: "14"
+    taskid: fbc3e871-a96d-43e4-878e-54a6ad461e6f
+    type: condition
+    task:
+      id: fbc3e871-a96d-43e4-878e-54a6ad461e6f
+      version: -1
+      name: Do we have PDF File?
+      description: Checks if there MD5 hashes to check
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "7"
+      "yes":
+      - "5"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='pdf')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 340
+        }
+      }
+    note: false
+  "15":
+    id: "15"
+    taskid: 278f937b-6b80-4b61-852a-bd1f1703ee0b
+    type: condition
+    task:
+      id: 278f937b-6b80-4b61-852a-bd1f1703ee0b
+      version: -1
+      name: Do we have DOC File?
+      description: Checks if there SHA256 hashes to check
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "7"
+      "yes":
+      - "16"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='doc')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 340
+        }
+      }
+    note: false
+  "16":
+    id: "16"
+    taskid: 1ee80fe5-cd33-4d90-8a65-4b1d0f6b7a50
+    type: regular
+    task:
+      id: 1ee80fe5-cd33-4d90-8a65-4b1d0f6b7a50
+      version: -1
+      name: Read DOC File
+      description: Checks reputation of SHA256
+      script: ParseWordDoc
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "19"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='doc').EntryID}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 732,
+          "y": 745
+        }
+      }
+    note: false
+  "17":
+    id: "17"
+    taskid: ee6f9581-4e91-442c-8c5c-2694ad94e610
+    type: condition
+    task:
+      id: ee6f9581-4e91-442c-8c5c-2694ad94e610
+      version: -1
+      name: Do we have DOCX files?
+      description: Checks if there SHA1 hashes to check
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "7"
+      "yes":
+      - "18"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='docx')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1042.5,
+          "y": 340
+        }
+      }
+    note: false
+  "18":
+    id: "18"
+    taskid: 6fcee320-8e1b-4f27-8111-eca5b2f0f31e
+    type: regular
+    task:
+      id: 6fcee320-8e1b-4f27-8111-eca5b2f0f31e
+      version: -1
+      name: Read DOCX File
+      description: Checks reputation of SHA1
+      script: ParseWordDoc
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "19"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='docx').EntryID}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1155,
+          "y": 745
+        }
+      }
+    note: false
+  "19":
+    id: "19"
+    taskid: dcf85174-273a-4cff-84b9-7ed696ca5c36
+    type: regular
+    task:
+      id: dcf85174-273a-4cff-84b9-7ed696ca5c36
+      version: -1
+      name: Read Txt File
+      description: Checks reputation of SHA256
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1052,
+          "y": 1000
+        }
+      }
+    note: false
+  "20":
+    id: "20"
+    taskid: a2776fbd-caa7-4945-80e4-88534357d8f6
+    type: condition
+    task:
+      id: a2776fbd-caa7-4945-80e4-88534357d8f6
+      version: -1
+      name: Do we have Txt files?
+      description: Checks if there SHA1 hashes to check
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "7"
+      "yes":
+      - "19"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='txt')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1462,
+          "y": 340
+        }
+      }
+    note: false
+  "21":
+    id: "21"
+    taskid: 1c959269-e966-4d7d-8e2c-efa15cc4537b
+    type: condition
+    task:
+      id: 1c959269-e966-4d7d-8e2c-efa15cc4537b
+      version: -1
+      name: Do we have .rtf files?
+      description: Checks if there SHA1 hashes to check
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "7"
+      "yes":
+      - "22"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='rtf')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1899,
+          "y": 340
+        }
+      }
+    note: false
+  "22":
+    id: "22"
+    taskid: f442badf-cd7f-42dd-8bd6-03535f5154fe
+    type: regular
+    task:
+      id: f442badf-cd7f-42dd-8bd6-03535f5154fe
+      version: -1
+      name: Read rtf File
+      description: Checks reputation of SHA256
+      script: ReadFile_rtf
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='rtf').EntryID}
+      maxFileSize: {}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1842,
+          "y": 802
+        }
+      }
+    note: false
+  "23":
+    id: "23"
+    taskid: 2892d558-0e87-498d-84b7-c6aaa6044098
+    type: condition
+    task:
+      id: 2892d558-0e87-498d-84b7-c6aaa6044098
+      version: -1
+      name: Do we have .xls files?
+      description: Checks if there SHA1 hashes to check
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "7"
+      "yes":
+      - "24"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='xls')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 2365,
+          "y": 340
+        }
+      }
+    note: false
+  "24":
+    id: "24"
+    taskid: ecdac8ff-93ca-4bf6-810b-890108820fdf
+    type: regular
+    task:
+      id: ecdac8ff-93ca-4bf6-810b-890108820fdf
+      version: -1
+      name: Read xls File
+      description: Checks reputation of SHA256
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='xls').EntryID}
+      maxFileSize: {}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 2433,
+          "y": 832
+        }
+      }
+    note: false
+  "25":
+    id: "25"
+    taskid: 92d1e76d-d069-473a-81d7-b30c46382966
+    type: condition
+    task:
+      id: 92d1e76d-d069-473a-81d7-b30c46382966
+      version: -1
+      name: Do we have .xlsx files?
+      description: Checks if there SHA1 hashes to check
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "7"
+      "yes":
+      - "26"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='xlsx')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 2842,
+          "y": 340
+        }
+      }
+    note: false
+  "26":
+    id: "26"
+    taskid: 848536e3-d396-4a6d-89d4-974c5d638fc1
+    type: regular
+    task:
+      id: 848536e3-d396-4a6d-89d4-974c5d638fc1
+      version: -1
+      name: Read xlss File
+      description: Checks reputation of SHA256
+      script: Wipro_xlsx_Extract
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='xlsx').EntryID}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 2842,
+          "y": 840
+        }
+      }
+    note: false
+  "27":
+    id: "27"
+    taskid: 5c818612-5f7d-48c1-8777-823f38585c18
+    type: condition
+    task:
+      id: 5c818612-5f7d-48c1-8777-823f38585c18
+      version: -1
+      name: Do we have HTML files?
+      description: Checks if there SHA1 hashes to check
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "7"
+      "yes":
+      - "28"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='html')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 3288,
+          "y": 345
+        }
+      }
+    note: false
+  "28":
+    id: "28"
+    taskid: c26c0095-6b60-4069-80c5-c43f882f384a
+    type: regular
+    task:
+      id: c26c0095-6b60-4069-80c5-c43f882f384a
+      version: -1
+      name: Read HTML File
+      description: Checks reputation of SHA256
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='html').EntryID}
+      maxFileSize: {}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 3339,
+          "y": 829
+        }
+      }
+    note: false
+  "29":
+    id: "29"
+    taskid: f238e98f-1d59-476d-8485-d3982773bdca
+    type: condition
+    task:
+      id: f238e98f-1d59-476d-8485-d3982773bdca
+      version: -1
+      name: Any other file type exists?
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "31"
+      "yes":
+      - "30"
+    scriptarguments:
+      value:
+        simple: ${File((val.Extension!='zip')&&(val.Extension!='eml')&&(val.Extension!='pdf')&&(val.Extension!='doc')&&(val.Extension!='docx')&&(val.Extension!='txt')&&(val.Extension!='rtf')&&(val.Extension!='xls')&&(val.Extension!='xlsx')&&(val.Extension!='html')).EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1400,
+          "y": 1607
+        }
+      }
+    note: false
+  "30":
+    id: "30"
+    taskid: c110d3bb-d616-4cde-86a9-6b2aad8485c7
+    type: regular
+    task:
+      id: c110d3bb-d616-4cde-86a9-6b2aad8485c7
+      version: -1
+      name: Read remainder files
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "31"
+    scriptarguments:
+      entryID:
+        simple: ${File((val.Extension!='zip')&&(val.Extension!='eml')&&(val.Extension!='pdf')&&(val.Extension!='doc')&&(val.Extension!='docx')&&(val.Extension!='txt')&&(val.Extension!='rtf')&&(val.Extension!='xls')&&(val.Extension!='xlsx')&&(val.Extension!='html')).EntryID}
+      maxFileSize: {}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1690,
+          "y": 1785
+        }
+      }
+    note: false
+  "31":
+    id: "31"
+    taskid: 71ec945d-99a6-40f4-83e5-08eae35419f5
+    type: title
+    task:
+      id: 71ec945d-99a6-40f4-83e5-08eae35419f5
+      version: -1
+      name: Done
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1432,
+          "y": 1954
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {
+      "14_7_#default#": 0.2,
+      "15_7_#default#": 0.61,
+      "21_22_yes": 0.69,
+      "21_7_#default#": 0.28,
+      "23_7_#default#": 0.15,
+      "25_26_yes": 0.42,
+      "27_7_#default#": 0.11,
+      "29_31_#default#": 0.53
+    },
+    "paper": {
+      "dimensions": {
+        "height": 2077,
+        "width": 3670,
+        "x": 49,
+        "y": -58
+      }
+    }
+  }
+inputs: []
+outputs:
+- contextPath: File
+  description: The file's object
+  type: unknown
+- contextPath: File.MD5
+  description: MD5 hash of the file
+  type: string
+- contextPath: File.SHA1
+  description: SHA1 hash of the file
+  type: string
+- contextPath: File.SHA256
+  description: SHA256 hash of the file
+  type: string
+- contextPath: File.Malicious.Vendor
+  description: For malicious files, the vendor that made the decision
+  type: string
+- contextPath: DBotScore
+  description: The DBotScore's object
+  type: unknown
+- contextPath: DBotScore.Indicator
+  description: The tested indicator
+  type: string
+- contextPath: DBotScore.Type
+  description: The type of the indicator
+  type: string
+- contextPath: DBotScore.Vendor
+  description: Vendor used to calculate the score
+  type: string
+- contextPath: DBotScore.Score
+  description: The actual score
+  type: number

@@ -1,0 +1,92 @@
+id: 94791a2e-aed2-442c-84e3-6254e106d348
+version: 5
+name: sudheer_mail_1
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: db114451-4dba-401f-85ba-1c2166718e22
+    type: start
+    task:
+      id: db114451-4dba-401f-85ba-1c2166718e22
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 65
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: d2258624-d475-490c-8e17-3e13ff3db770
+    type: regular
+    task:
+      id: d2258624-d475-490c-8e17-3e13ff3db770
+      version: -1
+      name: ExtractIP
+      description: Extract IPs from the given text and place them both as output and
+        in the context of a playbook.
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      text:
+        simple: ${incident}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 193
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 856d2b5e-d64c-4768-8b31-0ff1f0f8a401
+    type: regular
+    task:
+      id: 856d2b5e-d64c-4768-8b31-0ff1f0f8a401
+      version: -1
+      name: Send_embeded_image
+      description: send an email with embeded image
+      script: fadb6af5-1ee5-45b5-8320-efc200ccf4f9
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 60,
+          "y": 415
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 445,
+        "width": 390,
+        "x": 50,
+        "y": 65
+      }
+    }
+  }
+inputs: []
+outputs: []

@@ -1,0 +1,430 @@
+id: 71095253-937d-44c3-8c9d-751a0b7c6616
+version: 5
+name: ip detection_varma
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: c0930339-2494-453d-893f-1d631ffd61db
+    type: start
+    task:
+      id: c0930339-2494-453d-893f-1d631ffd61db
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 702,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: a6faa015-fe4a-478d-83bf-6e9e3f1b1645
+    type: regular
+    task:
+      id: a6faa015-fe4a-478d-83bf-6e9e3f1b1645
+      version: -1
+      name: Convert word to doc Text?
+      description: Takes an input docx file (entryID) as an input and saves an output
+        text file (file entry) with the original file's contents.
+      script: ParseWordDoc
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='docx').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 702,
+          "y": 188
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 605973da-ea80-4b96-867a-02c46ad46e7f
+    type: regular
+    task:
+      id: 605973da-ea80-4b96-867a-02c46ad46e7f
+      version: -1
+      name: Read tex file
+      description: Load the contents and metadata of a PDF file into context.
+      script: ReadPDFFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+      - "4"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='pdf').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 702,
+          "y": 366
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: b982e044-cae8-457d-889a-6aaa6851ac74
+    type: regular
+    task:
+      id: b982e044-cae8-457d-889a-6aaa6851ac74
+      version: -1
+      name: Ip Extraction
+      description: Extract IPs from the given text and place them both as output and
+        in the context of a playbook.
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+    scriptarguments:
+      text:
+        simple: ${File.EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 545
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: d06a806f-1866-48c4-8e97-44f76433bfd9
+    type: regular
+    task:
+      id: d06a806f-1866-48c4-8e97-44f76433bfd9
+      version: -1
+      name: ExtractURL
+      description: Extract URLs from the given text and place them both as output
+        and in the context of a playbook. If given an object, will convert to JSON.
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      text:
+        simple: ${lists.EmailID}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1125,
+          "y": 545
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: b44a5481-b085-457c-8f19-bd807ce1ea18
+    type: regular
+    task:
+      id: b44a5481-b085-457c-8f19-bd807ce1ea18
+      version: -1
+      name: IP detection
+      script: VirusTotal|||ip
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      fullResponse: {}
+      ip:
+        simple: ${IP.Address}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 720
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: f377c552-3132-47fc-8a3c-a5d18dabcca3
+    type: regular
+    task:
+      id: f377c552-3132-47fc-8a3c-a5d18dabcca3
+      version: -1
+      name: Url  Detection
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "8"
+    scriptarguments:
+      long: {}
+      retries: {}
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        simple: ${URL.Data}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1125,
+          "y": 720
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: b252f96f-64a5-4986-83cd-c5637da21c0f
+    type: condition
+    task:
+      id: b252f96f-64a5-4986-83cd-c5637da21c0f
+      version: -1
+      name: If malicious or not ?
+      description: Checks if the investigation found any Malicious File/URL/IP, if
+        so return yes, otherwise no.
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "10"
+      "yes":
+      - "9"
+    scriptarguments:
+      includeSuspicious: {}
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 895
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: f89b4871-a1af-4bf5-8177-812f28f6f969
+    type: condition
+    task:
+      id: f89b4871-a1af-4bf5-8177-812f28f6f969
+      version: -1
+      name: If Malicious or not?
+      description: Checks if the investigation found any Malicious File/URL/IP, if
+        so return yes, otherwise no.
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "12"
+      "yes":
+      - "11"
+    scriptarguments:
+      includeSuspicious:
+        simple: "no"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1125,
+          "y": 895
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: 91a25023-0f36-4cc7-86cb-fc6be3e2c6fc
+    type: regular
+    task:
+      id: 91a25023-0f36-4cc7-86cb-fc6be3e2c6fc
+      version: -1
+      name: Malicious
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "14"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 1070
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: 53b20bdb-c7a2-4a2d-8d88-9be99b4d6fc2
+    type: regular
+    task:
+      id: 53b20bdb-c7a2-4a2d-8d88-9be99b4d6fc2
+      version: -1
+      name: Not Malicious
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "14"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 1070
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: c2ea0b2a-93ef-4db4-8698-c54d36e85fd8
+    type: regular
+    task:
+      id: c2ea0b2a-93ef-4db4-8698-c54d36e85fd8
+      version: -1
+      name: Malicious
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "13"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1340,
+          "y": 1070
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: 20e6b0fa-5584-4843-85a1-e26daf3c229b
+    type: regular
+    task:
+      id: 20e6b0fa-5584-4843-85a1-e26daf3c229b
+      version: -1
+      name: Not Malicious
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "13"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 1070
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: b0e3a7e5-9a77-44cb-88d3-59db195ee9af
+    type: regular
+    task:
+      id: b0e3a7e5-9a77-44cb-88d3-59db195ee9af
+      version: -1
+      name: Close Investigation
+      description: Close an investigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1138,
+          "y": 1263
+        }
+      }
+    note: false
+  "14":
+    id: "14"
+    taskid: c8601c13-681f-4622-8cca-bebe865db727
+    type: regular
+    task:
+      id: c8601c13-681f-4622-8cca-bebe865db727
+      version: -1
+      name: Close Investigation
+      description: Close an investigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 270,
+          "y": 1261
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1308,
+        "width": 1670,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

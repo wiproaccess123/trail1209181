@@ -1,0 +1,108 @@
+id: e3502f08-5562-4dcc-82a1-1d3b24b686c7
+version: 2
+name: ravikishore_readfile_sendEmail
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 2575fef3-33bf-4cab-8940-6c14f9c2f3aa
+    type: start
+    task:
+      id: 2575fef3-33bf-4cab-8940-6c14f9c2f3aa
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: cf59d873-a8b9-4b72-8a7b-e93c8424c03b
+    type: regular
+    task:
+      id: cf59d873-a8b9-4b72-8a7b-e93c8424c03b
+      version: -1
+      name: ReadFile
+      description: Load the contents of a file into context.
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 230
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 80c85683-1b22-464f-8969-b6d5ce3f0b44
+    type: regular
+    task:
+      id: 80c85683-1b22-464f-8969-b6d5ce3f0b44
+      version: -1
+      name: SendEmail
+      description: |-
+        Send an email with the specified parameters.
+        Attachments are provided as a comma-separated list of entry IDs.
+        Example usage: !SendEmail subject="File from war room" body="Please see the attached file. --DBot" to=jane@acme.com cc=john@acme.com attachIDs=89@3,46@3
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body:
+        simple: ${FileData}
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: sample email from demisto
+      to:
+        simple: ravi.vundavalli@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 410
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 455,
+        "width": 380,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

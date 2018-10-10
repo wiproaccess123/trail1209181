@@ -1,0 +1,37 @@
+commonfields:
+  id: 66958948-5333-43f4-858f-b071681bd5c3
+  version: 25
+name: FieldSplit
+script: |-
+  text = demisto.args()["text"]
+  demisto.results(text)
+  '''
+  field = demisto.args()["field"]
+
+  res = {}
+  for out in text:
+      if out.startswith('AutoID'):
+          out = out.replace('\\','\\\\')
+          out = out.replace('\"','\\\"')
+          demisto.results(out)
+          pairs = out.split("\\\" ")
+          for p in pairs:
+              var, val = p.split(": \\\"")
+              res[var] = val
+              if (var == 'TenantId'):
+                  break
+          output = str(res[field]).replace("\\\\","\\")
+          demisto.results(output)
+          '''
+type: python
+tags:
+- Utility
+enabled: true
+args:
+- name: text
+  required: true
+  isArray: true
+- name: field
+scripttarget: 0
+runonce: false
+sensitive: true

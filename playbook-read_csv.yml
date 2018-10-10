@@ -1,0 +1,115 @@
+id: 7d3bcf13-0b7c-4891-8348-5f6fb8468265
+version: 2
+name: read csv
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: d813f40e-4910-424e-8100-485aa54cfa16
+    type: start
+    task:
+      id: d813f40e-4910-424e-8100-485aa54cfa16
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: b0532bdc-8456-4cfd-8804-21c9fee7ff5d
+    type: condition
+    task:
+      id: b0532bdc-8456-4cfd-8804-21c9fee7ff5d
+      version: -1
+      name: do we have any attachment
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "yes":
+      - "2"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='csv')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 180
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 3cff828a-fe96-435d-8a40-cd569821577e
+    type: regular
+    task:
+      id: 3cff828a-fe96-435d-8a40-cd569821577e
+      version: -1
+      name: read attachment
+      script: a0c4acd8-640b-4b62-81f5-026be1698cb8
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='csv').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 360
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 963e7634-c245-4105-8948-a96adbb5a535
+    type: title
+    task:
+      id: 963e7634-c245-4105-8948-a96adbb5a535
+      version: -1
+      name: close
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 540
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 555,
+        "width": 380,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

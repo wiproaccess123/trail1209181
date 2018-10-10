@@ -1,0 +1,24 @@
+commonfields:
+  id: 0b65888a-b6a6-4956-83e2-7202af88d577
+  version: 17
+name: incident_to_text_copy
+script: |-
+  //var createdFileID = saveFile(JSON.stringify(args.txtArray));
+  var data =  JSON.stringify(args.txtArray);
+  var comm = executeCommand("json_encryption_copy",{'data':data, 'fileName':args.fileName});
+  return comm;
+type: javascript
+tags:
+- Utility
+- txt
+comment: getting the incident as a input and converting into the text file
+enabled: true
+args:
+- name: txtArray
+  required: true
+  isArray: true
+- name: fileName
+  required: true
+  description: Five name of the file to save the data
+scripttarget: 0
+runonce: false
