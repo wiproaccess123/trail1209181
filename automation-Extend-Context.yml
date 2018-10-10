@@ -1,0 +1,23 @@
+commonfields:
+  id: a7443dd8-8bc2-46e4-85dd-f0cf8b567a0b
+  version: 8
+name: Extend-Context
+script: |
+  data = demisto.args()["Data"]
+
+  ec = {}
+  ec["Extend_Context"] = data
+  demisto.results({
+      "Type" : entryTypes["note"],
+      "ContentsFormat" : formats["text"],
+      "Contents" : data,
+      "EntryContext" : ec
+  })
+type: python
+tags: []
+enabled: true
+args:
+- name: Data
+  required: true
+scripttarget: 0
+runonce: false

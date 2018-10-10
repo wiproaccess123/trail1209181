@@ -175,120 +175,6 @@ tasks:
         }
       }
     note: false
-  "13":
-    id: "13"
-    taskid: 251e6b68-9dec-4230-83ee-c22aea526aa7
-    type: regular
-    task:
-      id: 251e6b68-9dec-4230-83ee-c22aea526aa7
-      version: -1
-      name: Check URL
-      description: Check if a given value exists in the context. Will return 'no'
-        for empty empty arrays. To be used mostly with DQ and selectors.
-      script: URLReputation
-      type: regular
-      iscommand: false
-      brand: ""
-    nexttasks:
-      '#none#':
-      - "17"
-    scriptarguments:
-      data:
-        simple: ${URL.Data}
-      extend-context: {}
-      input:
-        simple: ${URL.Data}
-      url:
-        simple: ${Chemours_URL}
-      value:
-        simple: ${URL.Data}
-    continueonerror: true
-    separatecontext: false
-    view: |-
-      {
-        "position": {
-          "x": 265,
-          "y": 4540
-        }
-      }
-    note: false
-  "14":
-    id: "14"
-    taskid: 0c69b154-6622-463f-87c5-14bc916bad71
-    type: regular
-    task:
-      id: 0c69b154-6622-463f-87c5-14bc916bad71
-      version: -1
-      name: Check IP's
-      description: Check if a given value exists in the context. Will return 'no'
-        for empty empty arrays. To be used mostly with DQ and selectors.
-      script: IPReputation
-      type: regular
-      iscommand: false
-      brand: ""
-    nexttasks:
-      '#none#':
-      - "17"
-    scriptarguments:
-      data:
-        simple: ${IP.Address}
-      extend-context: {}
-      input:
-        simple: ${IP.Address}
-      ip:
-        simple: ${IP.Address}
-      key:
-        simple: result
-    continueonerror: true
-    separatecontext: false
-    view: |-
-      {
-        "position": {
-          "x": 715,
-          "y": 4540
-        }
-      }
-    note: false
-  "17":
-    id: "17"
-    taskid: 6f1031f7-a449-4048-8311-17f597c96f7f
-    type: condition
-    task:
-      id: 6f1031f7-a449-4048-8311-17f597c96f7f
-      version: -1
-      name: Is Malicious Indicator Found?
-      description: Check if a given value exists in the context. Will return 'no'
-        for empty empty arrays. To be used mostly with DQ and selectors.
-      script: IsMaliciousIndicatorFoundV2
-      type: condition
-      iscommand: false
-      brand: ""
-    nexttasks:
-      "no":
-      - "22"
-      "yes":
-      - "83"
-    scriptarguments:
-      extend-context: {}
-      first:
-        simple: ${DBotScore.Score}
-      includeSuspicious:
-        simple: "yes"
-      outputformat: {}
-      second:
-        simple: "1"
-      value:
-        simple: ${DBotScore.Score}
-    continueonerror: true
-    separatecontext: false
-    view: |-
-      {
-        "position": {
-          "x": 490,
-          "y": 4715
-        }
-      }
-    note: false
   "22":
     id: "22"
     taskid: 50d9806e-ccd1-4e61-8f33-3e1fdd478715
@@ -1254,6 +1140,43 @@ tasks:
         }
       }
     note: false
+  "13":
+    id: "13"
+    taskid: 251e6b68-9dec-4230-83ee-c22aea526aa7
+    type: regular
+    task:
+      id: 251e6b68-9dec-4230-83ee-c22aea526aa7
+      version: -1
+      name: Check URL
+      description: Check if a given value exists in the context. Will return 'no'
+        for empty empty arrays. To be used mostly with DQ and selectors.
+      script: URLReputation
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "17"
+    scriptarguments:
+      data:
+        simple: ${URL.Data}
+      extend-context: {}
+      input:
+        simple: ${URL.Data}
+      url:
+        simple: ${Chemours_URL}
+      value:
+        simple: ${URL.Data}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 4540
+        }
+      }
+    note: false
   "103":
     id: "103"
     taskid: e61521a4-3ab4-438e-8c5e-4291c16ceae2
@@ -1280,6 +1203,43 @@ tasks:
         "position": {
           "x": 602.5,
           "y": 720
+        }
+      }
+    note: false
+  "14":
+    id: "14"
+    taskid: 0c69b154-6622-463f-87c5-14bc916bad71
+    type: regular
+    task:
+      id: 0c69b154-6622-463f-87c5-14bc916bad71
+      version: -1
+      name: Check IP's
+      description: Check if a given value exists in the context. Will return 'no'
+        for empty empty arrays. To be used mostly with DQ and selectors.
+      script: IPReputation
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "17"
+    scriptarguments:
+      data:
+        simple: ${IP.Address}
+      extend-context: {}
+      input:
+        simple: ${IP.Address}
+      ip:
+        simple: ${IP.Address}
+      key:
+        simple: result
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 715,
+          "y": 4540
         }
       }
     note: false
@@ -1368,6 +1328,46 @@ tasks:
         "position": {
           "x": 592.5,
           "y": 2470
+        }
+      }
+    note: false
+  "17":
+    id: "17"
+    taskid: 6f1031f7-a449-4048-8311-17f597c96f7f
+    type: condition
+    task:
+      id: 6f1031f7-a449-4048-8311-17f597c96f7f
+      version: -1
+      name: Is Malicious Indicator Found?
+      description: Check if a given value exists in the context. Will return 'no'
+        for empty empty arrays. To be used mostly with DQ and selectors.
+      script: IsMaliciousIndicatorFoundV2
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "22"
+      "yes":
+      - "83"
+    scriptarguments:
+      extend-context: {}
+      first:
+        simple: ${DBotScore.Score}
+      includeSuspicious:
+        simple: "yes"
+      outputformat: {}
+      second:
+        simple: "1"
+      value:
+        simple: ${DBotScore.Score}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 490,
+          "y": 4715
         }
       }
     note: false

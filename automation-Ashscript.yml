@@ -1,6 +1,6 @@
 commonfields:
   id: b3d584f4-28dc-4134-8e6a-6f236ac6172f
-  version: 16
+  version: 17
 name: Ashscript
 script: |-
   import numpy
@@ -15,6 +15,9 @@ script: |-
       demisto.results(df.loc[n])
   else:
       demisto.results("The value does not exist")
+      '''
+      Test
+      '''
 type: python
 tags: []
 enabled: true

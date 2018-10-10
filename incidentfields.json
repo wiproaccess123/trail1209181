@@ -2,8 +2,8 @@
 	"incidentFields": [
 		{
 			"id": "incident_app",
-			"version": 4,
-			"modified": "2018-09-25T03:50:57.19107093-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:45.279081898-04:00",
 			"name": "App",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -28,15 +28,17 @@
 			"associatedTypes": [
 				"Access"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Access"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_assetid",
-			"version": 4,
-			"modified": "2018-09-25T03:50:57.217831033-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:45.350936079-04:00",
 			"name": "Asset ID",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -61,15 +63,17 @@
 			"associatedTypes": [
 				"Vulnerability"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Vulnerability"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_attachmentcount",
-			"version": 5,
-			"modified": "2018-09-25T03:50:57.257141927-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:45.386099458-04:00",
 			"name": "Attachment Count",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -94,15 +98,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_attachmentextension",
-			"version": 5,
-			"modified": "2018-09-25T03:50:57.290359924-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:45.424724284-04:00",
 			"name": "Attachment Extension",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -127,15 +133,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_attachmenthash",
-			"version": 9,
-			"modified": "2018-09-25T03:50:57.333456018-04:00",
+			"version": 10,
+			"modified": "2018-10-09T02:08:45.471224252-04:00",
 			"name": "Attachment Hash",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -160,15 +168,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_attachmentid",
-			"version": 5,
-			"modified": "2018-09-25T03:50:57.362501766-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:45.519020689-04:00",
 			"name": "Attachment ID",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -193,15 +203,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_attachmentname",
-			"version": 5,
-			"modified": "2018-09-25T03:50:57.402990901-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:45.558728691-04:00",
 			"name": "Attachment Name",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -226,15 +238,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_attachmentsize",
-			"version": 5,
-			"modified": "2018-09-25T03:50:57.441043878-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:45.594804604-04:00",
 			"name": "Attachment size",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -259,15 +273,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_attachmenttype",
-			"version": 5,
-			"modified": "2018-09-25T03:50:57.476549908-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:45.634899773-04:00",
 			"name": "Attachment type",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -292,15 +308,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_bugtraq",
-			"version": 4,
-			"modified": "2018-09-25T03:50:57.50550295-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:45.671546499-04:00",
 			"name": "Bugtraq",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -325,7 +343,9 @@
 			"associatedTypes": [
 				"Vulnerability"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Vulnerability"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
@@ -401,8 +421,8 @@
 		},
 		{
 			"id": "incident_cve",
-			"version": 4,
-			"modified": "2018-09-25T03:50:57.539681687-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:45.713288924-04:00",
 			"name": "CVE",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -427,15 +447,17 @@
 			"associatedTypes": [
 				"Vulnerability"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Vulnerability"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_cvss",
-			"version": 4,
-			"modified": "2018-09-25T03:50:57.571638176-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:45.746282355-04:00",
 			"name": "CVSS",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -460,15 +482,17 @@
 			"associatedTypes": [
 				"Vulnerability"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Vulnerability"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_dest",
-			"version": 4,
-			"modified": "2018-09-25T03:50:57.604119017-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:45.780879612-04:00",
 			"name": "Dest",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -494,15 +518,18 @@
 				"Access",
 				"Malware"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Access",
+				"Malware"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_destntdomain",
-			"version": 4,
-			"modified": "2018-09-25T03:50:57.63351163-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:45.815903646-04:00",
 			"name": "Dest NT Domain",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -528,15 +555,18 @@
 				"Access",
 				"Malware"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Access",
+				"Malware"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_duration",
-			"version": 4,
-			"modified": "2018-09-25T03:50:57.673284826-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:45.853317937-04:00",
 			"name": "Duration",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -561,15 +591,17 @@
 			"associatedTypes": [
 				"Access"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Access"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailbcc",
-			"version": 5,
-			"modified": "2018-09-25T03:50:57.713096918-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:45.88388785-04:00",
 			"name": "Email BCC",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -594,15 +626,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailbody",
-			"version": 5,
-			"modified": "2018-09-25T03:50:57.795488129-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:45.918890719-04:00",
 			"name": "Email Body",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -627,15 +661,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": true,
 			"unsearchable": true
 		},
 		{
 			"id": "incident_emailbodyformat",
-			"version": 5,
-			"modified": "2018-09-25T03:50:57.874320944-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:45.957100131-04:00",
 			"name": "Email Body Format",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -660,15 +696,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailbodyhtml",
-			"version": 5,
-			"modified": "2018-09-25T03:50:57.903739575-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.001526906-04:00",
 			"name": "Email Body HTML",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -693,15 +731,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": true,
 			"unsearchable": true
 		},
 		{
 			"id": "incident_emailcc",
-			"version": 5,
-			"modified": "2018-09-25T03:50:57.940042523-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.037129943-04:00",
 			"name": "Email CC",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -726,15 +766,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailclientname",
-			"version": 5,
-			"modified": "2018-09-25T03:50:57.967345632-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.07098975-04:00",
 			"name": "Email Client Name",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -759,15 +801,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailfrom",
-			"version": 5,
-			"modified": "2018-09-25T03:50:57.99866727-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.108418377-04:00",
 			"name": "Email From",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -792,15 +836,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailinreplyto",
-			"version": 1,
-			"modified": "2018-09-25T03:50:58.040906977-04:00",
+			"version": 2,
+			"modified": "2018-10-09T02:08:46.14909375-04:00",
 			"name": "Email In Reply To",
 			"ownerOnly": false,
 			"placeholder": "emailinreplyto",
@@ -825,15 +871,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailkeywords",
-			"version": 5,
-			"modified": "2018-09-25T03:50:58.098312167-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.190578238-04:00",
 			"name": "Email Keywords",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -858,15 +906,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailmessageid",
-			"version": 5,
-			"modified": "2018-09-25T03:50:58.127535722-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.238103056-04:00",
 			"name": "Email Message ID",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -891,15 +941,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailreceived",
-			"version": 5,
-			"modified": "2018-09-25T03:50:58.153435171-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.326440855-04:00",
 			"name": "Email Received",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -924,15 +976,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailreplyto",
-			"version": 5,
-			"modified": "2018-09-25T03:50:58.189564331-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.362645675-04:00",
 			"name": "Email Reply To",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -957,15 +1011,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailreturnpath",
-			"version": 5,
-			"modified": "2018-09-25T03:50:58.238815738-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.400105709-04:00",
 			"name": "Email Return Path",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -990,15 +1046,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailsenderip",
-			"version": 5,
-			"modified": "2018-09-25T03:50:58.270761588-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.433902899-04:00",
 			"name": "Email Sender IP",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1023,15 +1081,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailsize",
-			"version": 5,
-			"modified": "2018-09-25T03:50:58.295682837-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.46795997-04:00",
 			"name": "Email Size",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1056,15 +1116,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailsource",
-			"version": 5,
-			"modified": "2018-09-25T03:50:58.326320566-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.503118784-04:00",
 			"name": "Email Source",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1089,15 +1151,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailsubject",
-			"version": 5,
-			"modified": "2018-09-25T03:50:58.350940025-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.542063563-04:00",
 			"name": "Email Subject",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1122,15 +1186,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailto",
-			"version": 5,
-			"modified": "2018-09-25T03:50:58.376838693-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.584558879-04:00",
 			"name": "Email To",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1155,15 +1221,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailtocount",
-			"version": 5,
-			"modified": "2018-09-25T03:50:58.406529941-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.630545207-04:00",
 			"name": "Email To Count",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1188,15 +1256,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_emailurlclicked",
-			"version": 5,
-			"modified": "2018-09-25T03:50:58.431320833-04:00",
+			"version": 6,
+			"modified": "2018-10-09T02:08:46.67119415-04:00",
 			"name": "Email URL Clicked",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1221,15 +1291,17 @@
 			"associatedTypes": [
 				"Phishing"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Phishing"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_filehash",
-			"version": 4,
-			"modified": "2018-09-25T03:50:58.456876218-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:46.707076095-04:00",
 			"name": "File Hash",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1254,15 +1326,17 @@
 			"associatedTypes": [
 				"Malware"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Malware"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_filename",
-			"version": 4,
-			"modified": "2018-09-25T03:50:58.480770631-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:46.745763929-04:00",
 			"name": "File Name",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1287,15 +1361,17 @@
 			"associatedTypes": [
 				"Malware"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Malware"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_filepath",
-			"version": 4,
-			"modified": "2018-09-25T03:50:58.507530912-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:46.785275107-04:00",
 			"name": "File Path",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1320,7 +1396,9 @@
 			"associatedTypes": [
 				"Malware"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Malware"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
@@ -1360,8 +1438,8 @@
 		},
 		{
 			"id": "incident_malwarefamily",
-			"version": 4,
-			"modified": "2018-09-25T03:50:58.535580741-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:46.826345133-04:00",
 			"name": "Malware Family",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1386,15 +1464,17 @@
 			"associatedTypes": [
 				"Malware"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Malware"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_signature",
-			"version": 4,
-			"modified": "2018-09-25T03:50:58.5613735-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:46.860918066-04:00",
 			"name": "Signature",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1420,15 +1500,18 @@
 				"Vulnerability",
 				"Malware"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Vulnerability",
+				"Malware"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_src",
-			"version": 4,
-			"modified": "2018-09-25T03:50:58.583869491-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:46.902386445-04:00",
 			"name": "Src",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1454,15 +1537,18 @@
 				"Access",
 				"Malware"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Access",
+				"Malware"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_srcntdomain",
-			"version": 4,
-			"modified": "2018-09-25T03:50:58.610225054-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:46.943043255-04:00",
 			"name": "Src NT Domain",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1487,15 +1573,17 @@
 			"associatedTypes": [
 				"Access"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Access"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_srcuser",
-			"version": 4,
-			"modified": "2018-09-25T03:50:58.633561204-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:46.982003203-04:00",
 			"name": "Src User",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1520,15 +1608,17 @@
 			"associatedTypes": [
 				"Access"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Access"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_user",
-			"version": 4,
-			"modified": "2018-09-25T03:50:58.659416536-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:47.015986838-04:00",
 			"name": "User",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1553,15 +1643,17 @@
 			"associatedTypes": [
 				"Malware"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Malware"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_vendorid",
-			"version": 4,
-			"modified": "2018-09-25T03:50:58.685699772-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:47.049105872-04:00",
 			"name": "Vendor ID",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1586,15 +1678,17 @@
 			"associatedTypes": [
 				"Vulnerability"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Vulnerability"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_vendorproduct",
-			"version": 4,
-			"modified": "2018-09-25T03:50:58.713572718-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:47.087429958-04:00",
 			"name": "Vendor Product",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1619,15 +1713,17 @@
 			"associatedTypes": [
 				"Malware"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Malware"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
 		},
 		{
 			"id": "incident_vulnerabilitycategory",
-			"version": 4,
-			"modified": "2018-09-25T03:50:58.742565656-04:00",
+			"version": 5,
+			"modified": "2018-10-09T02:08:47.125351359-04:00",
 			"name": "Vulnerability Category",
 			"ownerOnly": false,
 			"placeholder": "",
@@ -1652,7 +1748,9 @@
 			"associatedTypes": [
 				"Vulnerability"
 			],
-			"systemAssociatedTypes": null,
+			"systemAssociatedTypes": [
+				"Vulnerability"
+			],
 			"associatedToAll": false,
 			"unmapped": false,
 			"unsearchable": false
