@@ -1,0 +1,215 @@
+id: 018cf40f-d895-42dd-84f4-44f6d748c48f
+version: 13
+name: ITM_GDPR_SAR
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: cb2e2ac2-8cfd-489d-8301-f36b304d2073
+    type: start
+    task:
+      id: cb2e2ac2-8cfd-489d-8301-f36b304d2073
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: db9f53f9-3440-4ffd-83e2-538bffb292d9
+    type: regular
+    task:
+      id: db9f53f9-3440-4ffd-83e2-538bffb292d9
+      version: -1
+      name: Get information from  the ticket
+      script: ServiceNow|||servicenow-get
+      type: regular
+      iscommand: true
+      brand: ServiceNow
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      id: {}
+      number:
+        simple: ${incident.labels.number}
+      ticket_type: {}
+      using:
+        simple: ServiceNow_instance_2
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 195
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: b3bb335b-daf8-401a-8fd4-52d35f9a9953
+    type: regular
+    task:
+      id: b3bb335b-daf8-401a-8fd4-52d35f9a9953
+      version: -1
+      name: Extract Id for which to get the user details
+      script: Set
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      append: {}
+      key:
+        simple: Userid
+      value:
+        simple: "12"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 370
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 71d5b03e-57bc-49a4-88a7-5ae2c64ef98b
+    type: regular
+    task:
+      id: 71d5b03e-57bc-49a4-88a7-5ae2c64ef98b
+      version: -1
+      name: Query the Database to get the user information
+      script: e2f99948-217f-4305-8b50-db2c333e3a67
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      DOB: {}
+      address: {}
+      addressType:
+        simple: "Yes"
+      employeeNumber:
+        simple: "Yes"
+      extend-context:
+        simple: Userinfo=
+      firstName:
+        simple: "Yes"
+      lastName:
+        simple: "Yes"
+      maritalStatus: {}
+      nationalIdentifier:
+        simple: "Yes"
+      personId:
+        simple: "12"
+      sex: {}
+      telephoneNumber:
+        simple: "Yes"
+      title: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 545
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: e24f4e55-3477-4ed8-81e4-fb32057dfac7
+    type: regular
+    task:
+      id: e24f4e55-3477-4ed8-81e4-fb32057dfac7
+      version: -1
+      name: Send mail with user information
+      script: EWS Mail Sender|||send-mail
+      type: regular
+      iscommand: true
+      brand: EWS Mail Sender
+    scriptarguments:
+      attachIDs: {}
+      attachNames: {}
+      bcc: {}
+      body: {}
+      cc: {}
+      htmlBody:
+        simple: |-
+          This is the user information
+          ${HTMLTable}
+      replyTo: {}
+      subject:
+        simple: 'USer information '
+      to:
+        simple: mohan.mittal@wipro.com
+      using:
+        simple: EWS Mail Sender_Banupriya
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 895
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 695ba169-dc27-41d9-8991-c0a8799ce1bd
+    type: regular
+    task:
+      id: 695ba169-dc27-41d9-8991-c0a8799ce1bd
+      version: -1
+      name: Create HTML Table
+      script: ConvertTableToHTML
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      table:
+        simple: ${Userinfo}
+      title:
+        simple: User Information
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 720
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 940,
+        "width": 380,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

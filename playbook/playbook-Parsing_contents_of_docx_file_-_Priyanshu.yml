@@ -1,0 +1,228 @@
+id: 917d88ba-49d4-46fb-8710-e4bc6ec8f723
+version: 8
+name: Parsing contents of docx file - Priyanshu
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 53337220-2870-4f64-83de-b8486d8acebb
+    type: start
+    task:
+      id: 53337220-2870-4f64-83de-b8486d8acebb
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 494b79dd-8ff0-4525-8756-1583161612b6
+    type: regular
+    task:
+      id: 494b79dd-8ff0-4525-8756-1583161612b6
+      version: -1
+      name: ReadFile
+      description: Load the contents of a file into context.
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 354
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 240c7654-cb29-41ac-859e-4f712db9f39f
+    type: regular
+    task:
+      id: 240c7654-cb29-41ac-859e-4f712db9f39f
+      version: -1
+      name: Extract URL
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 511
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: d358230c-72f5-45af-8c22-553196569600
+    type: regular
+    task:
+      id: d358230c-72f5-45af-8c22-553196569600
+      version: -1
+      name: Check URL reputation
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      long: {}
+      retries: {}
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        simple: ${URL.Data}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 676
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 23976d22-ec0a-4de1-8c61-fc659464c0fd
+    type: condition
+    task:
+      id: 23976d22-ec0a-4de1-8c61-fc659464c0fd
+      version: -1
+      name: Is URL malicious
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "6"
+      "yes":
+      - "5"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 845
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: c1b2a4c5-4c90-4ad6-8764-9a3fb732debc
+    type: regular
+    task:
+      id: c1b2a4c5-4c90-4ad6-8764-9a3fb732debc
+      version: -1
+      name: Verdict- URL malicious
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 1022
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: a6c0625a-5bfb-4db6-859a-b0c581759fd1
+    type: regular
+    task:
+      id: a6c0625a-5bfb-4db6-859a-b0c581759fd1
+      version: -1
+      name: Verdict- URL not malicious
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 911,
+          "y": 1022
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: ad5792d2-3eef-4230-8e75-4be91223a2a2
+    type: regular
+    task:
+      id: ad5792d2-3eef-4230-8e75-4be91223a2a2
+      version: -1
+      name: Read from docx file
+      script: ParseWordDoc
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='docx').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 180
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1067,
+        "width": 841,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

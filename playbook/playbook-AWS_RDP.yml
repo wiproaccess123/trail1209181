@@ -1,0 +1,334 @@
+id: c8bc1ceb-9a8c-4405-83d3-33b396731d43
+version: 1
+name: AWS_RDP
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 969ad5c3-fe15-46e8-84a4-8faec1cae1e0
+    type: start
+    task:
+      id: 969ad5c3-fe15-46e8-84a4-8faec1cae1e0
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+      - "2"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 198ff3a9-2025-4d18-8a76-2d96329d7ccc
+    type: regular
+    task:
+      id: 198ff3a9-2025-4d18-8a76-2d96329d7ccc
+      version: -1
+      name: Extract Service
+      script: LoadJSON
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      extend-context:
+        simple: Service=
+      input:
+        simple: ${incident.labels.Service}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 200,
+          "y": 200
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 13ae7a5e-9ecb-49e5-8aba-21e80bc64137
+    type: regular
+    task:
+      id: 13ae7a5e-9ecb-49e5-8aba-21e80bc64137
+      version: -1
+      name: Extract Resource
+      script: LoadJSON
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      extend-context:
+        simple: Resource=
+      input: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 740,
+          "y": 200
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 90ed113b-00b1-4f4b-8be3-492d334e6805
+    type: regular
+    task:
+      id: 90ed113b-00b1-4f4b-8be3-492d334e6805
+      version: -1
+      name: Check location details from IP
+      script: ipinfo|||ip
+      type: regular
+      iscommand: true
+      brand: ipinfo
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      ip:
+        simple: ${Service.Action.NetworkConnectionAction.RemoteIpDetails.IpAddressV4}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 200,
+          "y": 390
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 0b20fc7f-19dd-4674-8dc9-f57c90f34a73
+    type: regular
+    task:
+      id: 0b20fc7f-19dd-4674-8dc9-f57c90f34a73
+      version: -1
+      name: convert country name
+      script: bfe3b7f7-6f6d-4f90-82a2-58ea9f3af18d
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+    scriptarguments:
+      Country:
+        simple: ${Service.Action.NetworkConnectionAction.RemoteIpDetails.Country.CountryName}
+      extend-context:
+        simple: Country=
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 200,
+          "y": 560
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: c9dd84cc-3022-4176-87a5-f91fa3fc8cee
+    type: condition
+    task:
+      id: c9dd84cc-3022-4176-87a5-f91fa3fc8cee
+      version: -1
+      name: Is location Details same
+      script: AreValuesEqual
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "6"
+      "yes":
+      - "7"
+    scriptarguments:
+      left:
+        simple: ${IP.Geo.Country}
+      right:
+        simple: ${Country}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 200,
+          "y": 750
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 00c0f03f-7ff3-45f5-8cb5-f42ffc1d6c85
+    type: regular
+    task:
+      id: 00c0f03f-7ff3-45f5-8cb5-f42ffc1d6c85
+      version: -1
+      name: Close investigation
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 640,
+          "y": 920
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 9089a6b4-2e26-442c-812e-612ddb9b2406
+    type: regular
+    task:
+      id: 9089a6b4-2e26-442c-812e-612ddb9b2406
+      version: -1
+      name: IP Reputation
+      script: IPReputation
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "8"
+    scriptarguments:
+      ip:
+        simple: ${IP.Address}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -50,
+          "y": 940
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 181915da-7f80-4d00-8a08-326ef080b4ae
+    type: condition
+    task:
+      id: 181915da-7f80-4d00-8a08-326ef080b4ae
+      version: -1
+      name: Is Malicious
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "yes":
+      - "9"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -50,
+          "y": 1120
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: 23ece55f-e71f-41bf-855b-79d6fcd6654a
+    type: regular
+    task:
+      id: 23ece55f-e71f-41bf-855b-79d6fcd6654a
+      version: -1
+      name: check whether ip is in watchlist
+      script: FilterByList
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "10"
+      - "11"
+    scriptarguments:
+      listname:
+        simple: suspiciousip
+      values:
+        simple: ${IP.Address}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -50,
+          "y": 1330
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: 6f8f46b3-e3a9-47d3-8a5b-acf18de54a46
+    type: regular
+    task:
+      id: 6f8f46b3-e3a9-47d3-8a5b-acf18de54a46
+      version: -1
+      name: Send IP to Watchlist
+      script: Builtin|||addToList
+      type: regular
+      iscommand: true
+      brand: Builtin
+    scriptarguments:
+      listData:
+        simple: ${IP.Address}
+      listName:
+        simple: suspiciousip
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -260,
+          "y": 1510
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: 3f843b23-e63e-4fd4-8a9c-baf12f8df1a7
+    type: regular
+    task:
+      id: 3f843b23-e63e-4fd4-8a9c-baf12f8df1a7
+      version: -1
+      name: Don't add ip to watchlist
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 250,
+          "y": 1510
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1555,
+        "width": 1380,
+        "x": -260,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

@@ -1,0 +1,137 @@
+id: a9f9c5e2-e0e4-4972-8958-6760c95bfd29
+version: 7
+name: 'Email - Testing '
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 395847b5-90ad-48ba-8ccd-bffe3c5810e2
+    type: start
+    task:
+      id: 395847b5-90ad-48ba-8ccd-bffe3c5810e2
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 70342449-09ac-48e4-8a32-5d2426e1040a
+    type: regular
+    task:
+      id: 70342449-09ac-48e4-8a32-5d2426e1040a
+      version: -1
+      name: Read Doc File
+      description: Load the contents of a file into context.
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 230
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: c3247fce-dfb4-4598-85e5-838ef6638fa7
+    type: regular
+    task:
+      id: c3247fce-dfb4-4598-85e5-838ef6638fa7
+      version: -1
+      name: ExtractIP
+      description: Extract IPs from the given text and place them both as output and
+        in the context of a playbook.
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 410
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 89279b86-608e-424b-8bde-9732be97890a
+    type: regular
+    task:
+      id: 89279b86-608e-424b-8bde-9732be97890a
+      version: -1
+      name: SendEmail
+      description: |-
+        Send an email with the specified parameters.
+        Attachments are provided as a comma-separated list of entry IDs.
+        Example usage: !SendEmail subject="File from war room" body="Please see the attached file. --DBot" to=jane@acme.com cc=john@acme.com attachIDs=89@3,46@3
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body:
+        simple: ${IP.Address}
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: 'Extracted IP '
+      to:
+        simple: geeta.mangrulkar@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 770
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 815,
+        "width": 380,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

@@ -1,0 +1,344 @@
+id: 96bb4b54-0134-4f95-8bc3-706f8038b825
+version: 6
+name: Recon threat - Priyanshu
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: e9ae11fd-1e7b-47f1-8c37-8eb84fc4469e
+    type: start
+    task:
+      id: e9ae11fd-1e7b-47f1-8c37-8eb84fc4469e
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 3bc1ca95-61e4-4916-817b-add666550863
+    type: regular
+    task:
+      id: 3bc1ca95-61e4-4916-817b-add666550863
+      version: -1
+      name: Extract IP from the incident
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 195
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 0ab89819-c80b-49b1-882e-24cac5c03883
+    type: condition
+    task:
+      id: 0ab89819-c80b-49b1-882e-24cac5c03883
+      version: -1
+      name: Check if the IP is the specified internal range
+      script: IsIPInRanges
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "7"
+      "yes":
+      - "9"
+    scriptarguments:
+      ip:
+        simple: ${IP.Address}
+      ipRanges: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 370
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: d3d5bb7a-282c-4f95-87e3-2dd7331d9822
+    type: condition
+    task:
+      id: d3d5bb7a-282c-4f95-87e3-2dd7331d9822
+      version: -1
+      name: Is the external IP malicious?
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "11"
+      "yes":
+      - "6"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 1070
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: ce61e421-7d3c-487a-8962-6d320350aa81
+    type: regular
+    task:
+      id: ce61e421-7d3c-487a-8962-6d320350aa81
+      version: -1
+      name: Asign analyst to incident to analyze events
+      script: AssignAnalystToIncident
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      assignBy:
+        simple: less-busy-user
+      email: {}
+      roles: {}
+      username: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 1595
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: d2603c5e-511c-46c5-8cf0-778e51b5b167
+    type: regular
+    task:
+      id: d2603c5e-511c-46c5-8cf0-778e51b5b167
+      version: -1
+      name: Inform IR to Block IP
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 1770
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 99eb1c7f-fd04-411d-88e3-0c454d0b1caf
+    type: regular
+    task:
+      id: 99eb1c7f-fd04-411d-88e3-0c454d0b1caf
+      version: -1
+      name: Find out the geo location (country) of external IP
+      script: ipinfo|||ipinfo_field
+      type: regular
+      iscommand: true
+      brand: ipinfo
+    nexttasks:
+      '#none#':
+      - "8"
+    scriptarguments:
+      field:
+        simple: country
+      ip:
+        simple: ${IP.Address}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 470,
+          "y": 545
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 8705b4ba-3059-4295-805a-9996915bc5a9
+    type: condition
+    task:
+      id: 8705b4ba-3059-4295-805a-9996915bc5a9
+      version: -1
+      name: Is the location an authorized one?
+      script: IsValueInArray
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "10"
+      "yes":
+      - "9"
+    scriptarguments:
+      array: {}
+      value: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 470,
+          "y": 720
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: de2a4b68-32b7-4650-83bb-78205d48eab3
+    type: regular
+    task:
+      id: de2a4b68-32b7-4650-83bb-78205d48eab3
+      version: -1
+      name: Not a Recon
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 895
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: ca28091a-dd46-4154-8e9e-6b4cd2258861
+    type: regular
+    task:
+      id: ca28091a-dd46-4154-8e9e-6b4cd2258861
+      version: -1
+      name: Check IP reputation
+      script: VirusTotal|||ip
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      ip:
+        simple: ${IP.Address}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 895
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: 71d667fa-c31b-44ce-8fea-b73e2ff2b4da
+    type: regular
+    task:
+      id: 71d667fa-c31b-44ce-8fea-b73e2ff2b4da
+      version: -1
+      name: Search Splunk for external IP
+      script: splunk|||search
+      type: regular
+      iscommand: true
+      brand: splunk
+    nexttasks:
+      '#none#':
+      - "12"
+    scriptarguments:
+      append_search: {}
+      index_earliest: {}
+      index_latest: {}
+      query:
+        simple: ${IP.Address}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 1245
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: 20760a65-0302-4526-8bed-d54913d8ed0d
+    type: condition
+    task:
+      id: 20760a65-0302-4526-8bed-d54913d8ed0d
+      version: -1
+      name: Check if any events from the external exist in Splunk
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "yes":
+      - "5"
+    scriptarguments:
+      value: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 1420
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1815,
+        "width": 922.5,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

@@ -1,0 +1,256 @@
+id: c55f818b-aede-420e-8940-0553329319c3
+version: 16
+name: File_Kriti
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 8eaf8af3-ad4d-42a2-8a7c-09805cc73d81
+    type: start
+    task:
+      id: 8eaf8af3-ad4d-42a2-8a7c-09805cc73d81
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "11"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 0e1ac48e-5a9f-4502-8342-4e6bf70d0ebb
+    type: regular
+    task:
+      id: 0e1ac48e-5a9f-4502-8342-4e6bf70d0ebb
+      version: -1
+      name: Read url from file
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 368
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 5f88c91d-3371-4cd7-8555-8e44dba5ed26
+    type: regular
+    task:
+      id: 5f88c91d-3371-4cd7-8555-8e44dba5ed26
+      version: -1
+      name: Check url reputation
+      description: Check URL Reputation
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "5"
+    scriptarguments:
+      long: {}
+      retries: {}
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        simple: ${FileData}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 594
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 125fd6ca-c942-46c4-809e-b68f8f101d3c
+    type: condition
+    task:
+      id: 125fd6ca-c942-46c4-809e-b68f8f101d3c
+      version: -1
+      name: Check if URL is malicious
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "8"
+      "yes":
+      - "6"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 764
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 29c963a3-4be1-4a94-8757-22fe76235acf
+    type: regular
+    task:
+      id: 29c963a3-4be1-4a94-8757-22fe76235acf
+      version: -1
+      name: Malicious URL Found
+      script: IsMaliciousIndicatorFound
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "9"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 70,
+          "y": 1092
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: a46c2de3-d134-4a75-8aae-6dc2dfbc7db7
+    type: regular
+    task:
+      id: a46c2de3-d134-4a75-8aae-6dc2dfbc7db7
+      version: -1
+      name: No malicious URL Found
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "10"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 716,
+          "y": 1015
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: c12eace3-c45c-4b2f-8e6d-6ab4ffdb00e3
+    type: regular
+    task:
+      id: c12eace3-c45c-4b2f-8e6d-6ab4ffdb00e3
+      version: -1
+      name: Assign to Respective user
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -219,
+          "y": 1356
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: 22814594-0696-4f32-8c38-e1d8bc918197
+    type: regular
+    task:
+      id: 22814594-0696-4f32-8c38-e1d8bc918197
+      version: -1
+      name: Close Insvestigarion
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 718,
+          "y": 1205
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: 76df45c0-982b-4d17-8b1a-f9536ac120ca
+    type: regular
+    task:
+      id: 76df45c0-982b-4d17-8b1a-f9536ac120ca
+      version: -1
+      name: parse the word doc
+      script: ParseWordDoc
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='docx').EntryID}
+      extend-context: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 176
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1401,
+        "width": 1317,
+        "x": -219,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

@@ -1,0 +1,428 @@
+id: 8f778a03-e98c-4434-850b-a0b662b9edf8
+version: 28
+name: DLP false positive- Priyanshu & Kriti
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 7898b77f-6cf4-4841-82b3-80ca880c8bef
+    type: start
+    task:
+      id: 7898b77f-6cf4-4841-82b3-80ca880c8bef
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "12"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 77faa2ba-6f59-40d8-8741-502940eaf74c
+    type: condition
+    task:
+      id: 77faa2ba-6f59-40d8-8741-502940eaf74c
+      version: -1
+      name: Identify if Incident contains Email
+      script: IdentifyAttachedEmail
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "7"
+      "yes":
+      - "10"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 370
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 5779cb21-2e72-454e-8cce-89cd2ad0e666
+    type: regular
+    task:
+      id: 5779cb21-2e72-454e-8cce-89cd2ad0e666
+      version: -1
+      name: Extract user name
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${Email.Text}
+      extend-context:
+        simple: name=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: employee, (.*?) has violated
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 720
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 63320ecb-326c-42e3-85ba-02f053b4d36c
+    type: regular
+    task:
+      id: 63320ecb-326c-42e3-85ba-02f053b4d36c
+      version: -1
+      name: Find system detail
+      script: ADGetUser
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      attributes: {}
+      customFieldData: {}
+      customFieldType: {}
+      dn: {}
+      email: {}
+      headers: {}
+      limit: {}
+      name:
+        simple: ${name}
+      nestedSearch: {}
+      userAccountControlOut: {}
+      username: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 895
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 90420184-d02a-48f7-89d2-fe9297f8fbdf
+    type: regular
+    task:
+      id: 90420184-d02a-48f7-89d2-fe9297f8fbdf
+      version: -1
+      name: Trigger mail to user
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "11"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body: {}
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: Action required-Information security violation
+      to:
+        simple: ${Account.Email}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 1070
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 3ef27393-543d-4406-806b-83af89ca4ce8
+    type: condition
+    task:
+      id: 3ef27393-543d-4406-806b-83af89ca4ce8
+      version: -1
+      name: Get user response
+      script: EmailAskUserResponse
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      Validate user response:
+      - "6"
+    scriptarguments:
+      responseEntryId:
+        simple: ${reportedemailentryid}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 1420
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 3f29a24e-f4e6-40c0-8a0b-deebd9dbef3e
+    type: condition
+    task:
+      id: 3f29a24e-f4e6-40c0-8a0b-deebd9dbef3e
+      version: -1
+      name: If satisfactory
+      script: EmailAskUserResponse
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "8"
+      "yes":
+      - "7"
+    scriptarguments:
+      responseEntryId: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 1595
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 67a85bf6-6898-472e-88a1-5ad15d856835
+    type: regular
+    task:
+      id: 67a85bf6-6898-472e-88a1-5ad15d856835
+      version: -1
+      name: Close Investigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 1770
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: c6d5b966-352c-483c-82fe-d715bcd24c01
+    type: regular
+    task:
+      id: c6d5b966-352c-483c-82fe-d715bcd24c01
+      version: -1
+      name: assign user to follow up
+      script: AssignAnalystToIncident
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      assignBy:
+        simple: less-busy-user
+      email: {}
+      roles: {}
+      username: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 685,
+          "y": 1770
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: 79a3a332-cdb6-40f2-8947-d9c8ab025493
+    type: regular
+    task:
+      id: 79a3a332-cdb6-40f2-8947-d9c8ab025493
+      version: -1
+      name: Extract Email
+      script: ParseEmailFiles
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+      - "13"
+    scriptarguments:
+      entryid:
+        simple: ${reportedemailentryid}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 490,
+          "y": 545
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: 890f040f-d857-41cd-8e1b-8c6374fd7af5
+    type: condition
+    task:
+      id: 890f040f-d857-41cd-8e1b-8c6374fd7af5
+      version: -1
+      name: Check if user response present
+      script: IdentifyAttachedEmail
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "8"
+      "yes":
+      - "5"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 1245
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: 42c352cf-91f7-468e-8f73-1fec9f1eb999
+    type: regular
+    task:
+      id: 42c352cf-91f7-468e-8f73-1fec9f1eb999
+      version: -1
+      name: Delete context
+      script: DeleteContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    scriptarguments:
+      all:
+        simple: "yes"
+      key: {}
+      keysToKeep: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 195
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: bc24bc6e-1b1c-436b-8292-3b44b940cce1
+    type: regular
+    task:
+      id: bc24bc6e-1b1c-436b-8292-3b44b940cce1
+      version: -1
+      name: Extract Credit Card Number
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "14"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${Email.Text}
+      extend-context:
+        simple: card_number=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: number- (.*?) under
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 705,
+          "y": 720
+        }
+      }
+    note: false
+  "14":
+    id: "14"
+    taskid: 628232d8-51b3-4df3-8507-d4ef205d4913
+    type: condition
+    task:
+      id: 628232d8-51b3-4df3-8507-d4ef205d4913
+      version: -1
+      name: Check if the Credit card number is valid
+      script: 2a070ddc-5bd3-4d76-853c-8252498e5f6a
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "8"
+      "yes":
+      - "4"
+    scriptarguments:
+      card_number:
+        simple: ${card_number}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 705,
+          "y": 895
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1815,
+        "width": 1035,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

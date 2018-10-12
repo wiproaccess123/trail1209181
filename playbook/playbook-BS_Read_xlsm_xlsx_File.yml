@@ -1,0 +1,231 @@
+id: 8dc46b55-6ec1-4171-8438-8cd36b4a2926
+version: 18
+name: BS_Read_xlsm_xlsx_File
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: a78f249f-cf5a-4a2c-8397-cd4a0c792d7b
+    type: start
+    task:
+      id: a78f249f-cf5a-4a2c-8397-cd4a0c792d7b
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": -5
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 72c3b628-15e5-42b9-87ff-f53d6704d24d
+    type: condition
+    task:
+      id: 72c3b628-15e5-42b9-87ff-f53d6704d24d
+      version: -1
+      name: Do we have XLSM file?
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "3"
+      "yes":
+      - "2"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='xlsm')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1234,
+          "y": 205
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 02bcf7d2-8457-4e27-8c8c-ecc933cb6d0e
+    type: regular
+    task:
+      id: 02bcf7d2-8457-4e27-8c8c-ecc933cb6d0e
+      version: -1
+      name: Read xlsm file
+      script: 77a92804-3dd0-46e5-848a-24ab397c0ab0
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+      - "5"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='xlsm').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 894,
+          "y": 368
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 4cd2344f-63b9-48ea-8179-469f9bad8758
+    type: regular
+    task:
+      id: 4cd2344f-63b9-48ea-8179-469f9bad8758
+      version: -1
+      name: close
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 766
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: b2be7035-828b-47a0-8ca3-c3c04e1d588a
+    type: regular
+    task:
+      id: b2be7035-828b-47a0-8ca3-c3c04e1d588a
+      version: -1
+      name: Extracting IP from the excel file
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 209,
+          "y": 594
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 03548bad-9125-4573-819f-6d1535a2a05c
+    type: regular
+    task:
+      id: 03548bad-9125-4573-819f-6d1535a2a05c
+      version: -1
+      name: Extracting URL from the excel file
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 688,
+          "y": 594
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 6a39aa8d-49e3-426b-8de0-e5831081eb89
+    type: condition
+    task:
+      id: 6a39aa8d-49e3-426b-8de0-e5831081eb89
+      version: -1
+      name: Do we have XLSX file?
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "1"
+      "yes":
+      - "7"
+    scriptarguments:
+      extend-context: {}
+      value:
+        simple: ${File(val.Extension=='xlsx')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -194,
+          "y": 220
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 6da468e0-1802-431e-8268-4fc7b4a9d3f8
+    type: regular
+    task:
+      id: 6da468e0-1802-431e-8268-4fc7b4a9d3f8
+      version: -1
+      name: Read xlsx file
+      script: 77a92804-3dd0-46e5-848a-24ab397c0ab0
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+      - "4"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='xlsx').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -14,
+          "y": 378
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 866,
+        "width": 1808,
+        "x": -194,
+        "y": -5
+      }
+    }
+  }
+inputs: []
+outputs: []

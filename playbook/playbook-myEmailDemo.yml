@@ -1,0 +1,178 @@
+id: 6dbd27b2-28b8-42b2-8b97-2094b371009a
+version: 5
+name: myEmailDemo
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 41b3986e-d75a-42d0-8f2e-e04636381b75
+    type: start
+    task:
+      id: 41b3986e-d75a-42d0-8f2e-e04636381b75
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 868d572b-640b-4eb1-803f-586a50dfa8d1
+    type: condition
+    task:
+      id: 868d572b-640b-4eb1-803f-586a50dfa8d1
+      version: -1
+      name: Exists
+      description: Check if a given value exists in the context. Will return 'no'
+        for empty empty arrays. To be used mostly with DQ and selectors.
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "3"
+      "yes":
+      - "2"
+    scriptarguments:
+      value:
+        simple: ${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 195
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 8df3e660-5fe6-4c18-86e8-45459a28664d
+    type: regular
+    task:
+      id: 8df3e660-5fe6-4c18-86e8-45459a28664d
+      version: -1
+      name: SendEmail
+      description: |-
+        Send an email with the specified parameters.
+        Attachments are provided as a comma-separated list of entry IDs.
+        Example usage: !SendEmail subject="File from war room" body="Please see the attached file. --DBot" to=jane@acme.com cc=john@acme.com attachIDs=89@3,46@3
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body:
+        simple: Hi congo, Test Mail from demisto
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: Test Mail from demisto
+      to:
+        simple: nidhi.trivedi@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 370
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: dbf95e8e-1ca8-4989-804f-afd58492c123
+    type: regular
+    task:
+      id: dbf95e8e-1ca8-4989-804f-afd58492c123
+      version: -1
+      name: SendEmail
+      description: |-
+        Send an email with the specified parameters.
+        Attachments are provided as a comma-separated list of entry IDs.
+        Example usage: !SendEmail subject="File from war room" body="Please see the attached file. --DBot" to=jane@acme.com cc=john@acme.com attachIDs=89@3,46@3
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body: {}
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject: {}
+      to: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 370
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: eafd6c2b-9f85-4a90-8c3b-2bef571e0219
+    type: regular
+    task:
+      id: eafd6c2b-9f85-4a90-8c3b-2bef571e0219
+      version: -1
+      name: closeInvestigation
+      description: Close the current investigation
+      script: Builtin|||closeInvestigation
+      type: regular
+      iscommand: true
+      brand: Builtin
+    scriptarguments:
+      assetid: {}
+      closeNotes: {}
+      closeReason: {}
+      id: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 545
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 590,
+        "width": 810,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

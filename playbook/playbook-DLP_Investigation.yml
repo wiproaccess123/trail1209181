@@ -1,0 +1,202 @@
+id: bf9832ef-43e6-4abf-8244-2a9da4b227e2
+version: 2
+name: DLP Investigation
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 8875ef81-349d-4643-8c27-f55c7bd3bdc8
+    type: start
+    task:
+      id: 8875ef81-349d-4643-8c27-f55c7bd3bdc8
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: c150ab52-cd75-48c7-8269-d53a34d6cc17
+    type: regular
+    task:
+      id: c150ab52-cd75-48c7-8269-d53a34d6cc17
+      version: -1
+      name: Get Alert for Netscope query
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 203
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 4f943864-deec-40f5-8407-7d4f31061e07
+    type: condition
+    task:
+      id: 4f943864-deec-40f5-8407-7d4f31061e07
+      version: -1
+      name: Any Alerts Found
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "yes":
+      - "3"
+    scriptarguments:
+      value: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 385
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 10b7fc10-bf25-4fef-8b19-be91d5f882eb
+    type: regular
+    task:
+      id: 10b7fc10-bf25-4fef-8b19-be91d5f882eb
+      version: -1
+      name: Get the details for user from Active Directory
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 659
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 5c70b1a1-3d08-4275-841e-7431a7310f50
+    type: regular
+    task:
+      id: 5c70b1a1-3d08-4275-841e-7431a7310f50
+      version: -1
+      name: Send email to user alerting
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 864
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: d39ca35d-199e-4e08-81b6-e7220eaebecf
+    type: regular
+    task:
+      id: d39ca35d-199e-4e08-81b6-e7220eaebecf
+      version: -1
+      name: Send email to Analyst for Review
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 451,
+          "y": 1072
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 9252469f-68d8-4573-8009-5c6e3af30f19
+    type: regular
+    task:
+      id: 9252469f-68d8-4573-8009-5c6e3af30f19
+      version: -1
+      name: Wait for Analyst to review
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 1270
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 8340da81-03f5-42fe-8da6-fb7c0f88d567
+    type: regular
+    task:
+      id: 8340da81-03f5-42fe-8da6-fb7c0f88d567
+      version: -1
+      name: Close Investigation
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 447,
+          "y": 1469
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1514,
+        "width": 384,
+        "x": 447,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []
