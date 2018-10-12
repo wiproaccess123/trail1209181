@@ -1,0 +1,243 @@
+id: e3a82c43-65b2-4344-8822-7470e7a97f2d
+version: 5
+name: Kriti_test1
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 505b7565-39c1-400d-8e1b-f6add24e34d3
+    type: start
+    task:
+      id: 505b7565-39c1-400d-8e1b-f6add24e34d3
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: db3d6f32-607a-4663-8968-2c286361a71e
+    type: regular
+    task:
+      id: db3d6f32-607a-4663-8968-2c286361a71e
+      version: -1
+      name: Delete context
+      script: DeleteContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      all:
+        simple: "yes"
+      key: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 230
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 6af3499e-79f6-47f3-81a7-2af0e1142d9f
+    type: regular
+    task:
+      id: 6af3499e-79f6-47f3-81a7-2af0e1142d9f
+      version: -1
+      name: Extract URL
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 410
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: ae3bd8d2-7784-4f88-84db-79c1ce8ce1ae
+    type: regular
+    task:
+      id: ae3bd8d2-7784-4f88-84db-79c1ce8ce1ae
+      version: -1
+      name: URL Reputation
+      script: URLReputation
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      url:
+        simple: ${URL.Data}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 451,
+          "y": 695
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: c15be7f1-7f5c-4c53-896d-a4239b12d1a1
+    type: condition
+    task:
+      id: c15be7f1-7f5c-4c53-896d-a4239b12d1a1
+      version: -1
+      name: Check if there is any malicious URL
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "6"
+      "yes":
+      - "5"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 451,
+          "y": 875
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 9831c9a6-7904-4fe7-8146-db33c72ecae6
+    type: regular
+    task:
+      id: 9831c9a6-7904-4fe7-8146-db33c72ecae6
+      version: -1
+      name: Malicious Found
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "8"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 113,
+          "y": 1096
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 66ff8556-5be4-44a1-86cf-2edf1ead9b1f
+    type: regular
+    task:
+      id: 66ff8556-5be4-44a1-86cf-2edf1ead9b1f
+      version: -1
+      name: No Malicious Found
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592,
+          "y": 1096
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 7ee7ed22-8dc7-4dcc-83a2-81a36b255f2c
+    type: regular
+    task:
+      id: 7ee7ed22-8dc7-4dcc-83a2-81a36b255f2c
+      version: -1
+      name: Close Investigation
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592,
+          "y": 1618
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 5e2835a9-2233-435f-8338-8abebe6ccb58
+    type: regular
+    task:
+      id: 5e2835a9-2233-435f-8338-8abebe6ccb58
+      version: -1
+      name: assign to respective user
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 113,
+          "y": 1330
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1663,
+        "width": 859,
+        "x": 113,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

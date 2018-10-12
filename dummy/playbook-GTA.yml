@@ -1,0 +1,66 @@
+id: 9b10b08d-aef6-4684-8921-4f0efc48730b
+version: 3
+name: GTA
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 23a6b39d-5f9b-4c69-89bb-e064153601c7
+    type: start
+    task:
+      id: 23a6b39d-5f9b-4c69-89bb-e064153601c7
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 318179d6-da2d-4de1-8319-f62ceb4c20b3
+    type: regular
+    task:
+      id: 318179d6-da2d-4de1-8319-f62ceb4c20b3
+      version: -1
+      name: CheckDomainReputation
+      script: GenerateInvestigationSummaryReport
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      incidentId: {}
+      name: {}
+      type: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 236
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 281,
+        "width": 380,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

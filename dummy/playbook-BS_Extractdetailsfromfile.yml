@@ -1,0 +1,492 @@
+id: c05b7be4-9845-4494-800f-170a338cb9f9
+version: 46
+name: BS_Extractdetailsfromfile
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 3bd2c636-3167-4dd9-81e1-38b7baec422b
+    type: start
+    task:
+      id: 3bd2c636-3167-4dd9-81e1-38b7baec422b
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "9"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 837.5,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 9d88aa58-e499-462f-85e5-614b14cdee84
+    type: regular
+    task:
+      id: 9d88aa58-e499-462f-85e5-614b14cdee84
+      version: -1
+      name: Read attached file from incident
+      description: Load the contents of a file into context.
+      script: ParseWordDoc
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "11"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='docx').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 407.5,
+          "y": 370
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: bf573029-f7e3-4547-8e7b-4be7dd5573af
+    type: regular
+    task:
+      id: bf573029-f7e3-4547-8e7b-4be7dd5573af
+      version: -1
+      name: Extract IP
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      text:
+        simple: ${FileData}${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 720
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 71dc5a83-0ead-4911-828c-764c70032f05
+    type: regular
+    task:
+      id: 71dc5a83-0ead-4911-828c-764c70032f05
+      version: -1
+      name: IP Reputation
+      script: VirusTotal|||ip
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "5"
+    scriptarguments:
+      ip:
+        simple: ${IP.Address}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 895
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 554516ac-6a02-4735-81ae-90dd0a73d507
+    type: condition
+    task:
+      id: 554516ac-6a02-4735-81ae-90dd0a73d507
+      version: -1
+      name: check whether IP is malicious or not
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "7"
+      "yes":
+      - "6"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 1070
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 9e583ec8-bbdc-4dfe-890c-f6d7102ebf07
+    type: regular
+    task:
+      id: 9e583ec8-bbdc-4dfe-890c-f6d7102ebf07
+      version: -1
+      name: Malicious Found
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "8"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 60,
+          "y": 1245
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 4ada7dd7-c6f4-4173-83b2-45311a6f8d55
+    type: regular
+    task:
+      id: 4ada7dd7-c6f4-4173-83b2-45311a6f8d55
+      version: -1
+      name: No Malicious Found
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "8"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 847.5,
+          "y": 1245
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 8238c107-1b42-4ff4-8854-caaf54b6b1ef
+    type: title
+    task:
+      id: 8238c107-1b42-4ff4-8854-caaf54b6b1ef
+      version: -1
+      name: Close Investigation
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 745,
+          "y": 1420
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: 0f21f88c-1a5e-4e13-841c-e18e10a31f1f
+    type: condition
+    task:
+      id: 0f21f88c-1a5e-4e13-841c-e18e10a31f1f
+      version: -1
+      name: Do we have DOCX file?
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "10"
+      "yes":
+      - "1"
+    scriptarguments:
+      extend-context: {}
+      value:
+        simple: ${File(val.Extension=='docx')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 837.5,
+          "y": 195
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: 2776b7c8-2158-41d0-8b3e-ff26282353bc
+    type: regular
+    task:
+      id: 2776b7c8-2158-41d0-8b3e-ff26282353bc
+      version: -1
+      name: no docx file
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "8"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1277.5,
+          "y": 1245
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: 63b97392-1621-4c9a-81eb-d75f4d20a50d
+    type: regular
+    task:
+      id: 63b97392-1621-4c9a-81eb-d75f4d20a50d
+      version: -1
+      name: Read the info from copied txt file
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+      - "12"
+      - "15"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 407.5,
+          "y": 545
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: 58b9dcc7-b518-48cf-85a0-3ec32d3a939f
+    type: regular
+    task:
+      id: 58b9dcc7-b518-48cf-85a0-3ec32d3a939f
+      version: -1
+      name: Extract URL
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "13"
+    scriptarguments:
+      text:
+        simple: ${FileData}${incident.details}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 720
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: 14fd366f-3e75-4455-85b4-488090d58457
+    type: regular
+    task:
+      id: 14fd366f-3e75-4455-85b4-488090d58457
+      version: -1
+      name: URL Reputation
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "14"
+    scriptarguments:
+      long: {}
+      retries: {}
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        simple: ${URL.Data}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 895
+        }
+      }
+    note: false
+  "14":
+    id: "14"
+    taskid: 824c8307-796a-4c64-810b-581e9286cb35
+    type: condition
+    task:
+      id: 824c8307-796a-4c64-810b-581e9286cb35
+      version: -1
+      name: Check if the URL is malicious or not?
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "7"
+      "yes":
+      - "6"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 1070
+        }
+      }
+    note: false
+  "15":
+    id: "15"
+    taskid: e5e8fbf2-4b9a-44ab-834f-8fd9f478fe20
+    type: regular
+    task:
+      id: e5e8fbf2-4b9a-44ab-834f-8fd9f478fe20
+      version: -1
+      name: Extract Domain
+      script: ExtractDomain
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "16"
+    scriptarguments:
+      calcReputation: {}
+      extractFromEmails: {}
+      markAsIndicator: {}
+      text:
+        simple: ${FileData}${incident.details}
+      tldList: {}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 720
+        }
+      }
+    note: false
+  "16":
+    id: "16"
+    taskid: 4710cd7d-57ca-429c-8613-8458a18a2aa2
+    type: regular
+    task:
+      id: 4710cd7d-57ca-429c-8613-8458a18a2aa2
+      version: -1
+      name: Domain Reputation
+      script: VirusTotal|||domain
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "17"
+    scriptarguments:
+      domain:
+        simple: ${Domain}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 895
+        }
+      }
+    note: false
+  "17":
+    id: "17"
+    taskid: d49ab327-eb01-43ba-8a97-dceb6b2ddf2e
+    type: condition
+    task:
+      id: d49ab327-eb01-43ba-8a97-dceb6b2ddf2e
+      version: -1
+      name: Check if the Domain is malicious or not?
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "7"
+      "yes":
+      - "6"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 1070
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1435,
+        "width": 1607.5,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

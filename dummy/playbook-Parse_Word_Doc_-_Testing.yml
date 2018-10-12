@@ -1,0 +1,215 @@
+id: fb53cf14-bbd5-446a-83f1-707e0b096113
+version: 9
+name: Parse Word Doc - Testing
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: bc0e9435-46a0-4888-8d44-0e537836d854
+    type: start
+    task:
+      id: bc0e9435-46a0-4888-8d44-0e537836d854
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 50
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 1f659bbd-acb1-46f3-8104-70b0b611417a
+    type: regular
+    task:
+      id: 1f659bbd-acb1-46f3-8104-70b0b611417a
+      version: -1
+      name: ' Parse the Word Doc'
+      description: Takes an input docx file (entryID) as an input and saves an output
+        text file (file entry) with the original file's contents.
+      script: ParseWordDoc
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='docx').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 195
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 0ad0bddf-51b0-47e8-8e31-ba3e8dc63ec6
+    type: regular
+    task:
+      id: 0ad0bddf-51b0-47e8-8e31-ba3e8dc63ec6
+      version: -1
+      name: 'Read the Doc File '
+      description: Load the contents of a file into context.
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 370
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: dfd355b1-3c2a-4661-890b-d4bdaace6f72
+    type: regular
+    task:
+      id: dfd355b1-3c2a-4661-890b-d4bdaace6f72
+      version: -1
+      name: Extract IP from Word doc
+      description: Extract IPs from the given text and place them both as output and
+        in the context of a playbook.
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 545
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: a361ad8d-2e96-4afd-8f89-247014bc64e8
+    type: regular
+    task:
+      id: a361ad8d-2e96-4afd-8f89-247014bc64e8
+      version: -1
+      name: Check for IP Reputation
+      description: Check IP Reputation
+      script: VirusTotal|||ip
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "8"
+    scriptarguments:
+      ip:
+        simple: ${IP.Address}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 720
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: a2e78fc8-d896-49aa-8293-ffbcd3ea90dc
+    type: condition
+    task:
+      id: a2e78fc8-d896-49aa-8293-ffbcd3ea90dc
+      version: -1
+      name: Check for Malicious IP AND URL Exists
+      description: Check if a given value exists in the context. Will return 'no'
+        for empty empty arrays. To be used mostly with DQ and selectors.
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "yes":
+      - "11"
+    scriptarguments:
+      value:
+        simple: ${IP.Address}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 895
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: acff4999-3870-45ae-875b-c3e5765f4e0e
+    type: regular
+    task:
+      id: acff4999-3870-45ae-875b-c3e5765f4e0e
+      version: -1
+      name: CloseInvestigation
+      description: Close an investigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 1245
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1290,
+        "width": 595,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

@@ -1,0 +1,28 @@
+commonfields:
+  id: 101a528b-5820-4ab7-8625-ced82e789817
+  version: 10
+name: export_to_text
+script: |-
+  var createdFileID = new File();
+  var created = JSON.stringify(args.txtArray);
+  createdFileID.writeline(created);
+  return {
+      Type: 3,
+      FileID: createdFileID,
+      File: args.fileName,
+      Contents: args.fileName
+  };
+type: javascript
+tags:
+- Utility
+- txt
+enabled: true
+args:
+- name: fileName
+  required: true
+  default: true
+- name: txtArray
+  required: true
+  isArray: true
+scripttarget: 0
+runonce: false

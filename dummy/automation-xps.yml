@@ -1,0 +1,27 @@
+commonfields:
+  id: 2e161a54-55cf-40c5-8783-47996d6c67c0
+  version: 7
+name: xps
+script: |
+  import fitz
+  demisto.results(fitz.__doc__)
+  #f=fitz.open('https://10.179.25.224/#/WarRoom/playground/755@4957f0f6-8c76-4856-8fa1-9875cd62e4e6')
+  res = demisto.executeCommand('getFilePath', {'id': demisto.args()['entryID']})
+  p=res[0]['Contents']['path']
+  f=fitz.open('p','r')
+  toc = f.getToC()
+  page = f.loadPage(n)
+  links = page.getLinks()
+  pix = page.getPixmap()
+  file=pix.writePNG("page-0.png")
+  bitmap = wx.BitmapFromBufferRGBA(pix.width, pix.height, pix.samples)
+  demisto.results(bitmap)
+type: python
+tags: []
+enabled: true
+args:
+- name: entryID
+  required: true
+scripttarget: 0
+runonce: false
+dockerimage: demisto_pymupdf

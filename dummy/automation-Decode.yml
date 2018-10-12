@@ -1,0 +1,24 @@
+commonfields:
+  id: ce06d2b5-02d6-497f-8649-20c65a9f5fa8
+  version: 3
+name: Decode
+script: |-
+  var ec = {};
+  var result = decodeURI(args.input);
+  ec.decode = result;
+  return ( {ContentsFormat: formats.json, Type: entryTypes.note, Contents: ec[outputPaths.decode], HumanReadable: result, EntryContext: ec} );
+type: javascript
+tags:
+- Utility
+comment: Will decode the text.
+enabled: true
+args:
+- name: input
+  required: true
+  default: true
+  description: to decode input
+outputs:
+- contextPath: decode
+  description: decoded input
+scripttarget: 0
+runonce: false

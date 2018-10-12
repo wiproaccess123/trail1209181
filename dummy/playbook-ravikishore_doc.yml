@@ -1,0 +1,210 @@
+id: ab774dd3-f4c0-427c-8992-6c932d160c77
+version: 5
+name: ravikishore_doc
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 4fa3aee9-238f-4d9c-894c-1bf2c2893a70
+    type: start
+    task:
+      id: 4fa3aee9-238f-4d9c-894c-1bf2c2893a70
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 5b527ee8-98c7-4b32-8aa4-7a494f5120bb
+    type: regular
+    task:
+      id: 5b527ee8-98c7-4b32-8aa4-7a494f5120bb
+      version: -1
+      name: worddoc file
+      description: Takes an input docx file (entryID) as an input and saves an output
+        text file (file entry) with the original file's contents.
+      script: ParseWordDoc
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='docx').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 195
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 108004f1-6784-42ac-83f5-197b2c745ba2
+    type: regular
+    task:
+      id: 108004f1-6784-42ac-83f5-197b2c745ba2
+      version: -1
+      name: read data
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 370
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 7abb3581-734a-4503-8dcb-4dca526aa3a9
+    type: regular
+    task:
+      id: 7abb3581-734a-4503-8dcb-4dca526aa3a9
+      version: -1
+      name: Extract IP Address
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      text:
+        simple: ${FileData}${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 545
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 079f2e7c-5afc-4fdc-8469-760bcaaacb6f
+    type: regular
+    task:
+      id: 079f2e7c-5afc-4fdc-8469-760bcaaacb6f
+      version: -1
+      name: ipreputation
+      script: VirusTotal|||ip
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      fullResponse: {}
+      ip:
+        simple: ${IP.Address}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 720
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: dfb68e29-fa2a-44c3-8aba-0fb15f905631
+    type: regular
+    task:
+      id: dfb68e29-fa2a-44c3-8aba-0fb15f905631
+      version: -1
+      name: close
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 1067
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: b8f4cfa9-6b3d-4841-8e65-ff3cfc4f55e4
+    type: condition
+    task:
+      id: b8f4cfa9-6b3d-4841-8e65-ff3cfc4f55e4
+      version: -1
+      name: check is malicious or not
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "5"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 887
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1112,
+        "width": 380,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []
