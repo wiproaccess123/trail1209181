@@ -1,0 +1,52 @@
+commonfields:
+  id: 402708a5-f368-4996-8d2c-5d61bf7a888e
+  version: 28
+name: json_encryption_copy
+script: |+
+  import json
+
+  def encryptDecrypt(input):
+      key = ['P','T','J','b','F','Y','y','9','k','u','n','q','c','x','T','m','t','i','m','o','7','n','w','X','h','m','f','G','5','h','i','j','k','3','n','y','w','l','e','m'] #Can be any chars, and any size array
+      output = []
+      for i in range(len(input)):
+
+          xor_num = ord(input[i]) ^ ord(key[i % len(key)]);
+          output.append(chr(xor_num))
+
+
+      return ''.join(output)
+
+
+
+  #with open('data.json')as f:
+  #    data = f.read();
+  #data = json.dump(demisto.args()['data'],fileName)
+  #demisto.results(demisto.args()['data']);
+  #demisto.results("before: "+demisto.args()['data'])
+  t = demisto.args()['data'].encode('ascii','ignore')
+  #demisto.results("affter: "+t)
+  encrypted = encryptDecrypt(t)
+  #demisto.results("Encrypted:"+encrypted);
+  file_name = demisto.args()['fileName']
+  output_file_name = file_name + '.txt'
+  res = fileResult(output_file_name, encrypted)
+
+  demisto.results(res);
+
+  decrypted = encryptDecrypt(encrypted);
+  #demisto.results("Decrypted:"+decrypted);
+  output_file_name = file_name + '.txt'
+  res = fileResult(output_file_name, decrypted)
+
+  demisto.results(res);
+
+type: python
+tags: []
+enabled: true
+args:
+- name: data
+- name: fileName
+  required: true
+  description: Namje of the file to write the adta
+scripttarget: 0
+runonce: false

@@ -1,0 +1,312 @@
+id: 1d8ceaa4-1110-4a6d-87d2-c9309e3403d4
+version: 4
+name: check attachments
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 4de24b0e-5c01-451a-87ba-e38fb0514ca2
+    type: start
+    task:
+      id: 4de24b0e-5c01-451a-87ba-e38fb0514ca2
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+      - "2"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 490,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 3e4ff852-ca9d-4157-802f-35d43d37429d
+    type: condition
+    task:
+      id: 3e4ff852-ca9d-4157-802f-35d43d37429d
+      version: -1
+      name: do we have any doc file?
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "7"
+      "yes":
+      - "3"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='doc')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 275,
+          "y": 195
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 14880f50-1afe-49b2-8a9d-fe0fe1ffe94c
+    type: condition
+    task:
+      id: 14880f50-1afe-49b2-8a9d-fe0fe1ffe94c
+      version: -1
+      name: do we have text file
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "7"
+      "yes":
+      - "4"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='txt')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 705,
+          "y": 195
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: dc98965d-0d95-4a8d-8166-30142a6504ff
+    type: regular
+    task:
+      id: dc98965d-0d95-4a8d-8166-30142a6504ff
+      version: -1
+      name: Read doc file
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='doc').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 370
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: bb6b3074-23b1-4fb1-84d5-e3cfa4bce494
+    type: regular
+    task:
+      id: bb6b3074-23b1-4fb1-84d5-e3cfa4bce494
+      version: -1
+      name: read text file
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 370
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: ed741428-3564-4ad4-8f96-fa9ddbd87e3d
+    type: regular
+    task:
+      id: ed741428-3564-4ad4-8f96-fa9ddbd87e3d
+      version: -1
+      name: read copied text file
+      script: ParseWordDoc
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "8"
+      - "9"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 545
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: f82aaa66-c70a-4a1f-858d-6f7d310a7bb6
+    type: regular
+    task:
+      id: f82aaa66-c70a-4a1f-858d-6f7d310a7bb6
+      version: -1
+      name: read copied text file
+      script: ParseWordDoc
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "9"
+      - "8"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 545
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 22e942fa-a5be-4aaa-8ec0-14be042a974f
+    type: title
+    task:
+      id: 22e942fa-a5be-4aaa-8ec0-14be042a974f
+      version: -1
+      name: close investigation
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 920,
+          "y": 385
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: af84198d-f509-4c80-86f5-54b18fbaeb39
+    type: regular
+    task:
+      id: af84198d-f509-4c80-86f5-54b18fbaeb39
+      version: -1
+      name: extract ip
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "10"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 720
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: 79d92ce7-f157-47dd-814f-eee534212938
+    type: regular
+    task:
+      id: 79d92ce7-f157-47dd-814f-eee534212938
+      version: -1
+      name: extract url
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "10"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 500,
+          "y": 720
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: 768fc5d4-0733-4667-8ec7-8d90462a9293
+    type: regular
+    task:
+      id: 768fc5d4-0733-4667-8ec7-8d90462a9293
+      version: -1
+      name: close invesrtigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes:
+        simple: task has been successfully completed
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 895
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 940,
+        "width": 1250,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

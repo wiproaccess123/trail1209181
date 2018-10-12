@@ -1,0 +1,407 @@
+id: 5d7ac175-ad6a-47ee-831c-d39d9f4a5700
+version: 23
+name: Enrich Url_varma
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 99c7d824-b35c-4a5e-8356-8762f293d42b
+    type: start
+    task:
+      id: 99c7d824-b35c-4a5e-8356-8762f293d42b
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "12"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 07db81a5-e4d2-459e-8d78-2c6db7811611
+    type: regular
+    task:
+      id: 07db81a5-e4d2-459e-8d78-2c6db7811611
+      version: -1
+      name: Extract URL from the incident
+      description: Extract URLs from the given text and place them both as output
+        and in the context of a playbook. If given an object, will convert to JSON.
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "14"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 370
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: d1383014-d535-4d77-8a5c-0ea598d9e185
+    type: condition
+    task:
+      id: d1383014-d535-4d77-8a5c-0ea598d9e185
+      version: -1
+      name: check url reputation
+      description: Check URL Reputation
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: VirusTotal
+    nexttasks:
+      "no":
+      - "5"
+      "yes":
+      - "4"
+    scriptarguments:
+      value:
+        simple: ${URL.Data}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 720
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: c0c516a8-f24b-4396-8427-6591316d4902
+    type: regular
+    task:
+      id: c0c516a8-f24b-4396-8427-6591316d4902
+      version: -1
+      name: SendEmail about malicous Url
+      description: |-
+        Send an email with the specified parameters.
+        Attachments are provided as a comma-separated list of entry IDs.
+        Example usage: !SendEmail subject="File from war room" body="Please see the attached file. --DBot" to=jane@acme.com cc=john@acme.com attachIDs=89@3,46@3
+      script: EWS Mail Sender|||send-mail
+      type: regular
+      iscommand: true
+      brand: EWS Mail Sender
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      attachIDs: {}
+      attachNames: {}
+      bcc: {}
+      body:
+        simple: |-
+          hi there Malicious Urls are found here is the list-
+          ${URL.Data}
+      cc: {}
+      htmlBody: {}
+      replyTo: {}
+      subject:
+        simple: Malicious Url Found
+      to:
+        simple: gundaraju.varma@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 895
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: bed4d666-ad40-48bb-8487-fc0a7f54cfc4
+    type: regular
+    task:
+      id: bed4d666-ad40-48bb-8487-fc0a7f54cfc4
+      version: -1
+      name: No  Malicous Url Found email
+      description: |-
+        Send an email with the specified parameters.
+        Attachments are provided as a comma-separated list of entry IDs.
+        Example usage: !SendEmail subject="File from war room" body="Please see the attached file. --DBot" to=jane@acme.com cc=john@acme.com attachIDs=89@3,46@3
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body:
+        simple: hi there No Malicious Urls are found
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: No Malicious Url Found
+      to:
+        simple: gundaraju.varma@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 895
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: dbb40a42-8d29-454d-811f-65c1c67e6aff
+    type: regular
+    task:
+      id: dbb40a42-8d29-454d-811f-65c1c67e6aff
+      version: -1
+      name: CloseInvestigation
+      description: Close an investigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 1070
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 981433e5-ad42-457e-8368-8b17ee489c6f
+    type: regular
+    task:
+      id: 981433e5-ad42-457e-8368-8b17ee489c6f
+      version: -1
+      name: extract ip
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "9"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 370
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: 9ac72cf1-891e-4843-84e5-19b6286739ea
+    type: regular
+    task:
+      id: 9ac72cf1-891e-4843-84e5-19b6286739ea
+      version: -1
+      name: ip location
+      script: ipinfo|||ip
+      type: regular
+      iscommand: true
+      brand: ipinfo
+    nexttasks:
+      '#none#':
+      - "13"
+    scriptarguments:
+      ip:
+        simple: ${IP.Address}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 545
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: 78bff67c-d1ef-45cf-8df1-152539e26af7
+    type: regular
+    task:
+      id: 78bff67c-d1ef-45cf-8df1-152539e26af7
+      version: -1
+      name: hash
+      script: ExtractHash
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "11"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 545
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: 18de9d6b-7020-45c1-8cd6-44608e4417db
+    type: condition
+    task:
+      id: 18de9d6b-7020-45c1-8cd6-44608e4417db
+      version: -1
+      name: file reputation
+      script: FileReputation
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "5"
+      "yes":
+      - "4"
+    scriptarguments:
+      file:
+        simple: ${File.MD5}${File.SHA1}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 720
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: 6a5ef4ac-b61b-46fe-8383-4136c45ec752
+    type: regular
+    task:
+      id: 6a5ef4ac-b61b-46fe-8383-4136c45ec752
+      version: -1
+      name: del context
+      script: DeleteContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+      - "1"
+      - "10"
+    scriptarguments:
+      all:
+        simple: "yes"
+      key: {}
+      keysToKeep: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 195
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: f607fb88-e086-4066-83e0-4442a407ab7b
+    type: condition
+    task:
+      id: f607fb88-e086-4066-83e0-4442a407ab7b
+      version: -1
+      name: ip reputation
+      script: IPReputation
+      type: condition
+      iscommand: false
+      brand: VirusTotal
+    nexttasks:
+      "no":
+      - "5"
+      "yes":
+      - "4"
+    scriptarguments:
+      ip:
+        simple: ${IP.Address}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 720
+        }
+      }
+    note: false
+  "14":
+    id: "14"
+    taskid: c1345b20-13cf-42cb-8a71-b90d10685512
+    type: regular
+    task:
+      id: c1345b20-13cf-42cb-8a71-b90d10685512
+      version: -1
+      name: url reputation
+      script: URLReputation
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      url:
+        simple: ${URL.Data}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 545
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1115,
+        "width": 1240,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

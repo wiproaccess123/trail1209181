@@ -1,0 +1,170 @@
+id: 0a55a88c-29c2-4f0a-8537-ff1df5957f24
+version: 2
+name: docxfile
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 791af1e7-6dc1-4f8f-8051-f45e72cb6310
+    type: start
+    task:
+      id: 791af1e7-6dc1-4f8f-8051-f45e72cb6310
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: b4327c78-b3fc-4e31-8b27-f83c391ac96a
+    type: condition
+    task:
+      id: b4327c78-b3fc-4e31-8b27-f83c391ac96a
+      version: -1
+      name: do we have docx file
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "yes":
+      - "2"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='docx')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 195
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 846d1f3c-d15d-4c83-85d7-4972a57c7418
+    type: regular
+    task:
+      id: 846d1f3c-d15d-4c83-85d7-4972a57c7418
+      version: -1
+      name: read  docx file
+      script: ParseWordDoc
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='docx').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 370
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: f3ab5b08-db8c-4a2a-835e-692cbdde4420
+    type: regular
+    task:
+      id: f3ab5b08-db8c-4a2a-835e-692cbdde4420
+      version: -1
+      name: read textfile
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 545
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 951aa0ec-fd7d-4eae-818f-586ee7b256ac
+    type: regular
+    task:
+      id: 951aa0ec-fd7d-4eae-818f-586ee7b256ac
+      version: -1
+      name: extract ip
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 720
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 37fe7127-3792-4ede-8506-ddeeb8102b23
+    type: title
+    task:
+      id: 37fe7127-3792-4ede-8506-ddeeb8102b23
+      version: -1
+      name: close
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 895
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 910,
+        "width": 380,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

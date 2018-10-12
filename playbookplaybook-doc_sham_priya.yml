@@ -1,0 +1,256 @@
+id: d62c0658-18d1-44e1-84a3-3cc1c148c7ac
+version: 21
+name: doc_sham_priya
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: f1d59f5a-64ec-4759-8b16-4ab646ab7c6a
+    type: start
+    task:
+      id: f1d59f5a-64ec-4759-8b16-4ab646ab7c6a
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 74b82ada-8bcc-4460-8f3b-1134015d592c
+    type: condition
+    task:
+      id: 74b82ada-8bcc-4460-8f3b-1134015d592c
+      version: -1
+      name: Do  we have DOC file
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "3"
+      "yes":
+      - "4"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='doc')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 195
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 683e5473-a3af-483d-8668-d478d917ec37
+    type: regular
+    task:
+      id: 683e5473-a3af-483d-8668-d478d917ec37
+      version: -1
+      name: No doc file
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 370
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: d525555b-ab97-495d-8de2-a8cf210e72c4
+    type: regular
+    task:
+      id: d525555b-ab97-495d-8de2-a8cf210e72c4
+      version: -1
+      name: ReadFile
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='doc').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 370
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 7f9f9157-a11f-4268-8f3e-418c14d036e0
+    type: regular
+    task:
+      id: 7f9f9157-a11f-4268-8f3e-418c14d036e0
+      version: -1
+      name: ExtractURL
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 545
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 9b62693a-8d8b-4d5b-8197-e4c8c8246a05
+    type: regular
+    task:
+      id: 9b62693a-8d8b-4d5b-8197-e4c8c8246a05
+      version: -1
+      name: URLReputation
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "8"
+    scriptarguments:
+      long: {}
+      retries:
+        simple: "5"
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        simple: ${URL.Data}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 726
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: cc17c695-b17a-4c43-87cd-8831930837cb
+    type: regular
+    task:
+      id: cc17c695-b17a-4c43-87cd-8831930837cb
+      version: -1
+      name: CloseInvestigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 1070
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 22509767-86e8-43b1-877f-c8fdeb133cf9
+    type: condition
+    task:
+      id: 22509767-86e8-43b1-877f-c8fdeb133cf9
+      version: -1
+      name: isMaliciousFound
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "7"
+      "yes":
+      - "9"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 895
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: caeb76f9-d259-4881-859d-4fcabd2f72e3
+    type: regular
+    task:
+      id: caeb76f9-d259-4881-859d-4fcabd2f72e3
+      version: -1
+      name: Assign Person
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 695,
+          "y": 1070
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {
+      "1_3_no": 0.45
+    },
+    "paper": {
+      "dimensions": {
+        "height": 1115,
+        "width": 1025,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

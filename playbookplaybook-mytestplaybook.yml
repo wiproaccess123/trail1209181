@@ -1,0 +1,120 @@
+id: 20c687b4-65d2-415a-8e77-7df382e3564a
+version: 3
+name: mytestplaybook
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 244da57d-9f47-4607-836c-03d2baa79454
+    type: start
+    task:
+      id: 244da57d-9f47-4607-836c-03d2baa79454
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: d629e4ee-bdac-4d7a-83fe-27421dcfee90
+    type: regular
+    task:
+      id: d629e4ee-bdac-4d7a-83fe-27421dcfee90
+      version: -1
+      name: Read file
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      entryID: {}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 458,
+          "y": 235
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 208680bf-08fd-4acb-8006-220f059cc8dc
+    type: regular
+    task:
+      id: 208680bf-08fd-4acb-8006-220f059cc8dc
+      version: -1
+      name: extract URL
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 458,
+          "y": 450
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: a4da4c5f-7208-4b51-817e-bcb32d101291
+    type: regular
+    task:
+      id: a4da4c5f-7208-4b51-817e-bcb32d101291
+      version: -1
+      name: urlcheck
+      script: VirusTotal|||url-scan
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    scriptarguments:
+      url:
+        simple: ${URL}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 468,
+          "y": 629
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 674,
+        "width": 398,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

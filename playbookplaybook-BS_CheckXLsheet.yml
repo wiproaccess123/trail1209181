@@ -1,0 +1,115 @@
+id: a3809c42-52e4-4a0d-8a93-b4a30ba4ed34
+version: 5
+name: BS_CheckXLsheet
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: a78f249f-cf5a-4a2c-8397-cd4a0c792d7b
+    type: start
+    task:
+      id: a78f249f-cf5a-4a2c-8397-cd4a0c792d7b
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 56af942c-d5d6-4f73-8479-9588ce409991
+    type: condition
+    task:
+      id: 56af942c-d5d6-4f73-8479-9588ce409991
+      version: -1
+      name: Do we have XL file?
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "yes":
+      - "2"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='xls')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 454,
+          "y": 231
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 462bc29e-4d3e-4f2b-839b-35a20a27a8d2
+    type: regular
+    task:
+      id: 462bc29e-4d3e-4f2b-839b-35a20a27a8d2
+      version: -1
+      name: Read XL file
+      script: 77a92804-3dd0-46e5-848a-24ab397c0ab0
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='xls').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 447,
+          "y": 476
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 4cd2344f-63b9-48ea-8179-469f9bad8758
+    type: regular
+    task:
+      id: 4cd2344f-63b9-48ea-8179-469f9bad8758
+      version: -1
+      name: close
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 693
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 738,
+        "width": 387,
+        "x": 447,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

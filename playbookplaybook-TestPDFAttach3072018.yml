@@ -1,0 +1,203 @@
+id: 8ccff49e-5928-44a3-86f3-d9fcb246474a
+version: 4
+name: TestPDFAttach3072018
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: bbc921c5-9391-4f9f-8397-d9cd0e8ccd78
+    type: start
+    task:
+      id: bbc921c5-9391-4f9f-8397-d9cd0e8ccd78
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+      - "5"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 8d28a77b-3fbb-44a9-8255-66b2c20875e8
+    type: condition
+    task:
+      id: 8d28a77b-3fbb-44a9-8255-66b2c20875e8
+      version: -1
+      name: PDFCheck
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "4"
+      "yes":
+      - "2"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='pdf').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 198
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 840eb181-3a2f-484a-8a71-fcc17dd003d0
+    type: regular
+    task:
+      id: 840eb181-3a2f-484a-8a71-fcc17dd003d0
+      version: -1
+      name: ReadPDF
+      script: ReadPDFFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='pdf').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 301,
+          "y": 391
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 85775efb-5e0d-4704-889c-35f556624015
+    type: regular
+    task:
+      id: 85775efb-5e0d-4704-889c-35f556624015
+      version: -1
+      name: ipExtract
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      text:
+        simple: ${File.Text}${FileData}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 301,
+          "y": 565
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: b103331f-c04d-44e0-8d4b-71e32f0eb3a6
+    type: title
+    task:
+      id: b103331f-c04d-44e0-8d4b-71e32f0eb3a6
+      version: -1
+      name: end
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 496,
+          "y": 716
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: da7f04bb-4f62-41bb-866d-ca9ee451103c
+    type: condition
+    task:
+      id: da7f04bb-4f62-41bb-866d-ca9ee451103c
+      version: -1
+      name: textAttchCheck
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "4"
+      "yes":
+      - "6"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='txt').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 909,
+          "y": 183
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 28a2b0f9-b575-4ff5-8d24-4e029101c267
+    type: regular
+    task:
+      id: 28a2b0f9-b575-4ff5-8d24-4e029101c267
+      version: -1
+      name: TextFileRead
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 916,
+          "y": 370
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 731,
+        "width": 995,
+        "x": 301,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

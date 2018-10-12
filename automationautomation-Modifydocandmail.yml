@@ -1,0 +1,88 @@
+commonfields:
+  id: 8de8862e-6c0d-40ee-844b-ef2c61253dec
+  version: 21
+name: Modifydocandmail
+script: |+
+  import io
+  from docx import *
+  import sys
+  from docx.oxml import parse_xml
+  from docx.oxml.ns import nsdecls
+  import datetime
+  from docx.shared import Pt
+
+  cur_date = datetime.datetime.now()
+  cur_month = cur_date.strftime("%B")
+  cur_day= cur_date.strftime("%d")
+  cur_year = cur_date.strftime("%Y")
+
+  def delete_paragraph(paragraph):
+      p = paragraph._element
+      p.getparent().remove(p)
+      p._p = p._element = None
+
+  def font_nameandsize(cell_objectname):
+      run = cell_objectname.paragraphs[0].runs[0]
+      run.font.name = 'Arial'
+      run.font.size = Pt(10)
+
+  doc = Document('/usr/local/Sample_Customer_Report.docx')
+  table = doc.tables[2]
+
+  #edit severity
+  severity= 'Medium'
+  severity_obj=table.cell(1,6)
+  severity_obj.paragraphs[0].runs[0].text = severity
+
+  if severity is 'High':
+      shading_elm = parse_xml(r'<w:shd {} w:fill="ff0400"/>'.format(nsdecls('w')))
+  elif severity is 'Low':
+      shading_elm = parse_xml(r'<w:shd {} w:fill="05a500"/>'.format(nsdecls('w')))
+  elif severity is 'Medium':
+      shading_elm = parse_xml(r'<w:shd {} w:fill="faff05"/>'.format(nsdecls('w')))
+
+  severity_obj._tc.get_or_add_tcPr().append(shading_elm)
+  font_nameandsize(severity_obj)
+
+  #edit current date
+  date_obj=table.cell(1,5)
+  if date_obj.paragraphs[0]:
+      delete_paragraph(date_obj.paragraphs[0])
+
+  date_obj.add_paragraph('{} {},{}'.format(cur_month,cur_day,cur_year))
+  font_nameandsize(date_obj)
+
+  #edit source
+  source_obj=table.cell(2,2)
+  if source_obj.paragraphs[0]:
+      delete_paragraph(source_obj.paragraphs[0])
+
+  source_obj.add_paragraph(' -  Source URL Goes here')
+  font_nameandsize(source_obj)
+
+  #edit Alert ID
+  alertId_obj=table.cell(3,2)
+  if alertId_obj.paragraphs[0]:
+      delete_paragraph(alertId_obj.paragraphs[0])
+
+  alertId_obj.add_paragraph(' -  ALert ID Goes here')
+  font_nameandsize(alertId_obj)
+
+  #edit Refrences
+  refrences_obj=table.cell(4,2)
+  if refrences_obj.paragraphs[0]:
+      delete_paragraph(refrences_obj.paragraphs[0])
+
+  refrences_obj.add_paragraph(' -  Refrences Goes here')
+  font_nameandsize(refrences_obj)
+
+
+  doc.save('/usr/local/Sample_Customer_Report.docx')
+  demisto.results('File update successfully')
+
+type: python
+tags: []
+enabled: true
+scripttarget: 0
+runonce: false
+dockerimage: modifydoc

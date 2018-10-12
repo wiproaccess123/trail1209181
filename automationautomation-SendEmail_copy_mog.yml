@@ -1,0 +1,961 @@
+commonfields:
+  id: 7464da71-31b6-4030-837f-56193ae7c142
+  version: 3
+name: SendEmail_copy_mog
+script: |
+  TEMPLATE = '''<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns="http://www.w3.org/TR/REC-html40">
+     <head>
+        <meta name=Generator content="Microsoft Word 15 (filtered medium)">
+        <!--[if !mso]>
+        <style>v\:* {behavior:url(#default#VML);}
+           o\:* {behavior:url(#default#VML);}
+           w\:* {behavior:url(#default#VML);}
+           .shape {behavior:url(#default#VML);}
+        </style>
+        <![endif]-->
+        <style>
+           <!--
+              /* Font Definitions */
+              @font-face
+                  {font-family:Wingdings;
+                  panose-1:5 0 0 0 0 0 0 0 0 0;}
+              @font-face
+                  {font-family:"Cambria Math";
+                  panose-1:2 4 5 3 5 4 6 3 2 4;}
+              @font-face
+                  {font-family:Calibri;
+                  panose-1:2 15 5 2 2 2 4 3 2 4;}
+              @font-face
+                  {font-family:Verdana;
+                  panose-1:2 11 6 4 3 5 4 4 2 4;}
+              /* Style Definitions */
+              p.MsoNormal, li.MsoNormal, div.MsoNormal
+                  {margin:0in;
+                  margin-bottom:.0001pt;
+                  font-size:11.0pt;
+                  font-family:"Calibri",sans-serif;}
+              a:link, span.MsoHyperlink
+                  {mso-style-priority:99;
+                  color:#0563C1;
+                  text-decoration:underline;}
+              a:visited, span.MsoHyperlinkFollowed
+                  {mso-style-priority:99;
+                  color:#954F72;
+                  text-decoration:underline;}
+              strong
+                  {mso-style-priority:22;
+                  font-family:"Times New Roman",serif;}
+              p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+                  {mso-style-priority:34;
+                  margin-top:0in;
+                  margin-right:0in;
+                  margin-bottom:0in;
+                  margin-left:.5in;
+                  margin-bottom:.0001pt;
+                  font-size:11.0pt;
+                  font-family:"Calibri",sans-serif;}
+              span.EmailStyle17
+                  {mso-style-type:personal-compose;
+                  font-family:"Calibri",sans-serif;
+                  color:windowtext;}
+              .MsoChpDefault
+                  {mso-style-type:export-only;
+                  font-family:"Calibri",sans-serif;}
+              @page WordSection1
+                  {size:8.5in 11.0in;
+                  margin:1.0in 1.0in 1.0in 1.0in;}
+              div.WordSection1
+                  {page:WordSection1;}
+              /* List Definitions */
+              @list l0
+                  {mso-list-id:224679638;
+                  mso-list-type:hybrid;
+                  mso-list-template-ids:1811832340 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+              @list l0:level1
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Symbol;}
+              @list l0:level2
+                  {mso-level-number-format:bullet;
+                  mso-level-text:o;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:"Courier New";
+                  mso-bidi-font-family:"Times New Roman";}
+              @list l0:level3
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0A7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Wingdings;}
+              @list l0:level4
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Symbol;}
+              @list l0:level5
+                  {mso-level-number-format:bullet;
+                  mso-level-text:o;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:"Courier New";
+                  mso-bidi-font-family:"Times New Roman";}
+              @list l0:level6
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0A7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Wingdings;}
+              @list l0:level7
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Symbol;}
+              @list l0:level8
+                  {mso-level-number-format:bullet;
+                  mso-level-text:o;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:"Courier New";
+                  mso-bidi-font-family:"Times New Roman";}
+              @list l0:level9
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0A7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Wingdings;}
+              @list l1
+                  {mso-list-id:517625027;
+                  mso-list-template-ids:-493084748;}
+              @list l1:level1
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0D8;
+                  mso-level-tab-stop:.5in;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  mso-ansi-font-size:10.0pt;
+                  font-family:Wingdings;}
+              @list l1:level2
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:1.0in;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  mso-ansi-font-size:10.0pt;
+                  font-family:Symbol;}
+              @list l1:level3
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:1.5in;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  mso-ansi-font-size:10.0pt;
+                  font-family:Symbol;}
+              @list l1:level4
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:2.0in;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  mso-ansi-font-size:10.0pt;
+                  font-family:Symbol;}
+              @list l1:level5
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:2.5in;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  mso-ansi-font-size:10.0pt;
+                  font-family:Symbol;}
+              @list l1:level6
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:3.0in;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  mso-ansi-font-size:10.0pt;
+                  font-family:Symbol;}
+              @list l1:level7
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:3.5in;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  mso-ansi-font-size:10.0pt;
+                  font-family:Symbol;}
+              @list l1:level8
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:4.0in;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  mso-ansi-font-size:10.0pt;
+                  font-family:Symbol;}
+              @list l1:level9
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:4.5in;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  mso-ansi-font-size:10.0pt;
+                  font-family:Symbol;}
+              @list l2
+                  {mso-list-id:998075975;
+                  mso-list-type:hybrid;
+                  mso-list-template-ids:-1917925740 67698699 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+              @list l2:level1
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0D8;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  margin-left:1.0in;
+                  text-indent:-.25in;
+                  font-family:Wingdings;}
+              @list l2:level2
+                  {mso-level-number-format:bullet;
+                  mso-level-text:o;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  margin-left:1.5in;
+                  text-indent:-.25in;
+                  font-family:"Courier New";
+                  mso-bidi-font-family:"Times New Roman";}
+              @list l2:level3
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0A7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  margin-left:2.0in;
+                  text-indent:-.25in;
+                  font-family:Wingdings;}
+              @list l2:level4
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  margin-left:2.5in;
+                  text-indent:-.25in;
+                  font-family:Symbol;}
+              @list l2:level5
+                  {mso-level-number-format:bullet;
+                  mso-level-text:o;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  margin-left:3.0in;
+                  text-indent:-.25in;
+                  font-family:"Courier New";
+                  mso-bidi-font-family:"Times New Roman";}
+              @list l2:level6
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0A7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  margin-left:3.5in;
+                  text-indent:-.25in;
+                  font-family:Wingdings;}
+              @list l2:level7
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  margin-left:4.0in;
+                  text-indent:-.25in;
+                  font-family:Symbol;}
+              @list l2:level8
+                  {mso-level-number-format:bullet;
+                  mso-level-text:o;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  margin-left:4.5in;
+                  text-indent:-.25in;
+                  font-family:"Courier New";
+                  mso-bidi-font-family:"Times New Roman";}
+              @list l2:level9
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0A7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  margin-left:5.0in;
+                  text-indent:-.25in;
+                  font-family:Wingdings;}
+              @list l3
+                  {mso-list-id:1135174900;
+                  mso-list-type:hybrid;
+                  mso-list-template-ids:1160526156 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+              @list l3:level1
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Symbol;}
+              @list l3:level2
+                  {mso-level-number-format:bullet;
+                  mso-level-text:o;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:"Courier New";
+                  mso-bidi-font-family:"Times New Roman";}
+              @list l3:level3
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0A7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Wingdings;}
+              @list l3:level4
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Symbol;}
+              @list l3:level5
+                  {mso-level-number-format:bullet;
+                  mso-level-text:o;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:"Courier New";
+                  mso-bidi-font-family:"Times New Roman";}
+              @list l3:level6
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0A7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Wingdings;}
+              @list l3:level7
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Symbol;}
+              @list l3:level8
+                  {mso-level-number-format:bullet;
+                  mso-level-text:o;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:"Courier New";
+                  mso-bidi-font-family:"Times New Roman";}
+              @list l3:level9
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0A7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Wingdings;}
+              @list l4
+                  {mso-list-id:1245260936;
+                  mso-list-type:hybrid;
+                  mso-list-template-ids:-1765118830 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+              @list l4:level1
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Symbol;}
+              @list l4:level2
+                  {mso-level-number-format:bullet;
+                  mso-level-text:o;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:"Courier New";
+                  mso-bidi-font-family:"Times New Roman";}
+              @list l4:level3
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0A7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Wingdings;}
+              @list l4:level4
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Symbol;}
+              @list l4:level5
+                  {mso-level-number-format:bullet;
+                  mso-level-text:o;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:"Courier New";
+                  mso-bidi-font-family:"Times New Roman";}
+              @list l4:level6
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0A7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Wingdings;}
+              @list l4:level7
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0B7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Symbol;}
+              @list l4:level8
+                  {mso-level-number-format:bullet;
+                  mso-level-text:o;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:"Courier New";
+                  mso-bidi-font-family:"Times New Roman";}
+              @list l4:level9
+                  {mso-level-number-format:bullet;
+                  mso-level-text:\F0A7;
+                  mso-level-tab-stop:none;
+                  mso-level-number-position:left;
+                  text-indent:-.25in;
+                  font-family:Wingdings;}
+              ol
+                  {margin-bottom:0in;}
+              ul
+                  {margin-bottom:0in;}
+              -->
+        </style>
+        <!--[if gte mso 9]>
+        <xml>
+           <o:shapedefaults v:ext="edit" spidmax="1026" />
+        </xml>
+        <![endif]--><!--[if gte mso 9]>
+        <xml>
+           <o:shapelayout v:ext="edit">
+              <o:idmap v:ext="edit" data="1" />
+           </o:shapelayout>
+        </xml>
+        <![endif]-->
+     </head>
+     <body lang=EN-US link="#0563C1" vlink="#954F72">
+        <div class=WordSection1>
+           <p>
+              <span style='color:black'>
+                 Hello,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <o:p></o:p>
+              </span>
+           </p>
+           <p>
+              <span style='color:black'>
+                 &nbsp;A security threat has been identified in your environment that requires your immediate attention. Please review the notification along with the recommendation for remediation.
+                 <o:p></o:p>
+              </span>
+           </p>
+           <table class=MsoNormalTable border=1 cellpadding=0 align=left width=1000 style='width:750.0pt;margin-left:6.75pt;margin-right:6.75pt'>
+              <tr>
+                 <td width="99%" colspan=6 valign=top style='width:99.6%;border-top:inset 1.0pt;border-left:none;border-bottom:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <table class=MsoNormalTable border=0 cellpadding=0 width="100%" style='width:100.0%'>
+                       <tr>
+                          <td width="32%" valign=top style='width:32.72%;padding:.75pt .75pt .75pt .75pt'>
+                             <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                                <img width=124 height=99 style='width:1.2916in;height:1.0312in' id="Picture_x0020_3" src="$IMAGE001">
+                                <o:p></o:p>
+                             </p>
+                          </td>
+                          <td width="32%" valign=top style='width:32.74%;padding:.75pt .75pt .75pt .75pt'>
+                             <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                                <img width=300 height=76 style='width:3.125in;height:.7916in' id="Picture_x0020_2" src="$IMAGE002" alt="cid:image002.jpg@01D3B7B4.10D6B860">
+                                <o:p></o:p>
+                             </p>
+                          </td>
+                          <td width="33%" valign=top style='width:33.72%;padding:.75pt .75pt .75pt .75pt'>
+                             <p align=right style='text-align:right;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                                <img width=163 height=41 style='width:1.6979in;height:.427in' id="Picture_x0020_1" src="$IMAGE003" alt="cid:image004.png@01D4258D.B551F250">
+                                <o:p></o:p>
+                             </p>
+                          </td>
+                       </tr>
+                    </table>
+                 </td>
+              </tr>
+              <tr>
+                 <td width="99%" colspan=6 valign=top style='width:99.6%;border-top:inset 1.0pt;border-left:none;border-bottom:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <strong><span style='color:black'>Security Ticket Details</span></strong>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+              </tr>
+              <tr>
+                 <td width="10%" style='width:10.6%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <strong>Customer Name</strong>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="14%" style='width:14.56%;padding:.75pt .75pt .75pt .75pt'>
+                    <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       $CUSTOMER_NAME
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="14%" style='width:14.86%;padding:.75pt .75pt .75pt .75pt'>
+                    <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <strong>Incident Number</strong>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="17%" style='width:17.4%;padding:.75pt .75pt .75pt .75pt'>
+                    <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       $INCIDENT_NUMBER
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="17%" style='width:17.58%;padding:.75pt .75pt .75pt .75pt'>
+                    <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <strong>Alert ID</strong>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="23%" style='width:23.6%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       $ALERT_ID
+                       <o:p></o:p>
+                    </p>
+                 </td>
+              </tr>
+              <tr>
+                 <td width="25%" colspan=2 style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <strong>Alert Details</strong>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <strong>Short Description Of The Attack</strong>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+              </tr>
+              <tr>
+                 <td width="25%" colspan=2 valign=top style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>Alert Name</b>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 valign=top style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       $ALERT_NAME
+                       <o:p></o:p>
+                    </p>
+                 </td>
+              </tr>
+              <tr>
+                 <td width="25%" colspan=2 valign=top style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>Alert Type</b>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 valign=top style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       $ALERT_TYPE
+                       <o:p></o:p>
+                    </p>
+                 </td>
+              </tr>
+              <tr>
+                 <td width="25%" colspan=2 valign=top style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>Kill Chain Stages</b>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 valign=top style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <span style='color:black'>$KILL_CHAIN_STAGES</span>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+              </tr>
+              <tr>
+                 <td width="25%" colspan=2 valign=top style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>Priority</b>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 valign=top style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       $PRIORITY
+                       <o:p></o:p>
+                    </p>
+                 </td>
+              </tr>
+              <tr>
+                 <td width="25%" colspan=2 valign=top style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>Source IP/Hostname</b>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 valign=top style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <span class=MsoHyperlink>
+                       $SOURCE_IP_HOSTNAME
+                       </span>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+              </tr>
+              <tr>
+                 <td width="25%" colspan=2 valign=top style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>Destination IP/Domain</b>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 valign=top style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <span class=MsoHyperlink>
+                       $DESTINATION_IP_DOMAIN
+                       </span>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+              </tr>
+              <tr>
+                 <td width="25%" colspan=2 valign=top style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>Attack Vector</b>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 valign=top style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       $ATTACK_VECTOR
+                       <o:p></o:p>
+                    </p>
+                 </td>
+              </tr>
+              <tr>
+                 <td width="25%" colspan=2 valign=top style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>Timestamp</b>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 valign=top style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       $TIMESTAMP
+                       <o:p></o:p>
+                    </p>
+                 </td>
+              </tr>
+              <tr style='height:34.1pt'>
+                 <td width="25%" colspan=2 valign=top style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt;height:34.1pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>Description</b>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 valign=top style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt;height:34.1pt'>
+                      $DESCRIPTION
+                 </td>
+              </tr>
+              <tr>
+                 <td width="25%" colspan=2 valign=top style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>Analysis</b>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 valign=top style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       On further analysis
+                       <o:p></o:p>
+                    </p>
+                 </td>
+              </tr>
+              <tr style='height:19.1pt'>
+                 <td width="25%" colspan=2 valign=top style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt;height:19.1pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>References</b>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 valign=top style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt;height:19.1pt'>
+                    <ul style='margin-top:0in' type=disc>
+                       <li class=MsoNormal style='mso-list:l3 level1 lfo3;text-autospace:none'>
+                          <span style="font-size:10.0pt">
+                              $REFERENCES
+                          </span>
+                          <span class=MsoHyperlink>
+                             <span style='color:windowtext;text-decoration:none'>
+                                <o:p></o:p>
+                             </span>
+                          </span>
+                       </li>
+                    </ul>
+                 </td>
+              </tr>
+              <tr style='height:30.65pt'>
+                 <td width="25%" colspan=2 valign=top style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt;height:30.65pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>Recommendations</b>
+                       <o:p></o:p>
+                    </p>
+                    <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <span style='color:black'>
+                          <o:p>&nbsp;</o:p>
+                       </span>
+                    </p>
+                    <p class=MsoNormal style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <span style='color:black'>
+                          <o:p>&nbsp;</o:p>
+                       </span>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 valign=top style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt;height:30.65pt'>
+                    <ul style='margin-top:0in' type=disc>
+                    $RECOMMENDATIONS
+                    </ul>
+                 </td>
+              </tr>
+              <tr>
+                 <td width="25%" colspan=2 valign=top style='width:25.36%;border:inset 1.0pt;border-left:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p align=center style='text-align:center;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>Resolver Group</b>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+                 <td width="74%" colspan=4 valign=top style='width:74.04%;border:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                       <b>$RESOLVER_GROUP</b>
+                       <o:p></o:p>
+                    </p>
+                 </td>
+              </tr>
+              <tr>
+                 <td width="99%" colspan=6 style='width:99.6%;border-top:inset 1.0pt;border-left:none;border-bottom:inset 1.0pt;border-right:none;padding:.75pt .75pt .75pt .75pt'>
+                    <table class=MsoNormalTable border=1 cellpadding=0 width="100%" style='width:100.0%;border:outset black 1.0pt'>
+                       <tr>
+                          <td width="19%" style='width:19.72%;padding:.75pt .75pt .75pt .75pt'>
+                             <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                                <strong>Containment Steps</strong>
+                                <o:p></o:p>
+                             </p>
+                          </td>
+                          <td style='padding:.75pt .75pt .75pt .75pt'>
+                             <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                                $CONTAINMENT_STEPS
+                                <o:p></o:p>
+                             </p>
+                          </td>
+                       </tr>
+                       <tr>
+                          <td width="19%" style='width:19.72%;padding:.75pt .75pt .75pt .75pt'>
+                             <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                                <strong>Security Analyst</strong>
+                                <o:p></o:p>
+                             </p>
+                          </td>
+                          <td style='padding:.75pt .75pt .75pt .75pt'>
+                             <p style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                                $SECURITY_ANALYST
+                                <o:p></o:p>
+                             </p>
+                          </td>
+                       </tr>
+                    </table>
+                 </td>
+              </tr>
+           </table>
+           <p>
+              <span style='color:black'>
+                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <o:p></o:p>
+              </span>
+           </p>
+           <p>
+              <span style='color:black'>
+                 If you have any queries regarding notification, please reply to this email ID <a href="mailto:soc@maerskoil.com">sorskoil.com</a> &nbsp;and one of the security analyst will get back to you.
+                 <o:p></o:p>
+              </span>
+           </p>
+           <p class=MsoNormal style='mso-margin-top-alt:auto;margin-bottom:.75pt'>
+              <b>
+                 <span style='font-size:10.0pt;font-family:"Verdana",sans-serif;color:black'>
+                    Thanks and Regards
+                    <o:p></o:p>
+                 </span>
+              </b>
+           </p>
+           <p class=MsoNormal style='mso-margin-top-alt:auto;margin-bottom:.75pt'>
+              <b>
+                 <span style='font-size:10.0pt;font-family:"Verdana",sans-serif;color:black'>
+                    Suri
+                    <o:p></o:p>
+                 </span>
+              </b>
+           </p>
+           <p class=MsoNormal style='margin-bottom:12.0pt'>
+              <span style='font-size:10.0pt;font-family:"Verdana",sans-serif;color:black'>
+                 External Position
+                 <o:p></o:p>
+              </span>
+           </p>
+           <p class=MsoNormal>
+              <b>
+                 <span style='font-size:10.0pt;font-family:"Verdana",sans-serif;color:black'>
+                    Upstream
+                    <o:p></o:p>
+                 </span>
+              </b>
+           </p>
+           <p class=MsoNormal>
+              <span style='font-size:10.0pt;font-family:"Verdana",sans-serif;color:black'>
+                 Amerika
+                 <o:p></o:p>
+              </span>
+           </p>
+           <p class=MsoNormal>
+              <o:p>&nbsp;</o:p>
+           </p>
+           <p class=MsoNormal>
+              Regards,
+              <o:p></o:p>
+           </p>
+           <p class=MsoNormal>
+              Mohan
+              <o:p></o:p>
+           </p>
+           <p class=MsoNormal>
+              <o:p>&nbsp;</o:p>
+           </p>
+           <br /><br />
+           <p class=msipfooter7f249a36 align="Center"><span style='font-size:7.0pt;font-family:Arial;color:#000000'>Sensitivity: Internal &amp; Restricted</span></p>
+        </div>
+     </body>
+  </html>
+  '''
+
+  IMAGE001_BASE64 = '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'
+  IMAGE002_BASE64 = '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'
+  IMAGE003_BASE64 = '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'
+
+  def get_image_src(image_base64):
+      return 'data:image/png;base64,{}'.format(image_base64)
+
+  from string import Template
+  dArgs = demisto.args()
+  dArgs['htmlBody'] = Template(TEMPLATE).safe_substitute(
+      IMAGE001=get_image_src(IMAGE001_BASE64),
+      IMAGE002=get_image_src(IMAGE002_BASE64),
+      IMAGE003=get_image_src(IMAGE003_BASE64),
+      CUSTOMER_NAME='Total Upstream Danmark A/S',
+      INCIDENT_NUMBER=123456,
+      ALERT_ID='1234',
+      ALERT_DETAILS='Short Description Of The Attack',
+      ALERT_NAME='FIREEY-Object]',
+      ALERT_TYPE='Phishing',
+      KILL_CHAIN_STAGES='Delivery, Exploitation',
+      PRIORITY='3-Moderate',
+      SOURCE_IP_HOSTNAME='<a href="mailto:euro1mckay@btconnect.com">eurkay@ect.com</a>',
+      DESTINATION_IP_DOMAIN='<a href="mailto:andre.vantaak@maerskoil.com">anak@mil.com</a>',
+      ATTACK_VECTOR='Phishing',
+      TIMESTAMP='2018:03',
+      DESCRIPTION='''<p class=MsoListParagraph style='mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                    In this alert we have seen an event related to&nbsp;Malware-Object containing&nbsp;malicious url contained in email body sent by <span class=MsoHyperlink>&nbsp;</span> <span class=MsoHyperlink>&quot;mail online &lt;<a href="mailto:euro1mckay@btconnect.com">euro1mckay@btconnect.com</a>&gt;&quot; </span><span class=MsoHyperlink><span style='color:windowtext;text-decoration:none'></span></span>&nbsp;at timestamp of
+                       <o:p>&nbsp;</o:p>
+                       <b>2018-08-22 10:17:27</b>
+                          <o:p></o:p>
+                          <span style='color:#0070C0'>
+                             <o:p>&nbsp;</o:p>
+                          </span>
+                    </p>
+                    <ul style='margin-top:0in' type=disc>
+                       <li class=MsoNormal style='mso-list:l4 level1 lfo1;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                          Alert Details:
+                          <o:p></o:p>
+                       </li>
+                    </ul>
+                    <ul style='margin-top:0in' type=disc>
+                       <li class=MsoNormal style='mso-list:l1 level1 lfo2;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                          action:&nbsp; notified
+                          <o:p></o:p>
+                       </li>
+                    </ul>''',
+      ANALYSIS='On further analysis',
+      REFERENCES='<a href="https://urlscan.io/result/b25e7d48-3355-43df-ac9d-ccc8862cbdd8">https://urlscan.io/result/</a>',
+      RECOMMENDATIONS='''<li class=MsoNormal style='mso-list:l0 level1 lfo4;mso-element:frame;mso-element-frame-hspace:9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:column;mso-height-rule:exactly'>
+                          <b>
+                             Messaging Team:
+                             <o:p></o:p>
+                          </b>
+                       </li>
+                       <li class=MsoNormal style='margin-left:.5in;mso-list:l2 level1 lfo5'>
+                          Need to block the domain of the senders at email gateway &#8211;&nbsp;
+                          <o:p></o:p>
+                       </li>''',
+      RESOLVER_GROUP='Messaging',
+      CONTAINMENT_STEPS='N/A',
+      SECURITY_ANALYST='Suraj Halaki',
+  )
+
+  if 'subject' in dArgs:
+      if demisto.incidents():
+          dArgs['subject'] = Template(dArgs['subject']).safe_substitute(name=demisto.incidents()[0]['name'])
+  else:
+      dArgs['subject'] = 'No subject'
+  demisto.results(demisto.executeCommand('send-mail', dArgs))
+type: python
+tags:
+- response
+- email
+- server
+comment: |-
+  Send an email with the specified parameters.
+  Attachments are provided as a comma-separated list of entry IDs.
+  Example usage: !SendEmail subject="File from war room" body="Please see the attached file. --DBot" to=jane@acme.com cc=john@acme.com attachIDs=89@3,46@3
+enabled: true
+args:
+- name: to
+  required: true
+  default: true
+  description: Email addresses for the 'to' field
+- name: cc
+  description: Email addresses for the 'cc' field
+- name: bcc
+  description: Email addresses for the 'bcc' field
+- name: subject
+  required: true
+  description: Subject for the email to be sent
+- name: body
+  description: The contents (body) of the email to be sent
+- name: attachIDs
+  description: 'A comma-separated list of IDs of war room entries that contain files.
+    Used to attach files to the outgoing email. Example: attachIDs=15@8,19@8'
+- name: htmlBody
+  description: Send an html formatted email - overrides "body" argument, cannot use
+    both.
+- name: noteEntryID
+  description: Send the textual contents of an entry
+- name: replyTo
+  description: The address to reply to
+scripttarget: 0
+runonce: false

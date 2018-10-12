@@ -1,0 +1,173 @@
+commonfields:
+  id: Pastebin
+  version: 2
+name: Pastebin
+display: Pastebin
+category: IT Services
+image: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAEsCAMAAADaaRXwAAADAFBMVEVHcEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAApLTMAAAAAAAAAAAAAAAAAAABiangAAAAAAAAjJSpiangAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABianhiangAAAAAAABianhiangAAAAAAAAAAABianhiangAAAAAAAAAAABianhianhiangAAABiangAAAAAAABiangAAAAAAAAAAAAAAABianhianhiangAAABiangAAAAAAAAAAABianhianhianhianhianhiangAAABianhianhiangAAAAAAABiangAAABianhiangAAABianhiangAAAAAAABianhiangAAABianhianhiangAAAAAAADz8/Po6Ohianjp6eny8vLr6+vq6urx8fHw8PDu7u7t7e3v7+/s7OzJycnj4+QFBQXk5OQBAQHi4uICAgLW1tbm5ubV1dXb29sQEA/n5+fl5eUHBwfg4OEKCgkSEhJja3na2trf39/Ozs7P0M/CwsHExMMcHBwDAwMNDQw6OzkxMjEjIyJSU1EsLCvc3dxoaWeztLJBQkDS0tLMzMxERUMgIB9rbGrFxsUZGRkpKSjT09N4eXdeXl0mJia2trVubm08PTzIycg3ODeCg4FzdHFPUE41NTRaW1murqxqcn8UFBRnb33Ky8pudYJNTUve3t6FhoSLjIouLy7Y2NiXmJVwcG+qq6mIiYjQ0dC4ubdKSkmYmZdlZmQ/QD729vZWV1XAwMC6u7kWFha9vbywsbBHR0abnJp/gH11dnWjpKJzeoaPlZ7Hx8dlbXupqaiipq2dnZyLkZt1fIimp6VhYmB9fn2bn6d4foqrrrWnq7HDxcqOkIxweIR9g46CiJK/wsd/hZDExMWPkI9jZGOgoJ+eo6uTmKHIys6Wm6S6vcJ7fHqRkpCfoJ3Nz9OGjJV6gIzW2Nq/v766u7yTlJGJjpi1uL6VlZSvs7nl5eW0trrx8fPp6evr6+3p6ejNGauZAAAAYXRSTlMAg8U0yFhCgNj8D0kCNvWyT2D+e/kF+wh4zf6imy/qGqjvafPplrz3oDrV3ZW+JtLmtu/eFBaQwQ+ublPjCorHite6THNCI68cMyse0XHk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
+description: Pastebin is a website where you can store any text online for easy sharing.
+detaileddescription: The integration uses 2 keys a dev key and if user specific details
+  are required then  user key.
+configuration:
+- display: ""
+  name: api_key
+  defaultvalue: ""
+  type: 4
+  required: true
+- display: ""
+  name: url
+  defaultvalue: https://pastebin.com/api/api_post.php
+  type: 0
+  required: true
+script:
+  script: |-
+    import requests
+
+    api_key = demisto.params()['api_key']
+    url = demisto.params()['url']
+
+    # The command demisto.command() holds the command sent from the user.
+    if demisto.command() == 'test-module':
+        # This is the call made when pressing the integration test button.
+        demisto.results('ok')
+        sys.exit(0)
+
+    if demisto.command() == 'pastebinPaste':
+        #demisto.log('paste \n');
+        api_paste_code = demisto.args()['api_paste_code']
+        if demisto.args()['api_paste_name']:
+            api_paste_name = demisto.args()['api_paste_name']
+        else:
+            api_paste_name = None
+
+        api_paste_private =  int(demisto.args()['api_paste_private'])
+
+        res = requests.post(url, data = {'api_option': 'paste', 'api_dev_key':api_key, 'api_paste_code':api_paste_code, 'api_paste_name':api_paste_name, 'api_paste_private': api_paste_private })
+
+
+        demisto.results({"Type": entryTypes['note'], "ContentsFormat": formats['text'], "Contents": "Paste URL: "+ res.text, 'HumanReadable': "### " + res.text, "EntryContext": {'pastebinURL': res.text}})
+        sys.exit(0)
+
+    if demisto.command() == 'pastebinList':
+        api_user_key = demisto.args()['api_user_key']
+        if demisto.args()['api_results_limit']:
+            api_results_limit = int(demisto.args()['api_results_limit'])
+        else:
+            api_results_limit = 50
+
+        #do http post request
+        res = requests.post(url, data = {'api_option': 'list', 'api_dev_key':api_key, 'api_user_key':api_user_key, 'api_results_limit':api_results_limit })
+
+        #demisto.log('url = ' + res.url + '\n')
+        #demisto.log('result = ' + res.text)
+
+        xml_json = xml2json(res.text)
+        demisto.log('result = ' + xml_json )
+        #xml_json = json.loads(xml_json)
+
+        #demisto.results('ok')
+        demisto.results({"Type": entryTypes['note'], "ContentsFormat": formats['text'], "Contents": res.text})
+        sys.exit(0)
+
+    if demisto.command() == 'pastebinTrends':
+
+        #do http post request
+        res = requests.post(url, data = {'api_option': 'trends', 'api_dev_key':api_key })
+
+        #demisto.log('url = ' + res.url + '\n')
+        #demisto.log('result = ' + res.text)
+
+        demisto.results({"Type": entryTypes['note'], "ContentsFormat": formats['text'], "Contents": res.text})
+        sys.exit(0)
+
+    if demisto.command() == 'pastebinDelete':
+        api_user_key = demisto.args()['api_user_key']
+        api_paste_key = demisto.args()['api_paste_key']
+
+
+        #do http post request
+        res = requests.post(url, data = {'api_option': 'delete', 'api_dev_key':api_key, 'api_user_key':api_user_key, 'api_paste_key':api_paste_key })
+
+
+        demisto.results({"Type": entryTypes['note'], "ContentsFormat": formats['text'], "Contents": res.text})
+        sys.exit(0)
+
+    if demisto.command() == 'pastebinShow':
+        api_user_key = demisto.args()['api_user_key']
+        api_paste_key = demisto.args()['api_paste_key']
+
+
+        #do http post request
+        res = requests.post(url, data = {'api_option': 'show_paste', 'api_dev_key':api_key, 'api_user_key':api_user_key, 'api_paste_key':api_paste_key })
+
+       # demisto.log('url = ' + res.url + '\n')
+        #demisto.log('result = ' + res.text)
+
+        demisto.results({"Type": entryTypes['note'], "ContentsFormat": formats['text'], "Contents": res.text})
+        sys.exit(0)
+
+
+    # You can use demisto.args()[argName] to get a specific arg. args are strings.
+    # You can use demisto.params()[paramName] to get a specific params.
+    # Params are of the type given in the integration page creation.
+  type: python
+  commands:
+  - name: pastebinPaste
+    arguments:
+    - name: api_paste_code
+      required: true
+      description: this is the text that will be written inside your paste.
+    - name: api_paste_name
+      required: true
+      description: this will be the name / title of your paste.
+    - name: api_paste_private
+      default: true
+      auto: PREDEFINED
+      predefined:
+      - "0"
+      - "1"
+      - "2"
+      description: this makes a paste public or private, public = 0, unlisted = 1,
+        private = 2
+      defaultValue: "2"
+    outputs:
+    - contextPath: pastebinURL
+      description: The Url for the paste
+    - {}
+    important:
+    - contextPath: pastebinURL
+      description: The Url for the paste
+      related: ""
+    description: Creates a new paste
+  - name: pastebinList
+    arguments:
+    - name: api_user_key
+      required: true
+      description: this is the session key of the logged in user
+    - name: api_results_limit
+      description: by default its set to 50, min value is 1, max value is 1000
+      defaultValue: "50"
+    description: list all the pastes created by a certain user. Requires the user
+      key for the user
+  - name: pastebinTrends
+    arguments: []
+    description: list the 18 currently trending pastes
+  - name: pastebinDelete
+    arguments:
+    - name: api_paste_key
+      required: true
+      description: this is the unique key of the paste you want to delete. Eg `Unw9RxJz'
+        from  https://pastebin.com/Unw9RxJz
+    - name: api_user_key
+      required: true
+      description: this is the session key of the logged in user.
+    description: delete pastes created by certain users
+  - name: pastebinShow
+    arguments:
+    - name: api_paste_key
+      required: true
+      description: this is the unique key of the paste you want to delete.
+    - name: api_user_key
+      required: true
+      description: this is the session key of the logged in user.
+  runonce: false

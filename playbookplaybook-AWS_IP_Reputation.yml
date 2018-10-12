@@ -1,0 +1,165 @@
+id: a56c5166-2b76-4a8b-87e4-221d136a9f57
+version: 3
+name: ' AWS_IP_Reputation'
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 22574cf2-4d38-4acd-8a5a-a17831089a2c
+    type: start
+    task:
+      id: 22574cf2-4d38-4acd-8a5a-a17831089a2c
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 3f3fc627-df9f-4e7b-84f8-e3d8c4bd7788
+    type: regular
+    task:
+      id: 3f3fc627-df9f-4e7b-84f8-e3d8c4bd7788
+      version: -1
+      name: Extract ip address
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 195
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 936b4549-5819-4ad1-8778-32775555a008
+    type: regular
+    task:
+      id: 936b4549-5819-4ad1-8778-32775555a008
+      version: -1
+      name: check IP reputation
+      script: IPReputation
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      ip:
+        simple: ${IP.Address}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 370
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 5b3c7758-e8f4-4a7f-8dc3-ec1f2890f028
+    type: condition
+    task:
+      id: 5b3c7758-e8f4-4a7f-8dc3-ec1f2890f028
+      version: -1
+      name: check if the given ip is malicious or not?
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "5"
+      "yes":
+      - "4"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 545
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: a5188fe9-5648-4473-8b90-cfa1724fbb76
+    type: regular
+    task:
+      id: a5188fe9-5648-4473-8b90-cfa1724fbb76
+      version: -1
+      name: Add to watchlist as it is malicious IP
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 720
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 13d14af3-382d-4fd1-81c1-58efdf1a5511
+    type: regular
+    task:
+      id: 13d14af3-382d-4fd1-81c1-58efdf1a5511
+      version: -1
+      name: No malicious IP
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 720
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 765,
+        "width": 810,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

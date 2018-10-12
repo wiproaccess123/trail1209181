@@ -1,0 +1,19 @@
+commonfields:
+  id: 09c6f286-09be-4d54-89c8-bdc1d7047cff
+  version: 6
+name: AssignValues
+script: |
+  text1 = demisto.args()["left"]
+  text2 = demisto.args()["right"]
+  demisto.results("{}={}".format(text1,text2))
+type: python
+tags:
+- Utility
+enabled: true
+args:
+- name: left
+  required: true
+- name: right
+  required: true
+scripttarget: 0
+runonce: false

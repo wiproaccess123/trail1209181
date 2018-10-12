@@ -1,0 +1,408 @@
+id: aab79117-2a77-4036-87ff-afd4ccd16953
+version: 32
+name: AWS
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 54aaba2a-3d31-40c0-87d8-31be088acd81
+    type: start
+    task:
+      id: 54aaba2a-3d31-40c0-87d8-31be088acd81
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+      - "18"
+      - "3"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 842,
+          "y": 18
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: dc139ebe-468a-4be6-8596-805110fefa98
+    type: regular
+    task:
+      id: dc139ebe-468a-4be6-8596-805110fefa98
+      version: -1
+      name: extractIP
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "15"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: IPAddress= ,CountryName=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"IpAddressV4":"(.*?)\"'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 395,
+          "y": 195
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 2ddb75cb-e686-47f5-86bc-53e9b3bf47c4
+    type: regular
+    task:
+      id: 2ddb75cb-e686-47f5-86bc-53e9b3bf47c4
+      version: -1
+      name: ip reputation
+      script: VirusTotal|||ip
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      fullResponse: {}
+      ip:
+        simple: ${IP.Address}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      using:
+        simple: VirusTotal_instance_1
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 701,
+          "y": 1023
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 3cfcc818-858f-4f6f-8b3e-798ae79cad82
+    type: regular
+    task:
+      id: 3cfcc818-858f-4f6f-8b3e-798ae79cad82
+      version: -1
+      name: Extract Location Details
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "19"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: Country=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"CountryName":"(.*?)\"\}'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1308,
+          "y": 195
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: a0c1b5ac-e141-46cc-8c1d-a9c90c916fb6
+    type: condition
+    task:
+      id: a0c1b5ac-e141-46cc-8c1d-a9c90c916fb6
+      version: -1
+      name: Is Malicious?
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "17"
+      "yes":
+      - "7"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 704,
+          "y": 1196
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 8104fbbf-3324-4bd1-88d8-2b96bfbc331b
+    type: regular
+    task:
+      id: 8104fbbf-3324-4bd1-88d8-2b96bfbc331b
+      version: -1
+      name: Assign it to user / send it to watch list/block it
+      script: Builtin|||addToList
+      type: regular
+      iscommand: true
+      brand: Builtin
+    nexttasks:
+      '#none#':
+      - "20"
+    scriptarguments:
+      listData:
+        simple: ${IP.Address}
+      listName:
+        simple: suspiciousip
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1132,
+          "y": 1384
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: 8282c1d7-8c59-4e6c-8c72-189afe2185bd
+    type: condition
+    task:
+      id: 8282c1d7-8c59-4e6c-8c72-189afe2185bd
+      version: -1
+      name: waiting for admin confirmation
+      script: EmailAskUserResponse
+      type: condition
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      responseEntryId: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 340,
+          "y": 1558
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: 205e7c1f-5b59-4d8d-8fa0-813a9b906476
+    type: condition
+    task:
+      id: 205e7c1f-5b59-4d8d-8fa0-813a9b906476
+      version: -1
+      name: Is location details same?
+      script: AreValuesEqual
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "7"
+      "yes":
+      - "2"
+    scriptarguments:
+      extend-context: {}
+      left:
+        simple: ${IP.Geo.Country}
+      right:
+        simple: ${CountryCode}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 701,
+          "y": 770
+        }
+      }
+    note: false
+  "15":
+    id: "15"
+    taskid: e54e5085-2771-4914-85ba-6424e522a88b
+    type: regular
+    task:
+      id: e54e5085-2771-4914-85ba-6424e522a88b
+      version: -1
+      name: Check location details from IP
+      script: ipinfo|||ip
+      type: regular
+      iscommand: true
+      brand: ipinfo
+    nexttasks:
+      '#none#':
+      - "13"
+    scriptarguments:
+      ip:
+        simple: ${IPAddress}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 395,
+          "y": 448
+        }
+      }
+    note: false
+  "17":
+    id: "17"
+    taskid: 9ce30005-23b3-4c94-8c5d-827b8d72de28
+    type: regular
+    task:
+      id: 9ce30005-23b3-4c94-8c5d-827b8d72de28
+      version: -1
+      name: send email notification to AWS Admin with name, IP and Location Details
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "12"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body:
+        simple: User is trying for RDP connection from External IP to Internal IP
+          along with this location
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: RDP Connection
+      to:
+        simple: punniyavathi.s22@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 340,
+          "y": 1384
+        }
+      }
+    note: false
+  "18":
+    id: "18"
+    taskid: 27f89276-f5b5-46ae-8e3c-323b61876a45
+    type: regular
+    task:
+      id: 27f89276-f5b5-46ae-8e3c-323b61876a45
+      version: -1
+      name: Extract Tags
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: Tags=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"Tags":\[\{(.*?)\}\]'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 843,
+          "y": 195
+        }
+      }
+    note: false
+  "19":
+    id: "19"
+    taskid: c6f2aac6-5005-4ccd-80c8-6a4dfda302dc
+    type: regular
+    task:
+      id: c6f2aac6-5005-4ccd-80c8-6a4dfda302dc
+      version: -1
+      name: Conversion country name
+      script: bfe3b7f7-6f6d-4f90-82a2-58ea9f3af18d
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "13"
+    scriptarguments:
+      Country:
+        simple: ${Country}
+      extend-context:
+        simple: CountryCode=
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1308,
+          "y": 490
+        }
+      }
+    note: false
+  "20":
+    id: "20"
+    taskid: e15d3f8c-b853-4aab-8c2a-c5e860c5e92c
+    type: title
+    task:
+      id: e15d3f8c-b853-4aab-8c2a-c5e860c5e92c
+      version: -1
+      name: Close Investigation
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1132,
+          "y": 1605
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1652,
+        "width": 1348,
+        "x": 340,
+        "y": 18
+      }
+    }
+  }
+inputs: []
+outputs: []

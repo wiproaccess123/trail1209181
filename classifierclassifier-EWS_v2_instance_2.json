@@ -1,0 +1,366 @@
+{
+	"id": "160d5fc6-c329-48f5-8ff3-15ce92eb31ea",
+	"version": 3,
+	"modified": "2018-09-27T09:11:26.725022676-04:00",
+	"defaultIncidentType": "",
+	"instanceId": "a07e3865-6902-44a9-89f4-f736ecd99886",
+	"mapping": {
+		"Phishing": {
+			"internalMapping": {
+				"Attachment Count": {
+					"simple": "",
+					"complex": {
+						"root": "attachments",
+						"filters": [],
+						"accessor": "",
+						"transformers": [
+							{
+								"operator": "count",
+								"args": {}
+							}
+						]
+					}
+				},
+				"Attachment Extension": {
+					"simple": "",
+					"complex": {
+						"root": "attachments",
+						"filters": [],
+						"accessor": "attachmentName",
+						"transformers": [
+							{
+								"operator": "join",
+								"args": {
+									"separator": {
+										"value": {
+											"simple": ",",
+											"complex": null
+										},
+										"isContext": false
+									}
+								}
+							},
+							{
+								"operator": "substringFrom",
+								"args": {
+									"from": {
+										"value": {
+											"simple": ".",
+											"complex": null
+										},
+										"isContext": false
+									}
+								}
+							}
+						]
+					}
+				},
+				"Attachment ID": {
+					"simple": "",
+					"complex": {
+						"root": "attachments",
+						"filters": [],
+						"accessor": "attachmentId",
+						"transformers": [
+							{
+								"operator": "join",
+								"args": {
+									"separator": {
+										"value": {
+											"simple": ",",
+											"complex": null
+										},
+										"isContext": false
+									}
+								}
+							}
+						]
+					}
+				},
+				"Attachment Name": {
+					"simple": "",
+					"complex": {
+						"root": "attachments",
+						"filters": [],
+						"accessor": "attachmentName",
+						"transformers": [
+							{
+								"operator": "join",
+								"args": {
+									"separator": {
+										"value": {
+											"simple": ",",
+											"complex": null
+										},
+										"isContext": false
+									}
+								}
+							}
+						]
+					}
+				},
+				"Attachment size": {
+					"simple": "",
+					"complex": {
+						"root": "attachments",
+						"filters": [],
+						"accessor": "attachmentSize",
+						"transformers": [
+							{
+								"operator": "join",
+								"args": {
+									"separator": {
+										"value": {
+											"simple": ",",
+											"complex": null
+										},
+										"isContext": false
+									}
+								}
+							}
+						]
+					}
+				},
+				"Attachment type": {
+					"simple": "",
+					"complex": {
+						"root": "attachments",
+						"filters": [],
+						"accessor": "attachmentType",
+						"transformers": [
+							{
+								"operator": "join",
+								"args": {
+									"separator": {
+										"value": {
+											"simple": ",",
+											"complex": null
+										},
+										"isContext": false
+									}
+								}
+							}
+						]
+					}
+				},
+				"Email BCC": {
+					"simple": "bcc_recipients.email_address",
+					"complex": null
+				},
+				"Email Body": {
+					"simple": "text_body",
+					"complex": null
+				},
+				"Email Body HTML": {
+					"simple": "body",
+					"complex": null
+				},
+				"Email CC": {
+					"simple": "",
+					"complex": {
+						"root": "cc_recipients",
+						"filters": [],
+						"accessor": "email_address",
+						"transformers": [
+							{
+								"operator": "join",
+								"args": {
+									"separator": {
+										"value": {
+											"simple": ",",
+											"complex": null
+										},
+										"isContext": false
+									}
+								}
+							}
+						]
+					}
+				},
+				"Email From": {
+					"simple": "sender.email_address",
+					"complex": null
+				},
+				"Email Message ID": {
+					"simple": "message_id",
+					"complex": null
+				},
+				"Email Received": {
+					"simple": "received_representing.email_address",
+					"complex": null
+				},
+				"Email Reply To": {
+					"simple": "",
+					"complex": {
+						"root": "headers",
+						"filters": [
+							[
+								{
+									"operator": "isEqualString",
+									"left": {
+										"value": {
+											"simple": "headers.name",
+											"complex": null
+										},
+										"isContext": true
+									},
+									"right": {
+										"value": {
+											"simple": "In-Reply-To",
+											"complex": null
+										},
+										"isContext": false
+									},
+									"ignoreCase": false
+								}
+							]
+						],
+						"accessor": "value",
+						"transformers": [
+							{
+								"operator": "StripChars",
+								"args": {
+									"chars": {
+										"value": {
+											"simple": "\u003c\u003e",
+											"complex": null
+										},
+										"isContext": false
+									}
+								}
+							}
+						]
+					}
+				},
+				"Email Return Path": {
+					"simple": "",
+					"complex": {
+						"root": "headers",
+						"filters": [
+							[
+								{
+									"operator": "isEqualString",
+									"left": {
+										"value": {
+											"simple": "headers.name",
+											"complex": null
+										},
+										"isContext": true
+									},
+									"right": {
+										"value": {
+											"simple": "Return-Path",
+											"complex": null
+										},
+										"isContext": false
+									},
+									"ignoreCase": false
+								}
+							]
+						],
+						"accessor": "value",
+						"transformers": []
+					}
+				},
+				"Email Sender IP": {
+					"simple": "",
+					"complex": {
+						"root": "headers",
+						"filters": [
+							[
+								{
+									"operator": "isEqualString",
+									"left": {
+										"value": {
+											"simple": "headers.name",
+											"complex": null
+										},
+										"isContext": true
+									},
+									"right": {
+										"value": {
+											"simple": "X-Originating-IP",
+											"complex": null
+										},
+										"isContext": false
+									},
+									"ignoreCase": false
+								}
+							]
+						],
+						"accessor": "value",
+						"transformers": [
+							{
+								"operator": "StripChars",
+								"args": {
+									"chars": {
+										"value": {
+											"simple": "[]",
+											"complex": null
+										},
+										"isContext": false
+									}
+								}
+							}
+						]
+					}
+				},
+				"Email Size": {
+					"simple": "size",
+					"complex": null
+				},
+				"Email Subject": {
+					"simple": "subject",
+					"complex": null
+				},
+				"Email To": {
+					"simple": "",
+					"complex": {
+						"root": "to_recipients",
+						"filters": [],
+						"accessor": "email_address",
+						"transformers": [
+							{
+								"operator": "join",
+								"args": {
+									"separator": {
+										"value": {
+											"simple": ",",
+											"complex": null
+										},
+										"isContext": false
+									}
+								}
+							}
+						]
+					}
+				},
+				"Email To Count": {
+					"simple": "",
+					"complex": {
+						"root": "to_recipients",
+						"filters": [],
+						"accessor": "",
+						"transformers": [
+							{
+								"operator": "count",
+								"args": {}
+							}
+						]
+					}
+				}
+			},
+			"dontMapEventToLabels": false
+		}
+	},
+	"unclassifiedCases": {},
+	"incidentSamples": [],
+	"custom": true,
+	"transformer": {
+		"simple": "importance",
+		"complex": null
+	},
+	"keyTypeMap": {},
+	"brandName": "EWS v2",
+	"instanceName": "EWS v2_instance_2"
+}

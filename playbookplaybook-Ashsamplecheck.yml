@@ -1,0 +1,240 @@
+id: ed0fab2b-bb26-4b90-805c-ab2cc7804d93
+version: 2
+name: Ashsamplecheck
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 06e1abc5-a97e-4dde-8a27-5a7fbd56b7ed
+    type: start
+    task:
+      id: 06e1abc5-a97e-4dde-8a27-5a7fbd56b7ed
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 9d9f1894-a3f8-4655-8d40-03ef070b8efc
+    type: regular
+    task:
+      id: 9d9f1894-a3f8-4655-8d40-03ef070b8efc
+      version: -1
+      name: ExtractURL associated with incident
+      description: Extract URLs from the given text and place them both as output
+        and in the context of a playbook. If given an object, will convert to JSON.
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 230
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: c09e1f0a-b9a0-4715-879e-3890face184c
+    type: regular
+    task:
+      id: c09e1f0a-b9a0-4715-879e-3890face184c
+      version: -1
+      name: check URL Reputation
+      description: Check URL Reputation
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      long: {}
+      retries: {}
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        simple: ${URL}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 410
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 9179a94d-7c7d-426a-88d6-9fd4996324fa
+    type: condition
+    task:
+      id: 9179a94d-7c7d-426a-88d6-9fd4996324fa
+      version: -1
+      name: were there any malicious url found
+      description: Check if a given value exists in the context. Will return 'no'
+        for empty empty arrays. To be used mostly with DQ and selectors.
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "5"
+      "yes":
+      - "4"
+    scriptarguments:
+      value:
+        simple: ${URL}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 590
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 6acc0d58-bb15-4409-8253-42f83de99123
+    type: regular
+    task:
+      id: 6acc0d58-bb15-4409-8253-42f83de99123
+      version: -1
+      name: SendEmail
+      description: |-
+        Send an email with the specified parameters.
+        Attachments are provided as a comma-separated list of entry IDs.
+        Example usage: !SendEmail subject="File from war room" body="Please see the attached file. --DBot" to=jane@acme.com cc=john@acme.com attachIDs=89@3,46@3
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body: {}
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: bad urls found
+      to:
+        simple: ashlesha.gupta@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 763
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 61d9a1f8-1428-4628-8c25-5b2788e4f526
+    type: condition
+    task:
+      id: 61d9a1f8-1428-4628-8c25-5b2788e4f526
+      version: -1
+      name: SendEmail that no bad url found
+      description: |-
+        Send an email with the specified parameters.
+        Attachments are provided as a comma-separated list of entry IDs.
+        Example usage: !SendEmail subject="File from war room" body="Please see the attached file. --DBot" to=jane@acme.com cc=john@acme.com attachIDs=89@3,46@3
+      script: SendEmail
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      df:
+      - "6"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body: {}
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: no bad urls found
+      to:
+        simple: ashlesha.gupta@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 926,
+          "y": 776
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 4525d421-cdca-4b18-8378-0b4a92f2c7d6
+    type: regular
+    task:
+      id: 4525d421-cdca-4b18-8378-0b4a92f2c7d6
+      version: -1
+      name: closethecase
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 655,
+          "y": 1054
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1099,
+        "width": 856,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

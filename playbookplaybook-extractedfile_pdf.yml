@@ -1,0 +1,197 @@
+id: 309be353-9647-4048-826e-22f1e65b800e
+version: 4
+name: extractedfile_pdf
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: ad4e4f23-92a3-4449-81ea-eda9bfcb9248
+    type: start
+    task:
+      id: ad4e4f23-92a3-4449-81ea-eda9bfcb9248
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: fdcbd8a6-f31d-403c-871b-1838a79c65d4
+    type: condition
+    task:
+      id: fdcbd8a6-f31d-403c-871b-1838a79c65d4
+      version: -1
+      name: do we have any pdf file?
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "3"
+      "yes":
+      - "2"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='pdf')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 195
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: f631e878-6219-44c3-8d13-6e7e71e2f931
+    type: regular
+    task:
+      id: f631e878-6219-44c3-8d13-6e7e71e2f931
+      version: -1
+      name: read pdf file
+      script: ReadPDFFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='pdf').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 370
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 75ba21a5-72a3-43ff-887a-dce2229191c7
+    type: regular
+    task:
+      id: 75ba21a5-72a3-43ff-887a-dce2229191c7
+      version: -1
+      name: close investigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes:
+        simple: there is no pdf file
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 370
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 7bbf9c47-f38e-481d-8f02-3ad18c32567c
+    type: regular
+    task:
+      id: 7bbf9c47-f38e-481d-8f02-3ad18c32567c
+      version: -1
+      name: ip extraction
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      text:
+        simple: ${FileData}${incident.details}${File.Text}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 545
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 00f00a01-14c7-46d7-872b-15cc03947448
+    type: title
+    task:
+      id: 00f00a01-14c7-46d7-872b-15cc03947448
+      version: -1
+      name: close investigation
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 895
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 9c8a0a24-e1ca-4a6d-851e-a1809cd6439d
+    type: regular
+    task:
+      id: 9c8a0a24-e1ca-4a6d-851e-a1809cd6439d
+      version: -1
+      name: ip reputation
+      script: IPReputation
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+    scriptarguments:
+      ip:
+        simple: ${File.Text}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 720
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 910,
+        "width": 810,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

@@ -1,0 +1,99 @@
+commonfields:
+  id: f4a1f963-71ab-4791-836b-f2ffc2150de8
+  version: 4
+name: Better_SearchIncidents
+script: |
+  arguments = demisto.args()
+  if demisto.get(arguments,'fields'):
+      fields = argToList(arguments['fields'])
+      arguments.pop('fields')
+  else:
+      fields = ['id', 'name', 'status', 'owner', 'type','severity']
+  try:
+      res = demisto.executeCommand('getIncidents', arguments)
+  except e, Exception:
+      demisto.results("Unable to get incidents " + str(e) )
+
+  count = 0
+  #Move the custom fields to the main dict
+  for items in res[0]['Contents']['data']:
+      if items['CustomFields']:
+          for x in items['CustomFields']:
+              items[x] = items['CustomFields'][x]
+          res[0]['Contents']['data'][count] = {}
+          res[0]['Contents']['data'][count] = items
+          count = count + 1
+
+  if res[0]['Contents']['data']:
+      ec = {}
+      md = tableToMarkdown("Incidents found", res[0]['Contents']['data'],fields)
+      ec['SearchIncidents'] = res[0]['Contents']['data']
+      demisto.results({
+          'Type': entryTypes['note'],
+          'Contents': res[0]['Contents']['data'],
+          'ContentsFormat': formats['json'],
+          'HumanReadable': md,
+          'ReadableContentsFormat' : formats['markdown']
+      })
+  else:
+      demisto.results("No incidents found")
+type: python
+tags: []
+comment: |-
+  Better search for Demisto incidents.
+   - You can choose the fields to be output
+   - No data saved to context (Use extended context if needed `extend-context="searchdata="`
+enabled: true
+args:
+- name: id
+  default: true
+  description: Filter by incident IDs
+  isArray: true
+- name: name
+  description: Filter by incident name
+  isArray: true
+- name: status
+  description: Filter by the status (e.g. assigned)
+  isArray: true
+- name: notstatus
+  description: Filter by excluding status (e.g. assigned)
+  isArray: true
+- name: reason
+  description: Filter by closing reason
+  isArray: true
+- name: fromdate
+  description: Filter by from date (e.g. 2006-01-02T15:04:05Z07:00)
+- name: todate
+  description: Filter by to date (e.g. 2006-01-02T15:04:05Z07:00)
+- name: fromclosedate
+  description: Filter by from close date (e.g. 2006-01-02T15:04:05Z07:00)
+- name: toclosedate
+  description: Filter by to close date (e.g. 2006-01-02T15:04:05Z07:00)
+- name: fromduedate
+  description: Filter by from due date (e.g. 2006-01-02T15:04:05Z07:00)
+- name: toduedate
+  description: Filter by to due date (e.g. 2006-01-02T15:04:05Z07:00)
+- name: level
+  description: Filter by Severity
+  isArray: true
+- name: owner
+  description: Filter by incident owners
+  isArray: true
+- name: details
+  description: Filter by incident details
+- name: type
+  description: Filter by incident type
+  isArray: true
+- name: query
+  description: Use free form query (use Lucene syntax) as filter. All other filters
+    will be ignored when this filter is used.
+  isArray: true
+- name: page
+  description: Filter by the page number
+- name: size
+  description: Filter by the page size (per fetch)
+- name: sort
+  description: Sort in format of field.asc,field.desc,...
+- name: fields
+scripttarget: 0
+runonce: false

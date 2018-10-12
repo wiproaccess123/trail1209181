@@ -1,0 +1,109 @@
+commonfields:
+  id: e2f99948-217f-4305-8b50-db2c333e3a67
+  version: 8
+name: oracleHRMSquery
+script: |-
+  sql_query="SELECT "
+  if demisto.args()['lastName']=='Yes':
+      sql_query = sql_query+ "PER_ALL_PEOPLE_F.Last_Name,"
+  if demisto.args()['firstName']=='Yes':
+      sql_query = sql_query+ "PER_ALL_PEOPLE_F.First_Name,"
+  if  demisto.args()['sex']=='Yes':
+      sql_query = sql_query+ "PER_ALL_PEOPLE_F.Sex,"
+  if  demisto.args()['maritalStatus']=='Yes':
+      sql_query = sql_query+ "PER_ALL_PEOPLE_F.Marital_Status,"
+  if  demisto.args()['title']=='Yes':
+      sql_query = sql_query+ "PER_ALL_PEOPLE_F.Title,"
+  if  demisto.args()['employeeNumber']=='Yes':
+      sql_query = sql_query+ "PER_ALL_PEOPLE_F.Employee_Number,"
+  if  demisto.args()['nationalIdentifier']=='Yes':
+      sql_query = sql_query+ "PER_ALL_PEOPLE_F.National_Identifier,"
+  if  demisto.args()['DOB']=='Yes':
+      sql_query = sql_query+ "PER_ALL_PEOPLE_F.Date_Of_Birth,"
+  if  demisto.args()['addressType']=='Yes':
+      sql_query = sql_query+ "PER_ADDRESSES.Address_Type,"
+  if  demisto.args()['address']=='Yes':
+      sql_query = sql_query+ "PER_ADDRESSES.Address_Line1,PER_ADDRESSES.Address_Line2,PER_ADDRESSES.Address_Line3,PER_ADDRESSES.Town_Or_City,PER_ADDRESSES.Region_1,PER_ADDRESSES.Postal_Code,PER_ADDRESSES.Country,"
+  if  demisto.args()['telephoneNumber']=='Yes':
+      sql_query = sql_query+ "PER_ADDRESSES.Telephone_Number_1,PER_ADDRESSES.Telephone_Number_2,PER_ADDRESSES.Telephone_Number_3,"
+
+  #cur.execute(demisto.args()['sql_query'])
+  sql_query = sql_query.rstrip(',')
+  sql_query = sql_query+" FROM PER_ADDRESSES,PER_ALL_PEOPLE_F WHERE PER_ALL_PEOPLE_F.person_id="+demisto.args()['personId'] +"AND PER_ALL_PEOPLE_F.person_id=PER_ADDRESSES.person_id"
+
+  demisto.results(demisto.executeCommand("connect-oracle-db-test", {"sql_query":sql_query}))
+type: python
+tags: []
+enabled: true
+args:
+- name: personId
+  required: true
+  description: 'Person_id '
+- name: lastName
+  auto: PREDEFINED
+  predefined:
+  - "Yes"
+  - "No"
+  defaultValue: "No"
+- name: firstName
+  auto: PREDEFINED
+  predefined:
+  - "Yes"
+  - "No"
+  defaultValue: "No"
+- name: sex
+  auto: PREDEFINED
+  predefined:
+  - "Yes"
+  - "No"
+  defaultValue: "No"
+- name: maritalStatus
+  auto: PREDEFINED
+  predefined:
+  - "Yes"
+  - "No"
+  defaultValue: "No"
+- name: title
+  auto: PREDEFINED
+  predefined:
+  - "Yes"
+  - "No"
+  defaultValue: "No"
+- name: employeeNumber
+  auto: PREDEFINED
+  predefined:
+  - "Yes"
+  - "No"
+  defaultValue: "No"
+- name: nationalIdentifier
+  auto: PREDEFINED
+  predefined:
+  - "Yes"
+  - "No"
+  defaultValue: "No"
+- name: DOB
+  auto: PREDEFINED
+  predefined:
+  - "Yes"
+  - "No"
+  defaultValue: "No"
+- name: addressType
+  auto: PREDEFINED
+  predefined:
+  - "Yes"
+  - "No"
+  defaultValue: "No"
+- name: address
+  auto: PREDEFINED
+  predefined:
+  - "Yes"
+  - "No"
+  defaultValue: "No"
+- name: telephoneNumber
+  auto: PREDEFINED
+  predefined:
+  - "Yes"
+  - "No"
+  defaultValue: "No"
+scripttarget: 0
+runonce: false

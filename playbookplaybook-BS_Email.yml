@@ -1,0 +1,256 @@
+id: ae393e6d-e301-4519-8ce3-67e910a823af
+version: 4
+name: BS_Email
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: ff1f7e5d-2c59-4903-8830-0ca316cef682
+    type: start
+    task:
+      id: ff1f7e5d-2c59-4903-8830-0ca316cef682
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 7c323f37-5632-45b5-852d-2834fb089779
+    type: regular
+    task:
+      id: 7c323f37-5632-45b5-852d-2834fb089779
+      version: -1
+      name: Delete Context
+      script: DeleteContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      all:
+        simple: "yes"
+      key: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 230
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 75be7e57-79e2-4572-8590-f304dcb91e06
+    type: regular
+    task:
+      id: 75be7e57-79e2-4572-8590-f304dcb91e06
+      version: -1
+      name: Extract URL
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 410
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: ce191456-5f1f-440c-8871-7faa74bd403d
+    type: regular
+    task:
+      id: ce191456-5f1f-440c-8871-7faa74bd403d
+      version: -1
+      name: URL reputation
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "9"
+    scriptarguments:
+      long: {}
+      retries: {}
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        simple: ${URL.Data}
+      using:
+        simple: VirusTotal_instance_1
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 590
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 6ade8787-0420-4db8-8804-90f0e7fd89b9
+    type: regular
+    task:
+      id: 6ade8787-0420-4db8-8804-90f0e7fd89b9
+      version: -1
+      name: Malicious is found
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "8"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body:
+        simple: Malicious URL found. Lists are ${URL.Malicious}
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: Malicious URL found
+      to:
+        simple: banupriya.ramalingam@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 171,
+          "y": 967
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 7d40f03d-02ff-4ed3-8a41-a52d0f82dce4
+    type: regular
+    task:
+      id: 7d40f03d-02ff-4ed3-8a41-a52d0f82dce4
+      version: -1
+      name: No malicious found
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "8"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body:
+        simple: No Malicious URL found
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: No Malicious URL found
+      to:
+        simple: banupriya.ramalingam@wipro.com
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 734,
+          "y": 967
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 2f783a5d-52bb-41ac-8495-d7ed4d6869ed
+    type: regular
+    task:
+      id: 2f783a5d-52bb-41ac-8495-d7ed4d6869ed
+      version: -1
+      name: Close
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 653,
+          "y": 1429
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: 4c621ea2-f51c-469a-887b-52d136d09eb8
+    type: condition
+    task:
+      id: 4c621ea2-f51c-469a-887b-52d136d09eb8
+      version: -1
+      name: check if it is malicioous URL?
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "6"
+      "yes":
+      - "5"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 770
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1474,
+        "width": 943,
+        "x": 171,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

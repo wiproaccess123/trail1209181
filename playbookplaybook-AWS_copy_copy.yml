@@ -1,0 +1,1269 @@
+id: ed7ca41e-73ec-4d82-875f-1334e36b6a0f
+version: 3
+name: AWS_copy_copy
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 54aaba2a-3d31-40c0-87d8-31be088acd81
+    type: start
+    task:
+      id: 54aaba2a-3d31-40c0-87d8-31be088acd81
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "39"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -564,
+          "y": -112
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 280efc51-e92e-481a-8dbc-ed2767ea8b2b
+    type: regular
+    task:
+      id: 280efc51-e92e-481a-8dbc-ed2767ea8b2b
+      version: -1
+      name: Extract Public IP
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "15"
+      - "43"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: 'AssetDetails.PublicIP= '
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"IpAddressV4":"(.*?)\"'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 414,
+          "y": 275
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 3e9967e6-77ba-482b-8139-2553bfb4986a
+    type: regular
+    task:
+      id: 3e9967e6-77ba-482b-8139-2553bfb4986a
+      version: -1
+      name: ip reputation
+      script: VirusTotal|||ip
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      fullResponse: {}
+      ip:
+        simple: ${AssetDetails.PublicIP}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      using:
+        simple: VirusTotal_instance_1
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 701,
+          "y": 1023
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 3cfcc818-858f-4f6f-8b3e-798ae79cad82
+    type: regular
+    task:
+      id: 3cfcc818-858f-4f6f-8b3e-798ae79cad82
+      version: -1
+      name: Extract Location Details
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "19"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: Country=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"CountryName":"(.*?)\"\}'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1318,
+          "y": 275
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: a0c1b5ac-e141-46cc-8c1d-a9c90c916fb6
+    type: condition
+    task:
+      id: a0c1b5ac-e141-46cc-8c1d-a9c90c916fb6
+      version: -1
+      name: Is Malicious?
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "45"
+      "yes":
+      - "7"
+      - "48"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 704,
+          "y": 1196
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 1223d400-ee00-46ce-8f05-878d0401455e
+    type: regular
+    task:
+      id: 1223d400-ee00-46ce-8f05-878d0401455e
+      version: -1
+      name: Assign it to user / send it to watch list/block it
+      script: Builtin|||addToList
+      type: regular
+      iscommand: true
+      brand: Builtin
+    nexttasks:
+      '#none#':
+      - "20"
+    scriptarguments:
+      listData:
+        simple: ${AssetDetails.PublicIP}
+      listName:
+        simple: suspiciousip
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1081,
+          "y": 1592
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: 8282c1d7-8c59-4e6c-8c72-189afe2185bd
+    type: condition
+    task:
+      id: 8282c1d7-8c59-4e6c-8c72-189afe2185bd
+      version: -1
+      name: waiting for admin confirmation
+      script: EmailAskUserResponse
+      type: condition
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      responseEntryId: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 321,
+          "y": 2295
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: 205e7c1f-5b59-4d8d-8fa0-813a9b906476
+    type: condition
+    task:
+      id: 205e7c1f-5b59-4d8d-8fa0-813a9b906476
+      version: -1
+      name: Is location details same?
+      script: AreValuesEqual
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "yes":
+      - "2"
+    scriptarguments:
+      extend-context: {}
+      left:
+        simple: ${IP.Geo.Country}
+      right:
+        simple: ${CountryCode}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 701,
+          "y": 770
+        }
+      }
+    note: false
+  "15":
+    id: "15"
+    taskid: e9685170-8046-406f-846f-f721b60041a5
+    type: regular
+    task:
+      id: e9685170-8046-406f-846f-f721b60041a5
+      version: -1
+      name: Check location details from IP
+      script: ipinfo|||ip
+      type: regular
+      iscommand: true
+      brand: ipinfo
+    nexttasks:
+      '#none#':
+      - "13"
+    scriptarguments:
+      ip:
+        simple: ${AssetDetails.PublicIP}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 414,
+          "y": 445
+        }
+      }
+    note: false
+  "17":
+    id: "17"
+    taskid: 0fbdadf8-7b4b-4a97-8dd5-797649441de1
+    type: regular
+    task:
+      id: 0fbdadf8-7b4b-4a97-8dd5-797649441de1
+      version: -1
+      name: send email notification to AWS Admin with name, IP and Location Details
+      script: EWS Mail Sender|||send-mail
+      type: regular
+      iscommand: true
+      brand: EWS Mail Sender
+    nexttasks:
+      '#none#':
+      - "12"
+    scriptarguments:
+      attachIDs: {}
+      attachNames: {}
+      bcc: {}
+      body: {}
+      cc: {}
+      extend-context: {}
+      htmlBody:
+        simple: |-
+          Hi Team,<br />
+          An investigation with id - <b>"${incident.id}"</b> has been opened inside Demisto.<br />
+          We have observed RDP connection from External IP-<b> "${AssetDetails.PublicIP}" </b> belonging to <b>"${Country}"</b> to Internal server <b>"${AssetDetails.PrivateIP}"</b>  with below details:
+          <br />
+
+          Below are the Asset details:
+          <head>
+          <style>
+          table, th, td {
+              border: 1px solid black;
+          }
+          </style>
+          </head>
+          <body>
+          ${HTMLTable.[0]}
+          </body>
+          <br />
+          <br />
+          Below are the PortDetails:
+          <head>
+          <style>
+          table, th, td {
+              border: 1px solid black;
+          }
+          </style>
+          </head>
+          <body>
+          ${HTMLTable.[1]}
+          </body>
+          <br />
+          <br />
+
+
+          We have observed that RDP port <b>"${PortDetails.Protocol}"/"${PortDetails.Port}"</b> is opened on the server, please take necessary steps before moving the server to the production environment.<br />
+          <br />
+          Regards,<br />
+          Demisto Automation<br />
+      replyTo: {}
+      subject:
+        simple: RDP Connection
+      to:
+        simple: shamili.r56@wipro.com
+      using:
+        simple: EWS Mail Sender_Banupriya
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 321,
+          "y": 2117
+        }
+      }
+    note: false
+  "19":
+    id: "19"
+    taskid: c6f2aac6-5005-4ccd-80c8-6a4dfda302dc
+    type: regular
+    task:
+      id: c6f2aac6-5005-4ccd-80c8-6a4dfda302dc
+      version: -1
+      name: Conversion country name
+      script: bfe3b7f7-6f6d-4f90-82a2-58ea9f3af18d
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "13"
+    scriptarguments:
+      Country:
+        simple: ${Country}
+      extend-context:
+        simple: CountryCode=
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1308,
+          "y": 490
+        }
+      }
+    note: false
+  "20":
+    id: "20"
+    taskid: e15d3f8c-b853-4aab-8c2a-c5e860c5e92c
+    type: title
+    task:
+      id: e15d3f8c-b853-4aab-8c2a-c5e860c5e92c
+      version: -1
+      name: Close Investigation
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1318,
+          "y": 1789
+        }
+      }
+    note: false
+  "22":
+    id: "22"
+    taskid: ca4e03c6-fa9a-4dbe-8cd1-529da584d20e
+    type: regular
+    task:
+      id: ca4e03c6-fa9a-4dbe-8cd1-529da584d20e
+      version: -1
+      name: Extract Port Name
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: PortDetails.PortService=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"LocalPortDetails":\{"PortName":\"(.*?)\"'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -959,
+          "y": 513
+        }
+      }
+    note: false
+  "23":
+    id: "23"
+    taskid: 7edc81e9-b6be-44dd-875d-ddd4e73b5551
+    type: regular
+    task:
+      id: 7edc81e9-b6be-44dd-875d-ddd4e73b5551
+      version: -1
+      name: Extract Port
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: PortDetails.Port=
+      flags: {}
+      group:
+        simple: "2"
+      regex:
+        simple: '"LocalPortDetails":\{"PortName":(.*?)\,"Port":(.*?)}\,'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -162,
+          "y": 686
+        }
+      }
+    note: false
+  "24":
+    id: "24"
+    taskid: 702ac393-8989-4627-8df1-740f75c07acc
+    type: regular
+    task:
+      id: 702ac393-8989-4627-8df1-740f75c07acc
+      version: -1
+      name: Is Blocked?
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: PortDetails.Blocked=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"Blocked":(.*?)\}'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -184,
+          "y": 513
+        }
+      }
+    note: false
+  "25":
+    id: "25"
+    taskid: 509d7c25-80f1-42aa-8bf1-324b6ce38df0
+    type: title
+    task:
+      id: 509d7c25-80f1-42aa-8bf1-324b6ce38df0
+      version: -1
+      name: RDP Details
+      type: title
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "22"
+      - "23"
+      - "24"
+      - "44"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -564,
+          "y": 337
+        }
+      }
+    note: false
+  "26":
+    id: "26"
+    taskid: 01370fbd-a9fe-4f7c-8273-0012cb7d835c
+    type: title
+    task:
+      id: 01370fbd-a9fe-4f7c-8273-0012cb7d835c
+      version: -1
+      name: Asset details
+      type: title
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "27"
+      - "28"
+      - "29"
+      - "30"
+      - "31"
+      - "32"
+      - "35"
+      - "38"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -2263,
+          "y": 290
+        }
+      }
+    note: false
+  "27":
+    id: "27"
+    taskid: 1d7c8561-9b4a-4dfa-851e-114387d3b716
+    type: regular
+    task:
+      id: 1d7c8561-9b4a-4dfa-851e-114387d3b716
+      version: -1
+      name: Resource Type
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: AssetDetails.ResourceType=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"ResourceType":\"(.*?)\"'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1971,
+          "y": 463
+        }
+      }
+    note: false
+  "28":
+    id: "28"
+    taskid: b12d1711-424f-4dd5-808d-199b73185439
+    type: regular
+    task:
+      id: b12d1711-424f-4dd5-808d-199b73185439
+      version: -1
+      name: 'Instance Details : Launch Time'
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: AssetDetails.LaunchTime=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"LaunchTime":\"(.*?)\"'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1961,
+          "y": 631
+        }
+      }
+    note: false
+  "29":
+    id: "29"
+    taskid: ea366776-b5e8-4647-8264-15072a92c472
+    type: regular
+    task:
+      id: ea366776-b5e8-4647-8264-15072a92c472
+      version: -1
+      name: Availability Zone
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: AssetDetails.AvailabilityZone=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"AvailabilityZone":\"(.*?)\"'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1961,
+          "y": 828
+        }
+      }
+    note: false
+  "30":
+    id: "30"
+    taskid: 914d2d5f-652b-4594-84fd-ad3b475dd11d
+    type: regular
+    task:
+      id: 914d2d5f-652b-4594-84fd-ad3b475dd11d
+      version: -1
+      name: Instance Id
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: AssetDetails.InstanceId=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"InstanceId":\"(.*?)\"'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1971,
+          "y": 976
+        }
+      }
+    note: false
+  "31":
+    id: "31"
+    taskid: 4412de0a-a544-4935-8f9f-06ec1846cce4
+    type: regular
+    task:
+      id: 4412de0a-a544-4935-8f9f-06ec1846cce4
+      version: -1
+      name: Platform
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: AssetDetails.Platform=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"Platform":\"(.*?)\"'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1961,
+          "y": 1138
+        }
+      }
+    note: false
+  "32":
+    id: "32"
+    taskid: 2a19cb7c-2496-4bbb-8284-a0766e6fa14c
+    type: title
+    task:
+      id: 2a19cb7c-2496-4bbb-8284-a0766e6fa14c
+      version: -1
+      name: Tags
+      type: title
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "33"
+      - "34"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1701,
+          "y": 1291
+        }
+      }
+    note: false
+  "33":
+    id: "33"
+    taskid: fc41b3c0-df6d-4775-8c59-c120c77de5b8
+    type: regular
+    task:
+      id: fc41b3c0-df6d-4775-8c59-c120c77de5b8
+      version: -1
+      name: Key
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "47"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: Tags.Key=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: Tags":\[{"Key":\"(.*?)\"\,"Value":\"(.*?)\"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1883,
+          "y": 1435
+        }
+      }
+    note: false
+  "34":
+    id: "34"
+    taskid: 73635e60-b1fc-412a-8209-042ad61da75f
+    type: regular
+    task:
+      id: 73635e60-b1fc-412a-8209-042ad61da75f
+      version: -1
+      name: Value
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "47"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: Tags.Value=
+      flags: {}
+      group:
+        simple: "2"
+      regex:
+        simple: Tags":\[{"Key":\"(.*?)\"\,"Value":\"(.*?)\"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1464,
+          "y": 1435
+        }
+      }
+    note: false
+  "35":
+    id: "35"
+    taskid: 78e71345-adda-4fe6-8e8b-427c2e48a922
+    type: title
+    task:
+      id: 78e71345-adda-4fe6-8e8b-427c2e48a922
+      version: -1
+      name: IamInstanceProfile
+      type: title
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "36"
+      - "37"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1701,
+          "y": 1653
+        }
+      }
+    note: false
+  "36":
+    id: "36"
+    taskid: af6cebb2-09ba-487e-8370-aef2cfdec001
+    type: regular
+    task:
+      id: af6cebb2-09ba-487e-8370-aef2cfdec001
+      version: -1
+      name: Id
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: AssetDetails.IamInstanceProfile.Id=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"IamInstanceProfile":{"Id":\"(.*?)\"\,"Arn":\"(.*?)\"\}'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1922,
+          "y": 1793
+        }
+      }
+    note: false
+  "37":
+    id: "37"
+    taskid: abbf03d6-f3ab-4541-8722-770628965512
+    type: regular
+    task:
+      id: abbf03d6-f3ab-4541-8722-770628965512
+      version: -1
+      name: Arn
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: AssetDetails.IamInstanceProfile.Arn=
+      flags: {}
+      group:
+        simple: "2"
+      regex:
+        simple: '"IamInstanceProfile":{"Id":\"(.*?)\"\,"Arn":\"(.*?)\"\}'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1485,
+          "y": 1793
+        }
+      }
+    note: false
+  "38":
+    id: "38"
+    taskid: 0f7893ee-4e94-42aa-895a-d7e730887973
+    type: regular
+    task:
+      id: 0f7893ee-4e94-42aa-895a-d7e730887973
+      version: -1
+      name: Instance State
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "40"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: AssetDetails.InstanceState=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: '"InstanceState":(.*?)\,'
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1922,
+          "y": 1993
+        }
+      }
+    note: false
+  "39":
+    id: "39"
+    taskid: c1da1cf5-4b29-4981-87e4-48b819fd996c
+    type: regular
+    task:
+      id: c1da1cf5-4b29-4981-87e4-48b819fd996c
+      version: -1
+      name: Delete Context
+      script: DeleteContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "25"
+      - "26"
+      - "1"
+      - "3"
+      - "41"
+    scriptarguments:
+      all:
+        simple: "yes"
+      key: {}
+      keysToKeep: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -564,
+          "y": 42
+        }
+      }
+    note: false
+  "40":
+    id: "40"
+    taskid: 7de65d4c-2e90-4024-8d33-41fd39d1e64f
+    type: title
+    task:
+      id: 7de65d4c-2e90-4024-8d33-41fd39d1e64f
+      version: -1
+      name: close investigation
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1922,
+          "y": 2230
+        }
+      }
+    note: false
+  "41":
+    id: "41"
+    taskid: 49b8534a-3dcd-448b-81b2-cc34aaa0a4aa
+    type: regular
+    task:
+      id: 49b8534a-3dcd-448b-81b2-cc34aaa0a4aa
+      version: -1
+      name: Extract Private IP
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "42"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: AssetDetails.PrivateIP=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: PrivateIpAddress":\"(.*?)\"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 877,
+          "y": 275
+        }
+      }
+    note: false
+  "42":
+    id: "42"
+    taskid: 00473f94-7ebd-40c0-8d54-97e54e32a440
+    type: regular
+    task:
+      id: 00473f94-7ebd-40c0-8d54-97e54e32a440
+      version: -1
+      name: Private DNS
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: AssetDetails.PrivateDNSName=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: PrivateDnsName":\"(.*?)\"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 877,
+          "y": 463
+        }
+      }
+    note: false
+  "43":
+    id: "43"
+    taskid: 4fc68df9-7fe0-4247-8d2f-0ef3377e1c9e
+    type: regular
+    task:
+      id: 4fc68df9-7fe0-4247-8d2f-0ef3377e1c9e
+      version: -1
+      name: Public DNS
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: AssetDetails.PublicDNSName=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: PublicDnsName":\"(.*?)\"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 628,
+          "y": 585
+        }
+      }
+    note: false
+  "44":
+    id: "44"
+    taskid: da763565-c4f7-4b1b-8508-6d08d88806fe
+    type: regular
+    task:
+      id: da763565-c4f7-4b1b-8508-6d08d88806fe
+      version: -1
+      name: Protocol
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: PortDetails.Protocol=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: Protocol":\"(.*?)\"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -970,
+          "y": 686
+        }
+      }
+    note: false
+  "45":
+    id: "45"
+    taskid: f3b7be83-0198-43b9-80a1-e8bb9f8bbd53
+    type: regular
+    task:
+      id: f3b7be83-0198-43b9-80a1-e8bb9f8bbd53
+      version: -1
+      name: Convert AssetDetails to HTML Format
+      script: ConvertTableToHTML
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "50"
+    scriptarguments:
+      extend-context: {}
+      table:
+        simple: ${AssetDetails}
+      title:
+        simple: Asset Details
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 321,
+          "y": 1774
+        }
+      }
+    note: false
+  "47":
+    id: "47"
+    taskid: 45b7080d-d46e-45e0-8950-ad442c608863
+    type: regular
+    task:
+      id: 45b7080d-d46e-45e0-8950-ad442c608863
+      version: -1
+      name: Assign
+      script: 09c6f286-09be-4d54-89c8-bdc1d7047cff
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      extend-context:
+        simple: AssetDetails.Tags=
+      left:
+        simple: ${Tags.Key}
+      right:
+        simple: ${Tags.Value}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -1126,
+          "y": 1647
+        }
+      }
+    note: false
+  "48":
+    id: "48"
+    taskid: e772ba82-2a17-4aa5-871d-744d0c165eaa
+    type: condition
+    task:
+      id: e772ba82-2a17-4aa5-871d-744d0c165eaa
+      version: -1
+      name: Check whether  IP is in WatchList?
+      script: FilterByList
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      List.In:
+      - "49"
+      List.NotIn:
+      - "7"
+    scriptarguments:
+      extend-context: {}
+      listname:
+        simple: suspiciousip
+      values:
+        simple: ${AssetDetails.PublicIP}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1326,
+          "y": 1380
+        }
+      }
+    note: false
+  "49":
+    id: "49"
+    taskid: dfb49254-3f90-4955-89ff-9d93dabfaf22
+    type: regular
+    task:
+      id: dfb49254-3f90-4955-89ff-9d93dabfaf22
+      version: -1
+      name: Don't add IP in Watchlist
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "20"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1602,
+          "y": 1592
+        }
+      }
+    note: false
+  "50":
+    id: "50"
+    taskid: 494a24e0-ad21-4089-8591-57fba692fc0d
+    type: regular
+    task:
+      id: 494a24e0-ad21-4089-8591-57fba692fc0d
+      version: -1
+      name: Convert PortDetails to HTML Format
+      script: ConvertTableToHTML
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "17"
+    scriptarguments:
+      extend-context: {}
+      table:
+        simple: ${PortDetails}
+      title:
+        simple: Port Details
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 321,
+          "y": 1947
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 2502,
+        "width": 4245,
+        "x": -2263,
+        "y": -112
+      }
+    }
+  }
+inputs: []
+outputs: []
