@@ -1,0 +1,577 @@
+id: e1acdcc6-3958-41b3-8644-5ef32b7f4295
+version: 7
+name: AWS_ConsoleFromMultipleCountry
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 82f280d9-9530-47d4-8585-c36d6b1ec5d0
+    type: start
+    task:
+      id: 82f280d9-9530-47d4-8585-c36d6b1ec5d0
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: b3dba7ae-4e7d-4e1c-8e94-c57ff3bb0a2c
+    type: regular
+    task:
+      id: b3dba7ae-4e7d-4e1c-8e94-c57ff3bb0a2c
+      version: -1
+      name: 'Resource details in JSON '
+      script: LoadJSON
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "10"
+    scriptarguments:
+      extend-context:
+        simple: Res_details=
+      input:
+        simple: ${Resource}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 545
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 5c889142-e7b7-4595-8920-dfe445f2a171
+    type: regular
+    task:
+      id: 5c889142-e7b7-4595-8920-dfe445f2a171
+      version: -1
+      name: close
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 895
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 99498432-9de0-4070-8f8c-5048a4224c4a
+    type: regular
+    task:
+      id: 99498432-9de0-4070-8f8c-5048a4224c4a
+      version: -1
+      name: delete context
+      script: DeleteContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+      - "5"
+      - "11"
+      - "12"
+      - "13"
+    scriptarguments:
+      all:
+        simple: "yes"
+      key: {}
+      keysToKeep: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 195
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 05614dfd-4c7c-441a-82a3-8a780fa0b6d1
+    type: regular
+    task:
+      id: 05614dfd-4c7c-441a-82a3-8a780fa0b6d1
+      version: -1
+      name: Extract Resource Details
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: Resource=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: Resource\n(.*?)\n
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 370
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 0aac08c1-a98b-4786-8e44-ad00f26729c7
+    type: regular
+    task:
+      id: 0aac08c1-a98b-4786-8e44-ad00f26729c7
+      version: -1
+      name: Extract Service Details
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: Service=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: Service\n(.*?)\n
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 370
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 741a5d89-e54b-484e-8040-588d19151a94
+    type: regular
+    task:
+      id: 741a5d89-e54b-484e-8040-588d19151a94
+      version: -1
+      name: 'Service details in JSON '
+      script: LoadJSON
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "10"
+    scriptarguments:
+      extend-context:
+        simple: Ser_details=
+      input:
+        simple: ${Service}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 545
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: ceef94a3-e633-4c3d-8c5a-a83896412dd3
+    type: regular
+    task:
+      id: ceef94a3-e633-4c3d-8c5a-a83896412dd3
+      version: -1
+      name: Send Email notification to AWS Admin
+      script: EWS Mail Sender|||send-mail
+      type: regular
+      iscommand: true
+      brand: EWS Mail Sender
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      attachIDs: {}
+      attachNames: {}
+      bcc: {}
+      body: {}
+      cc: {}
+      htmlBody:
+        simple: |-
+          <p>Dear Team,</p>
+          <p>Policy Change event have been notified "${Title}" indicating Amazon IAM Policies has been amended on <strong>${Region} </strong>with below mention changes on following</p>
+          <table style="width: 596px;" border="1">
+          <tbody>
+          <tr>
+          <td style="width: 141px;">
+          <p><strong>AWS ID </strong></p>
+          </td>
+          <td style="width: 454px;">
+          <p>${AccountId}</p>
+          </td>
+          </tr>
+          <tr>
+          <td style="width: 141px;">
+          <p><strong>Region </strong></p>
+          </td>
+          <td style="width: 454px;">
+          <p>${Region}</p>
+          </td>
+          </tr>
+          <tr>
+          <td style="width: 141px;">
+          <p><strong>Event Severity </strong></p>
+          </td>
+          <td style="width: 454px;">
+          <p>${Severity}</p>
+          </td>
+          </tr>
+          <tr>
+          <td style="width: 141px;">
+          <p><strong>Event Frequency </strong></p>
+          </td>
+          <td style="width: 454px;">
+          <p>${Ser_details.Count}</p>
+          </td>
+          </tr>
+          <tr>
+          <td style="width: 141px;">
+          <p><strong>Event Triggered </strong></p>
+          </td>
+          <td style="width: 454px;">
+          <p>${Ser_details.EventFirstSeen}</p>
+          </td>
+          </tr>
+          <tr>
+          <td style="width: 141px;">
+          <p><strong>Event Name </strong></p>
+          </td>
+          <td style="width: 454px;">
+          <p>&nbsp;${Title}</p>
+          </td>
+          </tr>
+          <tr>
+          <td style="width: 141px;">
+          <p><strong>Event Description </strong></p>
+          </td>
+          <td style="width: 454px;">
+          <p>&nbsp;${Description}</p>
+          </td>
+          </tr>
+          <tr>
+          <td style="width: 141px;">
+          <p><strong>Attack Type </strong></p>
+          </td>
+          <td style="width: 454px;">
+          <p>&nbsp;${Type}</p>
+          </td>
+          </tr>
+          <tr>
+          <td style="width: 141px;">
+          <p><strong>Intruder User </strong></p>
+          </td>
+          <td style="width: 454px;">
+          <p>&nbsp;${Res_details.AccessKeyDetails.UserName}</p>
+          </td>
+          </tr>
+          <tr>
+          <td style="width: 141px;">
+          <p><strong>Intruder Address </strong></p>
+          </td>
+          <td style="width: 454px;">
+          <p>&nbsp;${Ser_details.Action.AwsApiCallAction.RemoteIpDetails.IpAddressV4}</p>
+          </td>
+          </tr>
+          <tr>
+          <td style="width: 141px;">
+          <p><strong>Intruder Action </strong></p>
+          </td>
+          <td style="width: 454px;">
+          <p>&nbsp;${Ser_details.Action.ActionType}</p>
+          </td>
+          </tr>
+          </tbody>
+          </table>
+          <p>&nbsp;</p>
+          <p>Please take necessary action to stop reported event and take the corrective action plans for future prospective to minimized such events.</p>
+          <p>Please follow the below suggested steps as a corrective action plan to mitigate the reported event.</p>
+          <p>1) Login to <a href="https://console.aws.amazon.com/iam/home?region=$%7bRegion%7d/home%20">https://console.aws.amazon.com/iam/home?region=${Region}/home</a></p>
+          <p>2) Go to Policies and look for the policy that get amended.</p>
+          <p>3) Take the adequate measures based on the IAM best Practices as refer <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html">https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html</a></p>
+          <p>4) Go to Role and define the Appropriate Role for the User Access.</p>
+          <p>5) Go to User and assign the user with appropriate policy permission and role group.</p>
+          <p>6) Control User Access to AWS Management Console, refer to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/console_controlling-access.html">https://docs.aws.amazon.com/IAM/latest/UserGuide/console_controlling-access.html</a></p>
+          <p>If you require further assistance with this matter, you can take advantage of our developer forums:</p>
+          <p><a href="https://forums.aws.amazon.com/index.jspa">https://forums.aws.amazon.com/index.jspa</a></p>
+          <p>If you require further assistance with this matter, you can take advise of subject matter expert and mitigate the reported event.</p>
+      replyTo: {}
+      subject:
+        simple: ${Title}
+      to:
+        simple: shamili.r56@wipro.com
+      using:
+        simple: EWS Mail Sender_Banupriya
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 720
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: 67e7f6c2-5b9f-45f8-8d74-c517fb26f6c3
+    type: regular
+    task:
+      id: 67e7f6c2-5b9f-45f8-8d74-c517fb26f6c3
+      version: -1
+      name: Extract AccountID
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "16"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: AccountId=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: AccountId\n(.*?)\n
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1770,
+          "y": 370
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: 66c048a9-9662-46bb-8b5a-b9a138e283e8
+    type: regular
+    task:
+      id: 66c048a9-9662-46bb-8b5a-b9a138e283e8
+      version: -1
+      name: Extract Severity
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "15"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: Severity=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: Severity\n(.*?)\n
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1340,
+          "y": 370
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: 59ae118b-7fea-4ced-8168-8ff471aea9ed
+    type: regular
+    task:
+      id: 59ae118b-7fea-4ced-8168-8ff471aea9ed
+      version: -1
+      name: Extract Region
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "14"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: Region=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: Region\n(.*?)\n
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 370
+        }
+      }
+    note: false
+  "14":
+    id: "14"
+    taskid: d3633245-8c72-4963-8171-46ccfd9e7473
+    type: regular
+    task:
+      id: d3633245-8c72-4963-8171-46ccfd9e7473
+      version: -1
+      name: Extract Title
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "10"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: Title=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: Title\n(.*?)\n
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 545
+        }
+      }
+    note: false
+  "15":
+    id: "15"
+    taskid: 7b079d68-154a-4287-8114-72b4127b382f
+    type: regular
+    task:
+      id: 7b079d68-154a-4287-8114-72b4127b382f
+      version: -1
+      name: Extract Type
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "10"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: Type=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: Type\n(.*?)\n
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1340,
+          "y": 545
+        }
+      }
+    note: false
+  "16":
+    id: "16"
+    taskid: 4edcca84-c34e-46d2-8839-e2807d001e2c
+    type: regular
+    task:
+      id: 4edcca84-c34e-46d2-8839-e2807d001e2c
+      version: -1
+      name: Extract Incident Description
+      script: MatchRegex
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "10"
+    scriptarguments:
+      contextKey: {}
+      data:
+        simple: ${incident.details}
+      extend-context:
+        simple: Description=
+      flags: {}
+      group:
+        simple: "1"
+      regex:
+        simple: Description\n(.*?)\n
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1770,
+          "y": 545
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 940,
+        "width": 2100,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

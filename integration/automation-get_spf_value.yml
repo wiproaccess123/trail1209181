@@ -1,0 +1,31 @@
+commonfields:
+  id: 818a2381-1a0c-4d27-8367-cf92258b8e95
+  version: 3
+name: get_spf_value
+script: |-
+  var text = args.Authentication_Results;
+  var ec = {};
+  var found;
+  var reg;
+  reg = /((spf=)\S\w*)/gmi;
+  found = reg.exec(text);
+  var spf = found[0].split('=');
+  ec.spf_value = spf[1];
+  var md = '### spf value\n';
+  md+='-' + spf[1] + '\n';
+  return ( {ContentsFormat: formats.json, Type: entryTypes.note, Contents: ec[outputPaths.spf_value], HumanReadable: md, EntryContext: ec});
+type: javascript
+tags:
+- Utility
+enabled: true
+args:
+- name: Authentication_Results
+  required: true
+  default: true
+  description: To fetch dkim value from Authentication Field of email header
+outputs:
+- contextPath: dkim_value
+  description: To get dkim value
+scripttarget: 0
+runonce: false
+sensitive: true

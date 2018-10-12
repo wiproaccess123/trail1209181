@@ -1,0 +1,32 @@
+commonfields:
+  id: cb1f52dd-339b-4ff1-8e67-4bf3b4e5fe90
+  version: 56
+name: new_sudheer_test
+script: |+
+  import json
+
+
+
+
+
+
+  if  'data'  in  demisto.args() :
+      jsondata = demisto.args()['data']
+      demisto.results(jsondata)
+  elif 'hostname' in  demisto.args():
+      hostname = demisto.args()['hostname']
+      demisto.results(hostname)
+
+  else:
+      raise ValueError("plese enter entry")
+
+type: python
+tags: []
+comment: testing python execution in demisto
+enabled: true
+args:
+- name: data
+- name: hostname
+  required: true
+scripttarget: 0
+runonce: false

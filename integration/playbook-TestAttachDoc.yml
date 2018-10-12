@@ -1,0 +1,305 @@
+id: ada1146f-b102-44f5-8a1d-4faf88f7b338
+version: 10
+name: TestAttachDoc
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 6cd3e0c7-66e1-4662-8464-09aa4e42b03e
+    type: start
+    task:
+      id: 6cd3e0c7-66e1-4662-8464-09aa4e42b03e
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 640,
+          "y": 138
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 8cd2acd9-b43b-42af-8a73-f42475aa49d4
+    type: title
+    task:
+      id: 8cd2acd9-b43b-42af-8a73-f42475aa49d4
+      version: -1
+      name: End
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 853,
+          "y": 1250
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: c8b8f1b3-a668-4b9b-8c6d-9ff876285138
+    type: regular
+    task:
+      id: c8b8f1b3-a668-4b9b-8c6d-9ff876285138
+      version: -1
+      name: Parse
+      script: ParseWordDoc
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='docx').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 640,
+          "y": 302
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 5fd15e01-415c-4887-8b5a-1201a20d759e
+    type: regular
+    task:
+      id: 5fd15e01-415c-4887-8b5a-1201a20d759e
+      version: -1
+      name: read Text file
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+      - "6"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 640,
+          "y": 487
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: eed532d8-8a21-4748-86b1-c9d998bb5632
+    type: regular
+    task:
+      id: eed532d8-8a21-4748-86b1-c9d998bb5632
+      version: -1
+      name: IP Extraction
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 310,
+          "y": 697
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: e93c6ebd-0db8-4b8e-8293-dc553e70e101
+    type: regular
+    task:
+      id: e93c6ebd-0db8-4b8e-8293-dc553e70e101
+      version: -1
+      name: Url Extraction
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "9"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 976,
+          "y": 697
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: d5f37a6e-dc20-4925-8992-290786433a78
+    type: condition
+    task:
+      id: d5f37a6e-dc20-4925-8992-290786433a78
+      version: -1
+      name: IP Empty Condition
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "8"
+      "yes":
+      - "2"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isEmpty
+          left:
+            value:
+              simple: IP.Address
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 205,
+          "y": 864
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 864d1a7c-341f-43dc-8583-b2724770d2b3
+    type: regular
+    task:
+      id: 864d1a7c-341f-43dc-8583-b2724770d2b3
+      version: -1
+      name: IP Reputation
+      script: VirusTotal|||ip
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      ip:
+        simple: ${IP.Address}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 612,
+          "y": 973
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: 95ae7a81-3410-42ea-8ab9-22e83769eb45
+    type: condition
+    task:
+      id: 95ae7a81-3410-42ea-8ab9-22e83769eb45
+      version: -1
+      name: URL Empty Condition
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "10"
+      "yes":
+      - "2"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isEmpty
+          left:
+            value:
+              simple: URL.Data
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 890,
+          "y": 856
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: 444d4b0d-1b11-42c5-801b-32389cf23e03
+    type: regular
+    task:
+      id: 444d4b0d-1b11-42c5-801b-32389cf23e03
+      version: -1
+      name: URL repuTation
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      long: {}
+      retries: {}
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        simple: ${URL.Data}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1075,
+          "y": 1015
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {
+      "9_2_yes": 0.44
+    },
+    "paper": {
+      "dimensions": {
+        "height": 1177,
+        "width": 1250,
+        "x": 205,
+        "y": 138
+      }
+    }
+  }
+inputs: []
+outputs: []

@@ -1,0 +1,94 @@
+id: e291de62-cd1c-4af2-8123-2a70307852e1
+version: 7
+name: extractfilename
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 3d45ddc7-0e02-4dfc-8528-b98174ea40ae
+    type: start
+    task:
+      id: 3d45ddc7-0e02-4dfc-8528-b98174ea40ae
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: bddf5714-3a69-4ce0-897b-b213760fe7ae
+    type: regular
+    task:
+      id: bddf5714-3a69-4ce0-897b-b213760fe7ae
+      version: -1
+      name: Extract target file name from payload
+      script: 66958948-5333-43f4-858f-b071681bd5c3
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      extend-context: {}
+      field:
+        simple: ThreatHandled
+      text:
+        simple: ${data}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 224
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: e52966de-c72b-4f62-8253-d2558b1204fa
+    type: regular
+    task:
+      id: e52966de-c72b-4f62-8253-d2558b1204fa
+      version: -1
+      name: close investigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 409
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 454,
+        "width": 380,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

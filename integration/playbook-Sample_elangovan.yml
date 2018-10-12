@@ -1,0 +1,208 @@
+id: 238dde57-7a7e-4734-8f90-db5d756eacf0
+version: 2
+name: Sample_elangovan
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: f307aa42-0461-4e41-8bd9-aabe5fe81995
+    type: start
+    task:
+      id: f307aa42-0461-4e41-8bd9-aabe5fe81995
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 449,
+          "y": 113
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: e22d6eab-2254-49a9-810c-2355eb6e8ebc
+    type: regular
+    task:
+      id: e22d6eab-2254-49a9-810c-2355eb6e8ebc
+      version: -1
+      name: Extract ip
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 449,
+          "y": 293
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: caa16973-1d45-4aec-8f75-2f1c3857d6a4
+    type: regular
+    task:
+      id: caa16973-1d45-4aec-8f75-2f1c3857d6a4
+      version: -1
+      name: Extract url
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 449,
+          "y": 473
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 1dd33408-2fff-41cc-88ba-69b49f61c38f
+    type: condition
+    task:
+      id: 1dd33408-2fff-41cc-88ba-69b49f61c38f
+      version: -1
+      name: Check if it is malicious
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "5"
+      "yes":
+      - "4"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 449,
+          "y": 653
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: d8647e63-e95e-431e-89cb-559c896dae02
+    type: regular
+    task:
+      id: d8647e63-e95e-431e-89cb-559c896dae02
+      version: -1
+      name: send mail
+      script: SendEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      attachIDs: {}
+      bcc: {}
+      body: {}
+      cc: {}
+      htmlBody: {}
+      noteEntryID: {}
+      replyTo: {}
+      subject:
+        simple: malicious url
+      to: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 116,
+          "y": 828
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 10448ba9-bee8-4586-866e-37b615834149
+    type: regular
+    task:
+      id: 10448ba9-bee8-4586-866e-37b615834149
+      version: -1
+      name: no malicious url
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 799,
+          "y": 806
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 1a8358a9-b52f-4b79-8578-ac19ee04ab19
+    type: regular
+    task:
+      id: 1a8358a9-b52f-4b79-8578-ac19ee04ab19
+      version: -1
+      name: close
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 436,
+          "y": 977
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 959,
+        "width": 1063,
+        "x": 116,
+        "y": 113
+      }
+    }
+  }
+inputs: []
+outputs: []

@@ -1,0 +1,124 @@
+id: 6e9ce19e-d291-48fd-87b2-24191db2d126
+version: 5
+name: Read File-Testing
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: a86842cc-687c-4939-81ef-a36daadbc97c
+    type: start
+    task:
+      id: a86842cc-687c-4939-81ef-a36daadbc97c
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: dcc02881-40ac-401e-817d-90e3e2627b4e
+    type: regular
+    task:
+      id: dcc02881-40ac-401e-817d-90e3e2627b4e
+      version: -1
+      name: Readfile
+      description: Load the contents and metadata of a PDF file into context.
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 230
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: fa5f9151-46b6-4430-8ca1-9d830efcd7c9
+    type: regular
+    task:
+      id: fa5f9151-46b6-4430-8ca1-9d830efcd7c9
+      version: -1
+      name: ExtractIP
+      description: Extract IPs from the given text and place them both as output and
+        in the context of a playbook.
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 410
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 855f71ec-873a-43c6-8817-eed855f0d7bb
+    type: regular
+    task:
+      id: 855f71ec-873a-43c6-8817-eed855f0d7bb
+      version: -1
+      name: CloseInvestigation
+      description: Close an investigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 590
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 635,
+        "width": 380,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

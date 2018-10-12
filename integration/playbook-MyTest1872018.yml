@@ -1,0 +1,434 @@
+id: 0b6fbb3b-b8c8-4c2b-8870-78a99420d9e3
+version: 18
+name: MyTest1872018
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: b88954b8-b30a-495d-846b-be863d3839c0
+    type: start
+    task:
+      id: b88954b8-b30a-495d-846b-be863d3839c0
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 525,
+          "y": 126
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 33c17e9d-8c8f-4129-8b73-1f898a50f9fe
+    type: regular
+    task:
+      id: 33c17e9d-8c8f-4129-8b73-1f898a50f9fe
+      version: -1
+      name: Extract IP
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "10"
+    scriptarguments:
+      text:
+        simple: ${incident.details}${FileData}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -100,
+          "y": 272
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: cc432d97-4bf3-47d9-8d89-805979e0c5c6
+    type: regular
+    task:
+      id: cc432d97-4bf3-47d9-8d89-805979e0c5c6
+      version: -1
+      name: Extract URL
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "11"
+    scriptarguments:
+      text:
+        simple: ${incident.details}${FileData}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 370,
+          "y": 272
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: c5d25196-8989-4dcd-8499-08e97fb96fcb
+    type: regular
+    task:
+      id: c5d25196-8989-4dcd-8499-08e97fb96fcb
+      version: -1
+      name: Extract Mail IDs
+      script: ExtractEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "12"
+    scriptarguments:
+      text:
+        simple: ${incident.details}${FileData}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 841,
+          "y": 272
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: cc22a86c-d16b-4859-889b-0218de828a87
+    type: regular
+    task:
+      id: cc22a86c-d16b-4859-889b-0218de828a87
+      version: -1
+      name: Extract Domain
+      script: ExtractDomain
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "13"
+    scriptarguments:
+      calcReputation: {}
+      extractFromEmails: {}
+      markAsIndicator: {}
+      text:
+        simple: ${incident.details}${FileData}
+      tldList: {}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1354,
+          "y": 272
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: d369ff97-6c61-4375-8f5c-017e3144a43b
+    type: regular
+    task:
+      id: d369ff97-6c61-4375-8f5c-017e3144a43b
+      version: -1
+      name: IP Reputation
+      script: VirusTotal|||ip
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "9"
+    scriptarguments:
+      ip:
+        simple: ${IP.Address}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -117,
+          "y": 691
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 942e7fe6-dcf5-428c-8cd7-200189c5cd93
+    type: regular
+    task:
+      id: 942e7fe6-dcf5-428c-8cd7-200189c5cd93
+      version: -1
+      name: URL Reputation
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "9"
+    scriptarguments:
+      long: {}
+      retries: {}
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        simple: ${URL.Data}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 370,
+          "y": 691
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 79116eba-f298-4ecb-872e-c311af947bd8
+    type: regular
+    task:
+      id: 79116eba-f298-4ecb-872e-c311af947bd8
+      version: -1
+      name: Email Reputation
+      script: EmailReputation
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "9"
+    scriptarguments:
+      email:
+        simple: ${Account.Email.Address}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 841,
+          "y": 691
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 6fd00f32-0ee7-4205-8236-4acf78197159
+    type: regular
+    task:
+      id: 6fd00f32-0ee7-4205-8236-4acf78197159
+      version: -1
+      name: Domain Reputation
+      script: VirusTotal|||domain
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "9"
+    scriptarguments:
+      domain:
+        simple: ${Domain.Name}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1354,
+          "y": 701
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: ae0b88e8-19ab-4e83-8634-79a37534a3e8
+    type: title
+    task:
+      id: ae0b88e8-19ab-4e83-8634-79a37534a3e8
+      version: -1
+      name: Done
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 446,
+          "y": 1222
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: 34430a29-d729-41da-83f7-8629184ed857
+    type: condition
+    task:
+      id: 34430a29-d729-41da-83f7-8629184ed857
+      version: -1
+      name: IP Check
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "5"
+      "yes":
+      - "9"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isEmpty
+          left:
+            value:
+              simple: IP.Address
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": -82,
+          "y": 454
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: ce33bed5-dacd-48fa-8126-65056825eb07
+    type: condition
+    task:
+      id: ce33bed5-dacd-48fa-8126-65056825eb07
+      version: -1
+      name: Url Check
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "6"
+      "yes":
+      - "9"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isEmpty
+          left:
+            value:
+              simple: URL.Data
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 365,
+          "y": 461
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: cd80f065-e3b3-40bf-81a0-4767f0adb513
+    type: condition
+    task:
+      id: cd80f065-e3b3-40bf-81a0-4767f0adb513
+      version: -1
+      name: Mail ID Check
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "7"
+      "yes":
+      - "9"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isEmpty
+          left:
+            value:
+              simple: Account.Email.Address
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 841,
+          "y": 454
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: 31939f2a-a587-4b36-81a1-24be28ce4785
+    type: condition
+    task:
+      id: 31939f2a-a587-4b36-81a1-24be28ce4785
+      version: -1
+      name: Domain Check
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "8"
+      "yes":
+      - "9"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isEmpty
+          left:
+            value:
+              simple: Domain.Name
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 1354,
+          "y": 454
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1161,
+        "width": 1851,
+        "x": -117,
+        "y": 126
+      }
+    }
+  }
+inputs: []
+outputs: []

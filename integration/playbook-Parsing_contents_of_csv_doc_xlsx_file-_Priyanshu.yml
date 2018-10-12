@@ -1,0 +1,527 @@
+id: b2101a5c-465d-432a-8488-a86ebc163b51
+version: 36
+name: Parsing contents of csv/doc/xlsx file- Priyanshu
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: a458dbc2-4d4e-4f9e-831a-ec535febba05
+    type: start
+    task:
+      id: a458dbc2-4d4e-4f9e-831a-ec535febba05
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+      - "18"
+      - "8"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 735,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: e1eb2097-502c-40ed-8ced-b62c34a66f87
+    type: condition
+    task:
+      id: e1eb2097-502c-40ed-8ced-b62c34a66f87
+      version: -1
+      name: Is there a csv file?
+      description: Check if a given value exists in the context. Will return 'no'
+        for empty empty arrays. To be used mostly with DQ and selectors.
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+      "yes":
+      - "2"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='csv')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 195
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 24571fa8-ede4-4abf-8cae-1f6d91ffe6d0
+    type: regular
+    task:
+      id: 24571fa8-ede4-4abf-8cae-1f6d91ffe6d0
+      version: -1
+      name: Read the file
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='csv').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 370
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 273732d8-fab1-4459-8a82-1c1511cbba42
+    type: regular
+    task:
+      id: 273732d8-fab1-4459-8a82-1c1511cbba42
+      version: -1
+      name: Close investigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 827.5,
+          "y": 1070
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 7c808946-7157-47d7-8019-bd827f02fc5f
+    type: regular
+    task:
+      id: 7c808946-7157-47d7-8019-bd827f02fc5f
+      version: -1
+      name: Extract URL
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 545
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 228ec45e-fab8-44ce-8edc-70c87515380a
+    type: regular
+    task:
+      id: 228ec45e-fab8-44ce-8edc-70c87515380a
+      version: -1
+      name: Check URL reputation
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      long: {}
+      retries: {}
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        simple: ${URL.Data}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 720
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: e65a3046-d93d-44bf-8c2d-14f28569750f
+    type: condition
+    task:
+      id: e65a3046-d93d-44bf-8c2d-14f28569750f
+      version: -1
+      name: Is URL malicious
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "3"
+      "yes":
+      - "7"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 895
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 8e4fae08-f92d-4593-8d59-a1149c60fd96
+    type: regular
+    task:
+      id: 8e4fae08-f92d-4593-8d59-a1149c60fd96
+      version: -1
+      name: Verdict- Possible threats found
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 397.5,
+          "y": 1070
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 255e438e-824f-40f8-83dd-8e1aeaa6e0b2
+    type: condition
+    task:
+      id: 255e438e-824f-40f8-83dd-8e1aeaa6e0b2
+      version: -1
+      name: Is there a xlsx file?
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "3"
+      "yes":
+      - "16"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='xlsx')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1287.5,
+          "y": 195
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: fe4f3389-fe34-41ee-814e-62cb914bcc45
+    type: regular
+    task:
+      id: fe4f3389-fe34-41ee-814e-62cb914bcc45
+      version: -1
+      name: Extract IP
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "12"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1175,
+          "y": 545
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: b29eb637-e9c8-4aad-8061-048383f6bf70
+    type: regular
+    task:
+      id: b29eb637-e9c8-4aad-8061-048383f6bf70
+      version: -1
+      name: Check IP reputation
+      script: VirusTotal|||ip
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "13"
+    scriptarguments:
+      ip:
+        simple: ${IP.Address}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1175,
+          "y": 720
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: b185f042-d29b-4eb7-80eb-cc68ea7f109a
+    type: condition
+    task:
+      id: b185f042-d29b-4eb7-80eb-cc68ea7f109a
+      version: -1
+      name: Is IP Malicious?
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "yes":
+      - "7"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1175,
+          "y": 895
+        }
+      }
+    note: false
+  "16":
+    id: "16"
+    taskid: a1143b50-bf26-4f05-801e-7d3fb701fcd1
+    type: regular
+    task:
+      id: a1143b50-bf26-4f05-801e-7d3fb701fcd1
+      version: -1
+      name: Readfile
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "11"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1175,
+          "y": 370
+        }
+      }
+    note: false
+  "18":
+    id: "18"
+    taskid: 28262464-9c05-44b5-879b-1c91045dfdfd
+    type: condition
+    task:
+      id: 28262464-9c05-44b5-879b-1c91045dfdfd
+      version: -1
+      name: Is there a doc file?
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "3"
+      "yes":
+      - "20"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='doc')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 735,
+          "y": 195
+        }
+      }
+    note: false
+  "20":
+    id: "20"
+    taskid: 89d391f2-4cda-461f-84b9-1c31b0723929
+    type: regular
+    task:
+      id: 89d391f2-4cda-461f-84b9-1c31b0723929
+      version: -1
+      name: Read the file
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "21"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='doc').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 622.5,
+          "y": 370
+        }
+      }
+    note: false
+  "21":
+    id: "21"
+    taskid: 58613807-e3e2-4e29-8835-81a8f8d0d20f
+    type: regular
+    task:
+      id: 58613807-e3e2-4e29-8835-81a8f8d0d20f
+      version: -1
+      name: Extract IP
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "22"
+    scriptarguments:
+      text:
+        simple: ${FileData}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 622.5,
+          "y": 545
+        }
+      }
+    note: false
+  "22":
+    id: "22"
+    taskid: 7e15a5c8-0f1e-43f1-8e46-88b8a574aaf6
+    type: regular
+    task:
+      id: 7e15a5c8-0f1e-43f1-8e46-88b8a574aaf6
+      version: -1
+      name: Check IP reputation
+      script: VirusTotal|||ip
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "23"
+    scriptarguments:
+      ip:
+        simple: ${IP.Address}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 622.5,
+          "y": 720
+        }
+      }
+    note: false
+  "23":
+    id: "23"
+    taskid: d82d57d0-6580-43a5-8d76-0bd81e2546ee
+    type: condition
+    task:
+      id: d82d57d0-6580-43a5-8d76-0bd81e2546ee
+      version: -1
+      name: Is IP malicious?
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "3"
+      "yes":
+      - "7"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 622.5,
+          "y": 895
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1115,
+        "width": 1617.5,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

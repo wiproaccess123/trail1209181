@@ -1,0 +1,29 @@
+commonfields:
+  id: b3d584f4-28dc-4134-8e6a-6f236ac6172f
+  version: 17
+name: Ashscript
+script: |-
+  import numpy
+  import pandas as pd
+  #from numpy import pandas as pd
+  df=pd.read_csv('800@c9738542-175e-407e-829e-d8949917c292')
+  demisto.results(df)
+  df.set_index(' Customer',inplace=True)
+  demisto.results(df.index)
+  n=demisto.args()["Data"]
+  if n in df.index:
+      demisto.results(df.loc[n])
+  else:
+      demisto.results("The value does not exist")
+      '''
+      Test
+      '''
+type: python
+tags: []
+enabled: true
+args:
+- name: Data
+  required: true
+scripttarget: 0
+runonce: true
+dockerimage: pandas

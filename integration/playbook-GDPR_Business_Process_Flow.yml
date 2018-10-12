@@ -1,0 +1,368 @@
+id: 0059fc6a-2c70-4601-8048-5952cadf20ab
+version: 6
+name: GDPR Business Process Flow
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 1dc2215f-0ca2-4d58-8288-077d494a4338
+    type: start
+    task:
+      id: 1dc2215f-0ca2-4d58-8288-077d494a4338
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 11e19992-95a6-489b-8c86-de91c7eeccb3
+    type: regular
+    task:
+      id: 11e19992-95a6-489b-8c86-de91c7eeccb3
+      version: -1
+      name: ReadPDF
+      script: ReadPDFFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='pdf').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 195
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 0c14d547-89ed-4c1b-8940-fbb76076d276
+    type: regular
+    task:
+      id: 0c14d547-89ed-4c1b-8940-fbb76076d276
+      version: -1
+      name: Extract Details
+      script: ExtractEmail
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      text:
+        simple: ${URL.Data}${File.Text}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 370
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: dab98681-35a9-4248-839e-388329ec2b4f
+    type: condition
+    task:
+      id: dab98681-35a9-4248-839e-388329ec2b4f
+      version: -1
+      name: Resume received exiting consent
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "5"
+      "yes":
+      - "4"
+    scriptarguments:
+      extend-context: {}
+      value:
+        simple: ${Account.Email.Address}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 541
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: a50f02ba-3292-4fbd-8d42-c39b79eafbe8
+    type: regular
+    task:
+      id: a50f02ba-3292-4fbd-8d42-c39b79eafbe8
+      version: -1
+      name: Process the app in oracle HR
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 720
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: f9061eb9-1ff6-4b64-8744-a90c81d2ffe4
+    type: regular
+    task:
+      id: f9061eb9-1ff6-4b64-8744-a90c81d2ffe4
+      version: -1
+      name: Obtain Consent
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "12"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 695,
+          "y": 720
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: ebecfa43-d192-4b19-847f-9a833be62c4d
+    type: regular
+    task:
+      id: ebecfa43-d192-4b19-847f-9a833be62c4d
+      version: -1
+      name: Standard Recruitment Process
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 895
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 0360bc45-edcc-4b9a-8521-77d62af69fb4
+    type: condition
+    task:
+      id: 0360bc45-edcc-4b9a-8521-77d62af69fb4
+      version: -1
+      name: Offer
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "8"
+      "yes":
+      - "9"
+    scriptarguments:
+      value: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 1070
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 4801b137-613d-4f5e-8fff-50c3d3a4aa2e
+    type: condition
+    task:
+      id: 4801b137-613d-4f5e-8fff-50c3d3a4aa2e
+      version: -1
+      name: Hold Data As Per
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "yes":
+      - "13"
+    scriptarguments:
+      value: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 11,
+          "y": 1245
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: 219f3588-61af-497c-80eb-27f09b62e765
+    type: condition
+    task:
+      id: 219f3588-61af-497c-80eb-27f09b62e765
+      version: -1
+      name: Offer Accepted
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "12"
+      - "10"
+    scriptarguments:
+      value: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 1245
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: 7e45d2cb-d806-4696-8369-0fd1ef0ec1fa
+    type: regular
+    task:
+      id: 7e45d2cb-d806-4696-8369-0fd1ef0ec1fa
+      version: -1
+      name: Retain Data As per policy SAR request
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "11"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 176,
+          "y": 1544
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: d2a56860-5857-475b-804f-ace8fcfabff2
+    type: regular
+    task:
+      id: d2a56860-5857-475b-804f-ace8fcfabff2
+      version: -1
+      name: STOP
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 315,
+          "y": 1736
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: 59b723a2-8315-4be0-88ea-a8812aac8e77
+    type: regular
+    task:
+      id: 59b723a2-8315-4be0-88ea-a8812aac8e77
+      version: -1
+      name: Masking of data as per policy
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "11"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 811,
+          "y": 1544
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: 4cb0e88d-d603-4334-8d52-b4e193740850
+    type: regular
+    task:
+      id: 4cb0e88d-d603-4334-8d52-b4e193740850
+      version: -1
+      name: Masking of data as per policy
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "11"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -369,
+          "y": 1478
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {
+      "8_13_yes": 0.63,
+      "9_12_no": 0.69
+    },
+    "paper": {
+      "dimensions": {
+        "height": 1781,
+        "width": 1560,
+        "x": -369,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

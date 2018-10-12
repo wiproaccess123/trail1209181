@@ -1,0 +1,110 @@
+commonfields:
+  id: cc310c21-249c-45c9-8c2e-5ba7307417b9
+  version: 6
+name: createManagedUrl
+script: |-
+  import base64
+  import hashlib
+  import hmac
+  import uuid
+  import datetime
+  import requests
+
+  # Setup required variables
+  base_url = demisto.args()['base_url']
+  uri = demisto.args()['uri']
+  url = base_url + uri
+  access_key = demisto.args()['access_key']
+  secret_key = demisto.args()['secret_key']
+  app_id = demisto.args()['app_id']
+  app_key = demisto.args()['app_key']
+
+  # Generate request header values
+  request_id = str(uuid.uuid4())
+  hdr_date = datetime.datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S") + " UTC"
+
+  # Create the HMAC SHA1 of the Base64 decoded secret key for the Authorization header
+  hmac_sha1 = hmac.new(secret_key.decode("base64"), ':'.join([hdr_date, request_id, uri, app_key]),
+                    digestmod=hashlib.sha1).digest()
+
+  # Use the HMAC SHA1 value to sign the hdrDate + ":" requestId + ":" + URI + ":" + appkey
+  sig = base64.encodestring(hmac_sha1).rstrip()
+
+  # Create request headers
+  headers = {
+      'Authorization': 'MC ' + access_key + ':' + sig,
+      'x-mc-app-id': app_id,
+      'x-mc-date': hdr_date,
+      'x-mc-req-id': request_id,
+      'Content-Type': 'application/json'
+  }
+  #Disable rewriting of this URL in emails. Applies only if action = "permit". Default false.
+  disableRewrite = False
+  disableUserAwareness = False
+  if demisto.args()['action']=='permit':
+      disableRewrite = True
+      disableUserAwareness = True
+  if demisto.args()['disableLogClick'] = 'False':
+      disableLogClick = False
+  else:
+      disableLogClick = True
+  payload = {
+          'data': [
+              {
+                  'matchType': demisto.args()['matchType'],
+                  'disableRewrite': disableRewrite,
+                  'action': demisto.args()['action'],
+                  'comment': demisto.args()['comment'],
+                  'disableUserAwareness': disableUserAwareness,
+                  'url': demisto.args()['url'],
+                  'disableLogClick': disableLogClick
+              }
+          ]
+      }
+
+  r = requests.post(url=url, headers=headers, data=str(payload))
+
+  demisto.results(r.text)
+type: python
+tags: []
+enabled: true
+args:
+- name: base_url
+  required: true
+- name: uri
+  required: true
+- name: access_key
+  required: true
+- name: secret_key
+  required: true
+- name: app_id
+  required: true
+- name: app_key
+  required: true
+- name: matchType
+  auto: PREDEFINED
+  predefined:
+  - explicit
+  - domain
+  description: Set to "explicit" to block or permit only instances of the full URL.
+    Set to "domain" to block or permit any URL with the same domain
+- name: action
+  required: true
+  auto: PREDEFINED
+  predefined:
+  - permit
+  - block
+  description: Set to "block" to blacklist the URL, "permit" to whitelist it.
+- name: comment
+  description: A comment about the why the URL is managed for tracking purposes
+- name: url
+  required: true
+  description: The URL to block or permit. Do not include a fragment (#).
+- name: disableLogClick
+  auto: PREDEFINED
+  predefined:
+  - "True"
+  - "False"
+  defaultValue: "False"
+scripttarget: 0
+runonce: false

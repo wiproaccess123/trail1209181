@@ -1,0 +1,49 @@
+commonfields:
+  id: ScoresFetchTrail
+  version: 3
+name: ScoresFetchTrail
+display: ScoresFetchTrail
+category: Authentication
+configuration: []
+script:
+  script: |-
+    import re
+    browser = webdriver.Firefox()
+    def patternCheck(pattern, innerHTML):
+        for n in re.finditer(pattern, innerHTML):
+            start = n.start()
+            lineno = innerHTML.count('\n', 0, start)
+        content_split = innerHTML.splitlines()
+        cleanr = re.compile('<.*?>')
+        cleantext = re.sub(cleanr, '', content_split[lineno])
+        return cleantext.lstrip().lstrip('(').rstrip(')')
+
+
+
+
+
+    browser.get('https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:N/E:H/RC:R/IR:M/AR:M/MUI:R/MS:U/MC:L/MI:L/MA:N')
+    innerHTML = browser.execute_script("return document.body.innerHTML")
+    #print innerHTML
+
+
+    #content = response.read()
+    baseMetricScore = '<span id="baseMetricScore">'
+    baseSeverity = '<span id="baseSeverity">'
+    temporalMetricScore = '<span id="temporalMetricScore">'
+    temporalSeverity = '<span id="temporalSeverity">'
+    environmentalMetricScore = '<span id="environmentalMetricScore">'
+    environmentalSeverity = '<span id="environmentalSeverity">'
+
+    if demisto.commands ==  'fetch-scores':
+        demisto.results("baseMetricScore: "+patternCheck(baseMetricScore, innerHTML))
+        demisto.results("baseSeverity: "+patternCheck(baseSeverity, innerHTML))
+        demisto.results("temporalMetricScore: "+patternCheck(temporalMetricScore, innerHTML))
+        demisto.results("temporalSeverity: "+patternCheck(temporalSeverity, innerHTML))
+        demisto.results("environmentalMetricScore: "+patternCheck(environmentalMetricScore, innerHTML))
+        demisto.results("environmentalSeverity: "+patternCheck(environmentalSeverity, innerHTML))
+  type: python
+  commands:
+  - name: fetch-scores
+    arguments: []
+  runonce: false

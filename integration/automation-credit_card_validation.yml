@@ -1,0 +1,42 @@
+commonfields:
+  id: 2a070ddc-5bd3-4d76-853c-8252498e5f6a
+  version: 33
+name: credit_card_validation
+script: |+
+  def luhn_checksum(card_number):
+      def digits_of(n):
+          return [int(d) for d in str(n)]
+      digits = digits_of(card_number)
+      odd_digits = digits[-1::-2]
+      even_digits = digits[-2::-2]
+      checksum = 0
+      checksum += sum(odd_digits)
+      for d in even_digits:
+          checksum += sum(digits_of(d*2))
+      return checksum % 10
+
+  def is_luhn_valid(card_number):
+      return luhn_checksum(card_number) == 0
+
+
+  result1 = demisto.args()['card_number']
+  result2 = is_luhn_valid(result1)
+  if str(result2) == True:
+
+      demisto.results('yes')
+  else:
+      demisto.results('no')
+
+type: python
+tags: []
+enabled: true
+args:
+- name: card_number
+  required: true
+outputs:
+- contextPath: "yes"
+  description: If card is valid.
+- contextPath: "no"
+  description: If card is invalid.
+scripttarget: 0
+runonce: false

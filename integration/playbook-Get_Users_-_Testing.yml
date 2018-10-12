@@ -1,0 +1,99 @@
+id: ee1c389b-47e4-4928-8b5d-ce212c802458
+version: 2
+name: 'Get Users - Testing '
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 11d9882e-752d-4213-81d6-4e057ddad8a7
+    type: start
+    task:
+      id: 11d9882e-752d-4213-81d6-4e057ddad8a7
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: a2bae27a-cffa-45e6-8aeb-85c118a2d9ac
+    type: regular
+    task:
+      id: a2bae27a-cffa-45e6-8aeb-85c118a2d9ac
+      version: -1
+      name: 'Get Users '
+      description: Find all users associated with a role. In addition, you can get
+        all connected users or the user that ran the command.
+      script: Builtin|||getUsers
+      type: regular
+      iscommand: true
+      brand: Builtin
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      current: {}
+      online: {}
+      roles:
+        simple: ClientA_Analyst
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 230
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 125f2a15-8d5d-46fa-85b5-c8481417c9ad
+    type: regular
+    task:
+      id: 125f2a15-8d5d-46fa-85b5-c8481417c9ad
+      version: -1
+      name: Display all users in HTML
+      description: Display HTML in the War Room.
+      script: DisplayHTML
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      header: {}
+      html:
+        simple: ${DemistoUsers.name}
+      markAsNote: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 410
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 455,
+        "width": 380,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

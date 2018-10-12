@@ -1,0 +1,240 @@
+id: 111334c0-8e7c-4459-82e7-4ab2d862a725
+version: 3
+name: testemail
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 6d86e323-d1cb-4618-835c-4265db76f43d
+    type: start
+    task:
+      id: 6d86e323-d1cb-4618-835c-4265db76f43d
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 485,
+          "y": 105
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 39e8bb7c-32c0-4fdb-8b83-582d5d428203
+    type: regular
+    task:
+      id: 39e8bb7c-32c0-4fdb-8b83-582d5d428203
+      version: -1
+      name: extract ip
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 485,
+          "y": 347
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 0b5327e9-1174-4afb-8d28-77a667663688
+    type: regular
+    task:
+      id: 0b5327e9-1174-4afb-8d28-77a667663688
+      version: -1
+      name: extract url
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 489,
+          "y": 617
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: bd1452bb-d147-49be-8046-b73111fd2a54
+    type: condition
+    task:
+      id: bd1452bb-d147-49be-8046-b73111fd2a54
+      version: -1
+      name: ip reputation
+      script: IPReputation
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "6"
+      "yes":
+      - "5"
+    scriptarguments:
+      ip:
+        simple: ${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 485,
+          "y": 786
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: cfea26ec-2aae-46d1-8bac-a0de88f69094
+    type: condition
+    task:
+      id: cfea26ec-2aae-46d1-8bac-a0de88f69094
+      version: -1
+      name: url reputation
+      script: URLReputation
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "6"
+      "yes":
+      - "7"
+    scriptarguments:
+      url:
+        simple: ${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 865,
+          "y": 969
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 92f28324-c294-4fc8-85e0-c6e0148ac04c
+    type: regular
+    task:
+      id: 92f28324-c294-4fc8-85e0-c6e0148ac04c
+      version: -1
+      name: assign to res person
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "9"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 193,
+          "y": 1152
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 15c7b77d-8cc9-4f28-8fbf-542c35af83f4
+    type: regular
+    task:
+      id: 15c7b77d-8cc9-4f28-8fbf-542c35af83f4
+      version: -1
+      name: close
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "8"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 773,
+          "y": 1152
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 47615f0e-09b0-4d67-8047-1c52a40dcb5a
+    type: regular
+    task:
+      id: 47615f0e-09b0-4d67-8047-1c52a40dcb5a
+      version: -1
+      name: done
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 773,
+          "y": 1336
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: 0db7c63f-1c27-48c7-86d7-2b31807038e9
+    type: regular
+    task:
+      id: 0db7c63f-1c27-48c7-86d7-2b31807038e9
+      version: -1
+      name: done
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 193,
+          "y": 1322
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1326,
+        "width": 1052,
+        "x": 193,
+        "y": 105
+      }
+    }
+  }
+inputs: []
+outputs: []

@@ -1,0 +1,38 @@
+id: c1240a1a-8fc7-4c89-87f0-0be58fc3f525
+version: 2
+name: Test Playbook for Demisto Training
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 8c1ee0f8-214d-4f42-8ff1-bbb97aa89e1e
+    type: start
+    task:
+      id: 8c1ee0f8-214d-4f42-8ff1-bbb97aa89e1e
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 65,
+        "width": 380,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

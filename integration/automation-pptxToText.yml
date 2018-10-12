@@ -1,0 +1,44 @@
+commonfields:
+  id: 7782b7f8-9b56-4fdb-8df0-ec9f44d81361
+  version: 35
+name: pptxToText
+script: |-
+  from pptx import Presentation
+  import os
+
+  def fileResult1(inputfile):
+      prs = Presentation(inputfile)
+      try:
+          d=''
+          for slide in prs.slides:
+              for shape in slide.shapes:
+                  if hasattr(shape, "text"):
+                      d= d+"\n"+shape.text
+                  elif(shape.has_table):
+                      tbl = shape.table
+                      for r in tbl.rows:
+                          s = ""
+                          for c in r.cells:
+                              s += c.text_frame.text
+                          d=d+"\n"+s
+
+          return d
+      except Exception, err:
+          return False
+  cmd_res = demisto.getFilePath(demisto.getArg('entryID'))
+  arg = cmd_res["path"]
+  #demisto.results()
+  demisto.results(arg)
+  result = fileResult1(arg)
+  res = fileResult(cmd_res["name"][:cmd_res["name"].rfind('.')]+'.txt', result.encode('utf8'))
+  demisto.results(res)
+type: python
+tags: []
+enabled: true
+args:
+- name: entryID
+  required: true
+scripttarget: 0
+timeout: 2.605µs
+runonce: false
+dockerimage: docimg

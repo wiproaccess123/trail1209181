@@ -1,0 +1,31 @@
+commonfields:
+  id: 7fc1181c-9276-45a6-8085-da297fbde083
+  version: 2
+name: get_dkim_value
+script: |-
+  var text = args.Authentication_Results;
+  var ec = {};
+  var found;
+  var reg;
+  reg = /((dkim=)\S\w*)/gmi;
+  found = reg.exec(text);
+  var dkim = found[0].split('=');
+  ec.dkim_value = dkim[1];
+  var md = '### dkim value\n';
+  md+='-' + dkim[1] + '\n';
+  return ( {ContentsFormat: formats.json, Type: entryTypes.note, Contents: ec[outputPaths.dkim_value], HumanReadable: md, EntryContext: ec});
+type: javascript
+tags:
+- Utility
+enabled: true
+args:
+- name: Authentication_Results
+  required: true
+  default: true
+  description: To fetch dkim value from Authentication Field of email header
+outputs:
+- contextPath: dkim_value
+  description: To get dkim value
+scripttarget: 0
+runonce: false
+sensitive: true

@@ -1,0 +1,359 @@
+id: 3a5a0432-6b11-44b3-83b2-91d85fe44228
+version: 2
+name: ITM-Oracle-HRMS
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 8d75bfbf-f476-445a-8a11-773090d2c177
+    type: start
+    task:
+      id: 8d75bfbf-f476-445a-8a11-773090d2c177
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 695,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 41ce3eef-1c1c-4b80-8d16-378645661c30
+    type: condition
+    task:
+      id: 41ce3eef-1c1c-4b80-8d16-378645661c30
+      version: -1
+      name: 'Resume  Recived Exiting Consent ?  '
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "4"
+      "Yes":
+      - "2"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 695,
+          "y": 195
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: da2ccacd-e3d5-4560-8e15-9f3b6b188bb1
+    type: regular
+    task:
+      id: da2ccacd-e3d5-4560-8e15-9f3b6b188bb1
+      version: -1
+      name: Process the Applciation in Oracle  HR
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 370
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: c353cadc-cd7d-444d-81aa-03977231c731
+    type: regular
+    task:
+      id: c353cadc-cd7d-444d-81aa-03977231c731
+      version: -1
+      name: 'Standard  Recuirtment Process '
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 545
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 8de48ec7-147e-410b-8b8c-f8a8dd8da776
+    type: regular
+    task:
+      id: 8de48ec7-147e-410b-8b8c-f8a8dd8da776
+      version: -1
+      name: Erasure of Data as Per Data Policy
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 370
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 9ba03204-fff8-4918-8e9d-306b64465c3a
+    type: regular
+    task:
+      id: 9ba03204-fff8-4918-8e9d-306b64465c3a
+      version: -1
+      name: Stop
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 545
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 58cd2271-ef0b-410d-825a-644ec58ad6bd
+    type: condition
+    task:
+      id: 58cd2271-ef0b-410d-825a-644ec58ad6bd
+      version: -1
+      name: Offer
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "10"
+      "Yes":
+      - "7"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 720
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 443e1e20-0250-4dc1-8115-23472da56a16
+    type: condition
+    task:
+      id: 443e1e20-0250-4dc1-8115-23472da56a16
+      version: -1
+      name: 'Offer Accepted?  '
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "13"
+      "Yes":
+      - "8"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 895
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: fd9e40e2-42db-4b5f-86f2-e4ae61da7abb
+    type: regular
+    task:
+      id: fd9e40e2-42db-4b5f-86f2-e4ae61da7abb
+      version: -1
+      name: Retain Data as per Policy SAR Request
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "9"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 1070
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: 73e61905-e721-4781-848e-42e0f8725b11
+    type: regular
+    task:
+      id: 73e61905-e721-4781-848e-42e0f8725b11
+      version: -1
+      name: Stop
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 1245
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: 972a987f-fce4-4ee7-8175-ec01d35300d7
+    type: condition
+    task:
+      id: 972a987f-fce4-4ee7-8175-ec01d35300d7
+      version: -1
+      name: ' Hold data as per Policy?'
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "11"
+      "Yes":
+      - "13"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 695,
+          "y": 895
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: 599d2379-b560-4302-8544-61e593c8e9c3
+    type: regular
+    task:
+      id: 599d2379-b560-4302-8544-61e593c8e9c3
+      version: -1
+      name: Masking /Erasure of Data as per Policy
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "12"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 1070
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: eaf23232-d301-4f59-86e1-6e5ed674aebb
+    type: regular
+    task:
+      id: eaf23232-d301-4f59-86e1-6e5ed674aebb
+      version: -1
+      name: Stop
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 910,
+          "y": 1245
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: 5f26235a-0329-4450-8438-345406791365
+    type: regular
+    task:
+      id: 5f26235a-0329-4450-8438-345406791365
+      version: -1
+      name: Masking /Erasure of Data as per Policy
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "14"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 1070
+        }
+      }
+    note: false
+  "14":
+    id: "14"
+    taskid: e28033bc-26d4-475f-8749-43b7df023b90
+    type: regular
+    task:
+      id: e28033bc-26d4-475f-8749-43b7df023b90
+      version: -1
+      name: Stop
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 1245
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1290,
+        "width": 1240,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []
