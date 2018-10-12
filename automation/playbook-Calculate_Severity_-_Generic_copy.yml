@@ -1,0 +1,759 @@
+id: b016390e-1520-4888-8bbf-22b19306be23
+version: 2
+name: Calculate Severity - Generic_copy
+description: |-
+  Calculate incident severity by indicators reputation and user/endpoint membership in critical groups.
+
+  Note - current severity will be overwritten and new severity may be lower than the current one.
+
+  Playbook inputs:
+  * CriticalUsers - Comma separated array with usernames of critical users
+  * CriticalEndpoints - Comma separated array with hostnames of critical endpoints
+  * CriticalGroups - Comma separated array with DN of critical Active Directory groups
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 4485897c-4823-4e6c-83e9-4f2eece6d704
+    type: start
+    task:
+      id: 4485897c-4823-4e6c-83e9-4f2eece6d704
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 397.5,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 357dec69-1f99-4bc4-83ed-a170652f1bfa
+    type: title
+    task:
+      id: 357dec69-1f99-4bc4-83ed-a170652f1bfa
+      version: -1
+      name: Check indicators
+      type: title
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 397.5,
+          "y": 195
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 262fc734-95c6-4332-8789-2dabc475e58d
+    type: condition
+    task:
+      id: 262fc734-95c6-4332-8789-2dabc475e58d
+      version: -1
+      name: Do we have indicator reputation?
+      description: Check if we have indicators with reputation scores
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "7"
+      "yes":
+      - "3"
+    scriptarguments:
+      value:
+        simple: ${.=val.DBotScore.reduce(function(max, c) {return Math.max(max, c.Score)},
+          0)}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 397.5,
+          "y": 340
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: d171ca66-ace3-4b06-80e3-b7a5884c286d
+    type: condition
+    task:
+      id: d171ca66-ace3-4b06-80e3-b7a5884c286d
+      version: -1
+      name: Change severity based on indicators reputation
+      description: Calculate the highest severity out of all of the indicators
+      script: Print
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "7"
+      "1":
+      - "4"
+      "2":
+      - "5"
+      "3":
+      - "6"
+    scriptarguments:
+      left: {}
+      right: {}
+      value:
+        simple: ${.=val.DBotScore.reduce(function(max, c) {return Math.max(max, c.Score)},
+          0)}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 725,
+          "y": 515
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 321bc21d-5c6d-49c4-8d99-fdd832d42b8d
+    type: regular
+    task:
+      id: 321bc21d-5c6d-49c4-8d99-fdd832d42b8d
+      version: -1
+      name: Set severity to "Low"
+      description: Set incident's severity to Low - all of the indicators in context
+        have a non malicious reputation
+      script: Builtin|||setIncident
+      type: regular
+      iscommand: true
+      brand: Builtin
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      addLabels: {}
+      arcsightcaseid: {}
+      attachmentitem: {}
+      backupowner: {}
+      blah: {}
+      booltest: {}
+      customFields: {}
+      daysbetweenreportcreation: {}
+      details: {}
+      eventid: {}
+      falses: {}
+      fetchid: {}
+      fetchtype: {}
+      id: {}
+      important: {}
+      importantfield: {}
+      killchain: {}
+      labels: {}
+      lob: {}
+      name: {}
+      occurred: {}
+      owner: {}
+      phase: {}
+      queues: {}
+      replacePlaybook: {}
+      reporteduser: {}
+      screenshot: {}
+      screenshot2: {}
+      selector: {}
+      severity:
+        simple: low
+      single: {}
+      single2: {}
+      sla: {}
+      source: {}
+      systems: {}
+      team: {}
+      test: {}
+      test2: {}
+      testfield: {}
+      timeassignedtolevel2: {}
+      timefield1: {}
+      timelevel1: {}
+      type: {}
+      username: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 80,
+          "y": 690
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 1e7ec16b-311e-49b1-854c-8520308e6036
+    type: regular
+    task:
+      id: 1e7ec16b-311e-49b1-854c-8520308e6036
+      version: -1
+      name: 'Set severity to "Medium" '
+      description: Set incident's severity to Medium - an indicator had a suspicious
+        reputation
+      script: Builtin|||setIncident
+      type: regular
+      iscommand: true
+      brand: Builtin
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      addLabels: {}
+      arcsightcaseid: {}
+      attachmentitem: {}
+      backupowner: {}
+      blah: {}
+      booltest: {}
+      customFields: {}
+      daysbetweenreportcreation: {}
+      details: {}
+      eventid: {}
+      falses: {}
+      fetchid: {}
+      fetchtype: {}
+      id: {}
+      important: {}
+      importantfield: {}
+      killchain: {}
+      labels: {}
+      lob: {}
+      name: {}
+      occurred: {}
+      owner: {}
+      phase: {}
+      queues: {}
+      replacePlaybook: {}
+      reporteduser: {}
+      screenshot: {}
+      screenshot2: {}
+      selector: {}
+      severity:
+        simple: medium
+      single: {}
+      single2: {}
+      sla: {}
+      source: {}
+      systems: {}
+      team: {}
+      test: {}
+      test2: {}
+      testfield: {}
+      timeassignedtolevel2: {}
+      timefield1: {}
+      timelevel1: {}
+      type: {}
+      username: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 510,
+          "y": 690
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 25c79663-9daf-489a-82cc-f28333ac3b22
+    type: regular
+    task:
+      id: 25c79663-9daf-489a-82cc-f28333ac3b22
+      version: -1
+      name: 'Set severity to "High" '
+      description: Set incident's severity to High - an indicator had a malicious
+        reputation
+      script: Builtin|||setIncident
+      type: regular
+      iscommand: true
+      brand: Builtin
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      addLabels: {}
+      arcsightcaseid: {}
+      attachmentitem: {}
+      backupowner: {}
+      blah: {}
+      booltest: {}
+      customFields: {}
+      daysbetweenreportcreation: {}
+      details: {}
+      eventid: {}
+      falses: {}
+      fetchid: {}
+      fetchtype: {}
+      id: {}
+      important: {}
+      importantfield: {}
+      killchain: {}
+      labels: {}
+      lob: {}
+      name: {}
+      occurred: {}
+      owner: {}
+      phase: {}
+      queues: {}
+      replacePlaybook: {}
+      reporteduser: {}
+      screenshot: {}
+      screenshot2: {}
+      selector: {}
+      severity:
+        simple: high
+      single: {}
+      single2: {}
+      sla: {}
+      source: {}
+      systems: {}
+      team: {}
+      test: {}
+      test2: {}
+      testfield: {}
+      timeassignedtolevel2: {}
+      timefield1: {}
+      timelevel1: {}
+      type: {}
+      username: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 940,
+          "y": 690
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 82eb3edf-9622-4fbe-865a-fcc25a3b2f31
+    type: title
+    task:
+      id: 82eb3edf-9622-4fbe-865a-fcc25a3b2f31
+      version: -1
+      name: Check for critical entities
+      type: title
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "8"
+      - "12"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 510,
+          "y": 865
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 60fa62dd-19d0-4d69-8322-02a863f2d227
+    type: condition
+    task:
+      id: 60fa62dd-19d0-4d69-8322-02a863f2d227
+      version: -1
+      name: Do we have a username?
+      description: Check if we have an Account entity in context with a Username attribute
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "10"
+      "yes":
+      - "9"
+    scriptarguments:
+      value:
+        simple: ${Account.Username}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 1010
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: db0327eb-3a1d-4afb-8325-d1fc85bac6fa
+    type: condition
+    task:
+      id: db0327eb-3a1d-4afb-8325-d1fc85bac6fa
+      version: -1
+      name: Is the username part of "CriticalUsers" list?
+      description: Check if a Username in context is part of the "CriticalUsers" group
+      script: StringContains
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "18"
+      "yes":
+      - "11"
+    scriptarguments:
+      left: {}
+      right: {}
+      string:
+        simple: '"${inputs.CriticalUsers}"'
+      substring:
+        simple: ${Account.Username}
+      substringSeperator: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": -82.5,
+          "y": 1185
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: 14bf33aa-edea-4209-8713-f7d4cb4fe3b4
+    type: title
+    task:
+      id: 14bf33aa-edea-4209-8713-f7d4cb4fe3b4
+      version: -1
+      name: Done
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 530,
+          "y": 1885
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: f395f41f-f84e-437d-8965-e686c30615ea
+    type: regular
+    task:
+      id: f395f41f-f84e-437d-8965-e686c30615ea
+      version: -1
+      name: Set severity to "Critical"
+      description: Set incident's severity to Critical - Some entity is part of a
+        critical group
+      script: Builtin|||setIncident
+      type: regular
+      iscommand: true
+      brand: Builtin
+    nexttasks:
+      '#none#':
+      - "10"
+    scriptarguments:
+      addLabels: {}
+      arcsightcaseid: {}
+      attachmentitem: {}
+      backupowner: {}
+      blah: {}
+      booltest: {}
+      customFields: {}
+      daysbetweenreportcreation: {}
+      details: {}
+      eventid: {}
+      falses: {}
+      fetchid: {}
+      fetchtype: {}
+      id: {}
+      important: {}
+      importantfield: {}
+      labels: {}
+      name: {}
+      occurred: {}
+      owner: {}
+      phase: {}
+      replacePlaybook: {}
+      reporteduser: {}
+      screenshot: {}
+      screenshot2: {}
+      selector: {}
+      severity:
+        simple: critical
+      single: {}
+      single2: {}
+      sla: {}
+      source: {}
+      systems: {}
+      team: {}
+      test: {}
+      test2: {}
+      testfield: {}
+      timeassignedtolevel2: {}
+      timefield1: {}
+      timelevel1: {}
+      type: {}
+      username: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 612.5,
+          "y": 1710
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: 4b31ed4f-8eec-48f4-8c22-f18d204361d0
+    type: condition
+    task:
+      id: 4b31ed4f-8eec-48f4-8c22-f18d204361d0
+      version: -1
+      name: Do we have a hostname?
+      description: Check if we have an Endpoint entity in context with a Hostname
+        attribute
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "10"
+      "yes":
+      - "13"
+    scriptarguments:
+      value:
+        simple: ${Endpoint.Hostname}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1072.5,
+          "y": 1010
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: 78a337e5-1c95-4378-80ba-9dcdba7b7fdb
+    type: condition
+    task:
+      id: 78a337e5-1c95-4378-80ba-9dcdba7b7fdb
+      version: -1
+      name: Is the hostname part of "CriticalEndpoints" list?
+      description: Check if a Hostname in context is part of the "CriticalEndpoints"
+        group
+      script: StringContains
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "17"
+      "yes":
+      - "11"
+    scriptarguments:
+      left: {}
+      right: {}
+      string:
+        simple: '"${inputs.CriticalEndpoints}"'
+      substring:
+        simple: ${Endpoint.Hostname}
+      substringSeperator: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1172,
+          "y": 1185
+        }
+      }
+    note: false
+  "15":
+    id: "15"
+    taskid: 15ccf10c-b2fb-486f-8dee-b3f6ae90a758
+    type: condition
+    task:
+      id: 15ccf10c-b2fb-486f-8dee-b3f6ae90a758
+      version: -1
+      name: Is the Account part of a critical active directory group?
+      description: Check if an Account in context is part of the "CriticalGroups"
+        group
+      script: StringContains
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "10"
+      "yes":
+      - "11"
+    scriptarguments:
+      left: {}
+      right: {}
+      string:
+        simple: '"${inputs.CriticalGroups}"'
+      substring:
+        simple: ${Account.Groups}
+      substringSeperator: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 150,
+          "y": 1535
+        }
+      }
+    note: false
+  "16":
+    id: "16"
+    taskid: a7f5b113-9206-47de-8a2a-14e0e483125c
+    type: condition
+    task:
+      id: a7f5b113-9206-47de-8a2a-14e0e483125c
+      version: -1
+      name: Is the Endpoint part of a critical active directory group?
+      description: Check if an Endpoint in context is part of the "CriticalGroups"
+        group
+      script: StringContains
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "10"
+      "yes":
+      - "11"
+    scriptarguments:
+      left: {}
+      right: {}
+      string:
+        simple: '"${inputs.CriticalGroups}"'
+      substring:
+        simple: ${Endpoint.Groups}
+      substringSeperator: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1185,
+          "y": 1535
+        }
+      }
+    note: false
+  "17":
+    id: "17"
+    taskid: eb7b9b49-9ec4-4462-8966-cfbdc1db96d0
+    type: condition
+    task:
+      id: eb7b9b49-9ec4-4462-8966-cfbdc1db96d0
+      version: -1
+      name: Do we have the Endpoint AD groups?
+      description: Check if the endpoint has AD groups in context
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "10"
+      "yes":
+      - "16"
+    scriptarguments:
+      value:
+        simple: ${Endpoint.Groups}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1297.5,
+          "y": 1360
+        }
+      }
+    note: false
+  "18":
+    id: "18"
+    taskid: 439a9473-d625-46eb-8ae8-e9fc73ddf279
+    type: condition
+    task:
+      id: 439a9473-d625-46eb-8ae8-e9fc73ddf279
+      version: -1
+      name: Do we have the username AD groups?
+      description: Check if the user has AD groups in context
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "10"
+      "yes":
+      - "15"
+    scriptarguments:
+      value:
+        simple: ${Account.Groups}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 275,
+          "y": 1360
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {
+      "12_10_#default#": 0.31,
+      "13_11_yes": 0.16,
+      "15_10_#default#": 0.17,
+      "15_11_yes": 0.15,
+      "16_10_#default#": 0.36,
+      "16_11_yes": 0.16,
+      "2_3_yes": 0.19,
+      "2_7_#default#": 0.16,
+      "3_5_2": 0.5,
+      "3_7_#default#": 0.29,
+      "8_10_#default#": 0.16,
+      "9_11_yes": 0.1
+    },
+    "paper": {
+      "dimensions": {
+        "height": 1900,
+        "width": 1760,
+        "x": -82.5,
+        "y": 50
+      }
+    }
+  }
+inputs:
+- key: CriticalUsers
+  value: {}
+  required: false
+  description: Critical users' usernames
+- key: CriticalEndpoints
+  value: {}
+  required: false
+  description: Critical endpoints' hostnames
+- key: CriticalGroups
+  value: {}
+  required: false
+  description: Critical active directory groups DN
+outputs: []

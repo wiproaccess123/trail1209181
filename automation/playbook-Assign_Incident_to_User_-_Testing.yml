@@ -1,0 +1,249 @@
+id: 2f699bb7-7b76-48b2-885b-dfc1fe5c4aa1
+version: 3
+name: 'Assign Incident to User - Testing '
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 4622c5bc-ac74-4bcc-8ded-5574fd8b2701
+    type: start
+    task:
+      id: 4622c5bc-ac74-4bcc-8ded-5574fd8b2701
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 00f5afcf-8b54-4df1-8703-90ff59be42ba
+    type: regular
+    task:
+      id: 00f5afcf-8b54-4df1-8703-90ff59be42ba
+      version: -1
+      name: 'Extract URL to check if malicious '
+      description: Extract URLs from the given text and place them both as output
+        and in the context of a playbook. If given an object, will convert to JSON.
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      text:
+        complex:
+          root: incident
+          accessor: details
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 230
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: b914cc24-452d-431e-8c08-40b81f5e318d
+    type: regular
+    task:
+      id: b914cc24-452d-431e-8c08-40b81f5e318d
+      version: -1
+      name: Check for URL Reputation
+      description: Check URL Reputation
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      long: {}
+      retries: {}
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        complex:
+          root: URL
+          accessor: Data
+      wait: {}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 410
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: 2a3cc289-50f8-41a7-8431-5cf602a7509f
+    type: condition
+    task:
+      id: 2a3cc289-50f8-41a7-8431-5cf602a7509f
+      version: -1
+      name: Check If Malicious URL exists
+      description: Check if a given value exists in the context. Will return 'no'
+        for empty empty arrays. To be used mostly with DQ and selectors.
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "5"
+      "yes":
+      - "4"
+    scriptarguments:
+      value:
+        complex:
+          root: URL
+          accessor: Data
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 590
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: b45863dc-378b-49cb-8d88-18aa486c802f
+    type: regular
+    task:
+      id: b45863dc-378b-49cb-8d88-18aa486c802f
+      version: -1
+      name: AssignAnalystToIncident
+      description: |-
+        Assign analyst to incident.
+        By default,  the analyst is picked randomly from the available users, according to the provided roles (if no roles provided, will fetch all users).
+        Otherwise, the analyst will be picked according to the 'assignBy' arguments.
+        machine-learning: DBot will calculated and decide who is the best analyst for the job.
+        top-user: The user that is most commonly owns this type of incident
+        less-busy-user: The less busy analyst will be picked to be the incident owner.
+        online: The analyst is picked randomly from all online analysts, according to the provided roles (if no roles provided, will fetch all users).
+        current: The user that executed the command
+      script: AssignAnalystToIncident
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      assignBy:
+        simple: geeta.mangrulkar
+      email:
+        simple: geeta.mangrulkar@wipro.com
+      roles: {}
+      username: {}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 770
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: df45585b-4d6a-4949-8375-71e69637cf55
+    type: regular
+    task:
+      id: df45585b-4d6a-4949-8375-71e69637cf55
+      version: -1
+      name: Do not Assign Analyst To Incident
+      description: |-
+        Assign analyst to incident.
+        By default,  the analyst is picked randomly from the available users, according to the provided roles (if no roles provided, will fetch all users).
+        Otherwise, the analyst will be picked according to the 'assignBy' arguments.
+        machine-learning: DBot will calculated and decide who is the best analyst for the job.
+        top-user: The user that is most commonly owns this type of incident
+        less-busy-user: The less busy analyst will be picked to be the incident owner.
+        online: The analyst is picked randomly from all online analysts, according to the provided roles (if no roles provided, will fetch all users).
+        current: The user that executed the command
+      script: AssignAnalystToIncident
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      assignBy: {}
+      email: {}
+      roles: {}
+      username: {}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 860,
+          "y": 770
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 49898bd6-68d1-4da2-818e-ed30ce28a870
+    type: regular
+    task:
+      id: 49898bd6-68d1-4da2-818e-ed30ce28a870
+      version: -1
+      name: Close Investigation
+      description: Close an investigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 860,
+          "y": 950
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 995,
+        "width": 790,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

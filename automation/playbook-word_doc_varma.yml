@@ -1,0 +1,270 @@
+id: 9b2ae439-fce9-437d-8610-884ecd6a5cea
+version: 6
+name: word doc_varma
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 9db4b842-cab0-44d7-871e-e37feea68244
+    type: start
+    task:
+      id: 9db4b842-cab0-44d7-871e-e37feea68244
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "8"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 546,
+          "y": -141
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: e2ef1d85-bebf-40fc-839f-d7bd024e482f
+    type: regular
+    task:
+      id: e2ef1d85-bebf-40fc-839f-d7bd024e482f
+      version: -1
+      name: Word Doc
+      description: Takes an input docx file (entryID) as an input and saves an output
+        text file (file entry) with the original file's contents.
+      script: ParseWordDoc
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='docx').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 551,
+          "y": 187
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 3f17e3e3-7aa9-4c10-826f-9e37ddbea0bf
+    type: regular
+    task:
+      id: 3f17e3e3-7aa9-4c10-826f-9e37ddbea0bf
+      version: -1
+      name: Read url from file
+      description: Load the contents of a file into context.
+      script: ReadFile
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='txt').EntryID}
+      maxFileSize: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 551,
+          "y": 367
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: ecd20875-713f-44f0-89db-d954080a6f2b
+    type: regular
+    task:
+      id: ecd20875-713f-44f0-89db-d954080a6f2b
+      version: -1
+      name: check URL Reputation
+      description: A context script for URL entities
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      long: {}
+      retries: {}
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        simple: ${FileData}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 551,
+          "y": 547
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 859d045b-7ff6-49c2-828f-de033f2734c2
+    type: condition
+    task:
+      id: 859d045b-7ff6-49c2-828f-de033f2734c2
+      version: -1
+      name: Check url malicious
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "6"
+      "yes":
+      - "5"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 551,
+          "y": 727
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 1c47bb17-19e9-4eb9-85e2-784868f96a9c
+    type: condition
+    task:
+      id: 1c47bb17-19e9-4eb9-85e2-784868f96a9c
+      version: -1
+      name: ' malicious url found'
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 86,
+          "y": 1001
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: eed9c4e2-cabf-4b8a-8dcf-324ceff950a1
+    type: regular
+    task:
+      id: eed9c4e2-cabf-4b8a-8dcf-324ceff950a1
+      version: -1
+      name: ' No malicious url found'
+      script: IsMaliciousIndicatorFound
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 931,
+          "y": 1001
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: b7681a6b-4c8a-429b-808b-25672616810e
+    type: regular
+    task:
+      id: b7681a6b-4c8a-429b-808b-25672616810e
+      version: -1
+      name: CloseInvestigation
+      description: Close an investigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 567,
+          "y": 1304
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 80a6aff5-5539-4839-81a9-4a5f152252af
+    type: regular
+    task:
+      id: 80a6aff5-5539-4839-81a9-4a5f152252af
+      version: -1
+      name: DeleteContext
+      description: Delete field from context
+      script: DeleteContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    scriptarguments:
+      all: {}
+      key: {}
+      keysToKeep: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 546,
+          "y": 7
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1540,
+        "width": 1225,
+        "x": 86,
+        "y": -141
+      }
+    }
+  }
+inputs: []
+outputs: []

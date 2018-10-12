@@ -1,0 +1,43 @@
+commonfields:
+  id: 77a92804-3dd0-46e5-848a-24ab397c0ab0
+  version: 48
+name: ReadExcelFile_SPB
+script: |+
+  import xlrd
+  res = demisto.executeCommand('getFilePath', {'id': demisto.args()['entryID']})
+  wb=xlrd.open_workbook(res[0]['Contents']['path'], 'r')
+  #wb=res[0]
+  sheet_count=wb.nsheets
+  for i in range(0,sheet_count):
+      table=[]
+      worksheet=wb.sheet_by_index(i)
+      rows=worksheet.nrows
+      cols=worksheet.ncols
+      for x in range(0,rows):
+          table.append([])
+          for y in range(cols):
+              table[x].append(worksheet.cell(x,y).value)
+      ec = {}
+      ec["FileData"] = table
+      demisto.results({
+          "Type" : entryTypes["note"],
+          "ContentsFormat" : formats["json"],
+          "Contents" : table,
+          "EntryContext" : ec
+      })
+
+type: python
+tags:
+- Utility
+- ingestion
+enabled: true
+args:
+- name: entryID
+  required: true
+  default: true
+outputs:
+- contextPath: FileData
+  description: xlsx file
+scripttarget: 0
+runonce: false
+dockerimage: wipro_xlrd

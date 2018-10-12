@@ -1,0 +1,26 @@
+commonfields:
+  id: 0feee31d-e06b-4cbd-8d93-ff42e08b3475
+  version: 32
+name: Strip_last_slash
+script: |2-
+
+  string = demisto.args()["Data"]
+
+  list1=list(string)
+
+
+
+  if list1[-1]=="\\":
+      del list1[-1]
+
+  str1 = ''.join(str(e) for e in list1)
+
+  demisto.results(str1)
+type: python
+tags: []
+enabled: true
+args:
+- name: Data
+  required: true
+scripttarget: 0
+runonce: false

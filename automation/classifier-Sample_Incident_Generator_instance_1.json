@@ -1,0 +1,23 @@
+{
+	"id": "4ed3c6d8-f6ed-4b8d-837b-087d21e3b463",
+	"version": 625,
+	"modified": "2018-06-12T10:32:42.665153283-04:00",
+	"defaultIncidentType": "",
+	"instanceId": "85e4afd3-0f97-4c0e-80bb-48d7d806af5b",
+	"mapping": null,
+	"unclassifiedCases": {
+		"Sample Incident - Unclassified": 1
+	},
+	"incidentSamples": [],
+	"custom": true,
+	"transformer": {
+		"simple": "name",
+		"complex": null
+	},
+	"keyTypeMap": {
+		"Sample Incident - Malware": "Malware",
+		"Sample Incident - Phishing": "Phishing"
+	},
+	"brandName": "Sample Incident Generator",
+	"instanceName": "Sample Incident Generator_instance_1"
+}

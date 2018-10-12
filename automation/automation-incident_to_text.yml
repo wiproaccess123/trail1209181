@@ -1,0 +1,29 @@
+commonfields:
+  id: 73cd83db-9bc7-4906-89e5-e56940f86fc9
+  version: 34
+name: incident_to_text
+script: |-
+  var createdFileID = saveFile(JSON.stringify(args.txtArray));
+
+  return {
+      Type: 3,
+      FileID: createdFileID,
+      File: args.fileName,
+      Contents: args.fileName
+  };
+type: javascript
+tags:
+- Utility
+- txt
+comment: getting the incident as a input and converting into the text file
+enabled: true
+args:
+- name: fileName
+  required: true
+  default: true
+  description: output filename
+- name: txtArray
+  required: true
+  isArray: true
+scripttarget: 0
+runonce: false

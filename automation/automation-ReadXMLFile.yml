@@ -1,0 +1,44 @@
+commonfields:
+  id: 7a798069-ed0b-4758-85d7-00c75baf87e1
+  version: 7
+name: ReadXMLFile
+script: |
+  import xlrd
+
+  fileEntryID = demisto.args()['entryId']
+
+  res = demisto.executeCommand('getFilePath', {'id': fileEntryID})
+
+  filePath = res[0]['Contents']['path']
+
+  workbook = xlrd.open_workbook(filePath, on_demand = True)
+  sheet_names = workbook.sheet_names()
+  for sheetnum in range(workbook.nsheets):
+      worksheet = workbook.sheet_by_index(sheetnum)
+      first_row = [] # Header
+      for col in range(worksheet.ncols):
+          first_row.append( worksheet.cell_value(0,col) )
+      data =[]
+      for row in range(1, worksheet.nrows):
+          elm = {}
+          for col in range(worksheet.ncols):
+              elm[first_row[col]]=worksheet.cell_value(row,col)
+          data.append(elm)
+      ec = {}
+      ec["FileData"] = data
+      demisto.results({'Type' : entryTypes['note'],
+                      'Contents': data,
+                      'ContentsFormat' : formats['json'],
+                      'HumanReadable': tblToMd(sheet_names[sheetnum], data, first_row),
+                      'EntryContext' : ec })
+type: python
+tags: []
+comment: The automation get a file entry id and return the content in markdown table
+enabled: true
+args:
+- name: entryId
+  required: true
+  description: The entry id of the xml file
+scripttarget: 0
+runonce: false
+dockerimage: demisto/xlrd

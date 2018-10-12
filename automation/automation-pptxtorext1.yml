@@ -1,0 +1,36 @@
+commonfields:
+  id: 7f31b2ad-b7fa-4bf7-8999-2150213262b0
+  version: 65
+name: pptxtorext1
+script: |-
+  from pptx import Presentation
+  import os
+
+  def fileResult1(inputfile):
+      prs = Presentation(inputfile)
+      #file_name = demisto.args()['fileName']
+      try:
+          d=''
+          for slide in prs.slides:
+              for shape in slide.shapes:
+                  if hasattr(shape, "text"):
+                      d= d+"\n"+shape.text
+          return d
+      except Exception, err:
+          return False
+
+  cmd_res = demisto.getFilePath(demisto.getArg('entryID'))
+  arg = cmd_res["path"]
+  demisto.results(arg)
+  result = fileResult1(arg)
+  res = fileResult('sdf.txt', result.encode('utf8'))
+  demisto.results(res)
+type: python
+tags: []
+enabled: true
+args:
+- name: entryID
+  required: true
+scripttarget: 0
+runonce: false
+dockerimage: docimg

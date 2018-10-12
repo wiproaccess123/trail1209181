@@ -1,0 +1,117 @@
+id: 3c356812-e08a-4f57-85c4-0499087fb581
+version: 5
+name: BS_Check_XPS_File
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: ecba1640-5936-4210-85d6-9a7f98c49a91
+    type: start
+    task:
+      id: ecba1640-5936-4210-85d6-9a7f98c49a91
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 07997757-0a0b-42b6-80e8-2605c2f97788
+    type: condition
+    task:
+      id: 07997757-0a0b-42b6-80e8-2605c2f97788
+      version: -1
+      name: Check XPS file?
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "4"
+      "yes":
+      - "2"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='xps')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 218
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 484d40a7-f3c6-415e-87da-52b6af93e7f3
+    type: regular
+    task:
+      id: 484d40a7-f3c6-415e-87da-52b6af93e7f3
+      version: -1
+      name: Read XPS File
+      script: e0534140-d3f4-41d7-8785-40e3490830a5
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='xps').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 623,
+          "y": 482
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 9e769029-0bb6-45c6-8e39-39b9e9c644ee
+    type: regular
+    task:
+      id: 9e769029-0bb6-45c6-8e39-39b9e9c644ee
+      version: -1
+      name: Close
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 623,
+          "y": 829
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 874,
+        "width": 553,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

@@ -1,0 +1,340 @@
+id: e1e7dad8-9c49-4150-8e68-e3326b08408c
+version: 15
+name: mail analysis-Priyanshu
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 22ecdecc-bd79-4cba-8ec8-a2c7f934940b
+    type: start
+    task:
+      id: 22ecdecc-bd79-4cba-8ec8-a2c7f934940b
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "16"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": -70
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 09fe122b-9a8d-4c36-83d8-01dbb3bc8baa
+    type: regular
+    task:
+      id: 09fe122b-9a8d-4c36-83d8-01dbb3bc8baa
+      version: -1
+      name: Extract URL
+      script: ExtractURL
+      type: regular
+      iscommand: false
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+      urlRegex: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 245
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: e9468dc0-4536-48e5-856a-c33a02590bb1
+    type: regular
+    task:
+      id: e9468dc0-4536-48e5-856a-c33a02590bb1
+      version: -1
+      name: Checking URL reputation in Virustotal
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "10"
+    scriptarguments:
+      long: {}
+      retries: {}
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        simple: ${URL.Data}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 409
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: e7c2bf0b-44e5-41a2-883f-1a05878f6163
+    type: regular
+    task:
+      id: e7c2bf0b-44e5-41a2-883f-1a05878f6163
+      version: -1
+      name: Extract IP
+      script: ExtractIP
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "9"
+    scriptarguments:
+      text:
+        simple: ${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 720
+        }
+      }
+    note: false
+  "9":
+    id: "9"
+    taskid: 6b3c323c-c077-4b19-8a77-8e021d41cd4f
+    type: regular
+    task:
+      id: 6b3c323c-c077-4b19-8a77-8e021d41cd4f
+      version: -1
+      name: IP reputation check
+      description: Check IP Reputation
+      script: VirusTotal|||ip
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "13"
+    scriptarguments:
+      ip:
+        simple: ${IP.Address}
+      long: {}
+      retries: {}
+      sampleSize: {}
+      threshold: {}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 895
+        }
+      }
+    note: false
+  "10":
+    id: "10"
+    taskid: 05263419-b925-4120-81c6-1b6ba3ebe7bf
+    type: condition
+    task:
+      id: 05263419-b925-4120-81c6-1b6ba3ebe7bf
+      version: -1
+      name: Is URL malicious
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "11"
+      "yes":
+      - "8"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 545
+        }
+      }
+    note: false
+  "11":
+    id: "11"
+    taskid: b59d8987-fb92-4ab9-8600-137214e6e12a
+    type: regular
+    task:
+      id: b59d8987-fb92-4ab9-8600-137214e6e12a
+      version: -1
+      name: Verdict- Mail is suspicious
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 683,
+          "y": 785
+        }
+      }
+    note: false
+  "12":
+    id: "12"
+    taskid: c4b94e22-dc6f-4256-8664-5c8fab64fc70
+    type: regular
+    task:
+      id: c4b94e22-dc6f-4256-8664-5c8fab64fc70
+      version: -1
+      name: Verdict- Mail is genuine
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "14"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 1245
+        }
+      }
+    note: false
+  "13":
+    id: "13"
+    taskid: 454af4e6-3240-4274-834e-6d201432e21e
+    type: condition
+    task:
+      id: 454af4e6-3240-4274-834e-6d201432e21e
+      version: -1
+      name: Is IP malicious
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "12"
+      "yes":
+      - "15"
+    scriptarguments:
+      value:
+        simple: ${IP.Address}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 1070
+        }
+      }
+    note: false
+  "14":
+    id: "14"
+    taskid: 4ecf5898-6833-4fd8-8cc3-af9b00e7b0e7
+    type: regular
+    task:
+      id: 4ecf5898-6833-4fd8-8cc3-af9b00e7b0e7
+      version: -1
+      name: CloseInvestigation
+      description: Close an investigation
+      script: CloseInvestigation
+      type: regular
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      notes: {}
+      reason: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 1420
+        }
+      }
+    note: false
+  "15":
+    id: "15"
+    taskid: 3cea54eb-0d7b-4731-862c-b8f5dba961b8
+    type: regular
+    task:
+      id: 3cea54eb-0d7b-4731-862c-b8f5dba961b8
+      version: -1
+      name: Verdict- Mail is suspicious
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "14"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 1245
+        }
+      }
+    note: false
+  "16":
+    id: "16"
+    taskid: bc776bac-d2ed-4bb7-8c0b-594938a673ab
+    type: regular
+    task:
+      id: bc776bac-d2ed-4bb7-8c0b-594938a673ab
+      version: -1
+      name: Delete context
+      script: DeleteContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    scriptarguments:
+      all:
+        simple: "yes"
+      key: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 80
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1585,
+        "width": 1013,
+        "x": 50,
+        "y": -70
+      }
+    }
+  }
+inputs: []
+outputs: []

@@ -1,0 +1,40 @@
+commonfields:
+  id: 21f1ca48-68b8-4d86-8db9-cdc8b8a9833e
+  version: 14
+name: json_encryption
+script: |+
+  import json
+
+  def encryptDecrypt(input):
+      key = ['P','T','J','b','F','Y','y','9','k','u','n','q','c','x','T','m','t','i','m','o','7','n','w','X','h','m','f','G','5','h','i','j','k','3','n','y','w','l','e','m'] #Can be any chars, and any size array
+      output = []
+      for i in range(len(input)):
+
+          xor_num = ord(input[i]) ^ ord(key[i % len(key)]);
+          output.append(chr(xor_num))
+
+
+      return ''.join(output)
+
+
+
+  #with open('data.json')as f:
+  #    data = f.read();
+  data = json.dump(demisto.args()['data'],fileName)
+  demisto.results(data)
+  encrypted = encryptDecrypt(data)
+  demisto.results("Encrypted:"+encrypted);
+
+  decrypted = encryptDecrypt(encrypted);
+  demisto.results("Decrypted:"+decrypted);
+
+
+
+
+type: python
+tags: []
+enabled: true
+args:
+- name: data
+scripttarget: 0
+runonce: false

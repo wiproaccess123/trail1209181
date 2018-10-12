@@ -1,0 +1,38 @@
+commonfields:
+  id: 40276492-808e-4667-870d-385c9826f1e0
+  version: 14
+name: Regex
+script: |-
+  var data = (typeof args.data) === 'string' ? args.data : JSON.stringify(args.data);
+  var flags = args.flags ? args.flags : 'im';
+  var r = new RegExp(args.regex, flags);
+  var m = r.exec(data);
+  if (m && m.length > 0) {
+      var val = m[0];
+      var group = parseInt(args.group);
+      if (args.group && m.length > group) {
+          val = m[group];
+      }
+      var ec = {};
+      if (args.contextKey) {
+          ec[args.contextKey] = val;
+      }
+      return {Type: entryTypes.note, Contents: val, ContentsFormat: formats.text, EntryContext: ec};
+  }
+  return {Type: entryTypes.note, Contents: 'Regex does not match', ContentsFormat: formats.text};
+type: javascript
+tags:
+- Utility
+enabled: true
+args:
+- name: data
+  required: true
+- name: regex
+  required: true
+- name: group
+- name: contextKey
+- name: flags
+outputs:
+- contextPath: val
+scripttarget: 0
+runonce: false

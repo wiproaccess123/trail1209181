@@ -1,0 +1,38 @@
+id: 0a016e76-af72-43a6-8286-80fa89eab90c
+version: 2
+name: EnrichURL
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: f93fa8a0-beaf-4902-8c3d-894e86cb5ca1
+    type: start
+    task:
+      id: f93fa8a0-beaf-4902-8c3d-894e86cb5ca1
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 65,
+        "width": 380,
+        "x": 450,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []

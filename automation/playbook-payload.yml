@@ -1,0 +1,216 @@
+id: e7719d4d-83a8-4b9b-8306-eeb21ad9c2d3
+version: 2
+name: payload
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 8bb7706b-1e40-4b68-8711-a08f1adb475f
+    type: start
+    task:
+      id: 8bb7706b-1e40-4b68-8711-a08f1adb475f
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 738784b4-4bb1-4b12-84c9-4e11518e26d4
+    type: regular
+    task:
+      id: 738784b4-4bb1-4b12-84c9-4e11518e26d4
+      version: -1
+      name: get offense details
+      script: QRadarFullSearch
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      fields: {}
+      headers: {}
+      interval: {}
+      query_expression:
+        simple: SELECT sourceIP, destinationIP, userName from events WHERE INOFFENSE(${incident.labels.id})
+          last 24 HOURS
+      range:
+        simple: 0-5
+      timeout: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 230
+        }
+      }
+    note: false
+  "2":
+    id: "2"
+    taskid: 53598360-49b3-4747-8837-fd7b6fa0fbcc
+    type: regular
+    task:
+      id: 53598360-49b3-4747-8837-fd7b6fa0fbcc
+      version: -1
+      name: get payload event details
+      script: QRadarFullSearch
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      fields: {}
+      headers: {}
+      interval: {}
+      query_expression:
+        simple: SELECT UTF8(payload) as PayloadString from events WHERE INOFFENSE(${incident.labels.id})
+          last 24 HOURS
+      range:
+        simple: 0-5
+      timeout: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 410
+        }
+      }
+    note: false
+  "3":
+    id: "3"
+    taskid: b5731a78-99c0-43af-87b3-1d8a3b26fc82
+    type: regular
+    task:
+      id: b5731a78-99c0-43af-87b3-1d8a3b26fc82
+      version: -1
+      name: extract target user name from payload
+      script: 66958948-5333-43f4-858f-b071681bd5c3
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      field:
+        simple: TargetUserName
+      text:
+        simple: ${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 590
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 1cf56a2d-e1e2-4f1a-81ca-4fa3d68cce52
+    type: regular
+    task:
+      id: 1cf56a2d-e1e2-4f1a-81ca-4fa3d68cce52
+      version: -1
+      name: extract target file name from payload
+      script: 66958948-5333-43f4-858f-b071681bd5c3
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "5"
+    scriptarguments:
+      field:
+        simple: TargetFileName
+      text:
+        simple: ${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 770
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: 4f7c4d8b-cff0-4d07-8542-5b98f011f1de
+    type: regular
+    task:
+      id: 4f7c4d8b-cff0-4d07-8542-5b98f011f1de
+      version: -1
+      name: extract target file path from payload
+      script: 66958948-5333-43f4-858f-b071681bd5c3
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      field:
+        simple: TargetFilePath
+      text:
+        simple: ${incident.details}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 450,
+          "y": 950
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: 02ca78e4-47a6-4824-8e41-ce9d19c7a89b
+    type: title
+    task:
+      id: 02ca78e4-47a6-4824-8e41-ce9d19c7a89b
+      version: -1
+      name: close
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 447,
+          "y": 1108
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1123,
+        "width": 383,
+        "x": 447,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []
