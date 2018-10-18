@@ -1,0 +1,37 @@
+commonfields:
+  id: 126e2cdf-64a9-480b-872d-1d17e18ef88d
+  version: 4
+name: Extract_URL_from_file
+script: |
+  import fitz
+  res =demisto.getFilePath(demisto.args()['entryID'])
+  file = open(res['path'],'rb').read()
+  file_new=fitz.open(res['name'],file)
+  pagecount=file_new.pageCount
+  for sheet in range (pagecount):
+      page=file_new.loadPage(sheet)
+      hyper_Links=page.getLinks()
+      for link in range (0,len(hyper_Links)):
+          text=hyper_Links[link]['uri']
+          ec = {}
+          ec["HyperLinks"] = text
+          demisto.results({
+              "Type" : entryTypes["note"],
+              "ContentsFormat" : formats["text"],
+              "Contents" : text,
+              "EntryContext" : ec
+              })
+type: python
+tags:
+- Utility
+enabled: true
+args:
+- name: entryID
+  required: true
+  default: true
+outputs:
+- contextPath: HyperLinks
+  description: Links
+scripttarget: 0
+runonce: false
+dockerimage: demisto_pymupdf

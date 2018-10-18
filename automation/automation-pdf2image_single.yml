@@ -1,13 +1,13 @@
 commonfields:
   id: 372214be-7a7d-4dbf-8e91-42b4b8447146
-  version: 31
+  version: 32
 name: pdf2image_single
 script: |
   from PIL import Image as Img
   from wand.image import Image
   import uuid
   import glob
-  import numpy as np
+  #import numpy as np
   import os
   import sys
   import subprocess

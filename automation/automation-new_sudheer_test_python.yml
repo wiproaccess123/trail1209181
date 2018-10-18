@@ -1,0 +1,109 @@
+commonfields:
+  id: cb1f52dd-339b-4ff1-8e67-4bf3b4e5fe90
+  version: 117
+name: new_sudheer_test_python
+script: |2-
+
+  """
+  ##### adding file into war room###
+
+  try:
+      with  open("demofile.txt", "w") as f:
+          f.write("Woops! I have deleted the content!")
+
+      fdata = open("demofile.txt","rb")
+      data = fdata.read()
+
+      entry = {
+          'Type': entryTypes['note'],
+          'Contents': '{}\nacquisition ID: {}'.format("testing", "acquisition_id"),
+          'ContentsFormat': formats['text'],
+          'EntryContext': {
+              "FireEyeHX.Acquisitions.Data(obj._id==val._id)": "acquisition_info"
+          }
+      }
+
+      demisto.results(entry)
+      demisto.results(fileResult('agent_{}_data.mans'.format('agentId'), data))
+
+
+  except Exception,e:
+      demisto.error(e)
+  """
+  ######################
+
+  """
+  # testing arguments
+
+  filters = demisto.args()
+
+  filters = {k:v for k,v in filters.items() if v is not None}
+
+  demisto.results(type(filters))
+
+  demisto.results(filters)
+  """
+
+  """
+
+  filters = {
+
+      "data" : demisto.args()['data'],
+      "data2" : demisto.args()['data2'],
+      "data3" : demisto.args()['data3']
+  }
+
+  filters = {k:v for k,v in filters.items() if v is not None}
+
+  """
+  ###############
+  """
+
+  #returning json
+
+  import requests
+
+  jdata = requests.get('https://jsonplaceholder.typicode.com/todos/1')
+
+  demisto.results(jdata.json())
+
+  """
+  #################
+  """
+  #testing executong command from integration
+
+  #demisto.context()args = demisto.args()
+
+  resp = demisto.executeCommand("test-command",{"arg1":"arg1"})
+
+  for k in resp[0]:
+      demisto.results(k)
+
+  demisto.results(resp[0]['Contents'])
+
+
+  #demisto.results("from automation "+demisto.context()['contexttest'][0]['Contents'])
+
+  """
+  ## testing how demisto.results() work
+
+  demisto.results('code started')
+
+  import time
+
+  for i in range(5):
+      time.sleep(i)
+      demisto.log("testing")
+      demisto.results("sleeping "+ str(i))
+type: python
+tags: []
+comment: testing python execution in demisto
+enabled: true
+args:
+- name: data
+  defaultValue: data
+- name: data2
+- name: data3
+  defaultValue: data3
+scripttarget: 0
+runonce: false

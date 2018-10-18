@@ -1,6 +1,6 @@
 commonfields:
   id: Intsights (new)
-  version: 2
+  version: 26
 name: Intsights (new)
 display: Intsights (new)
 category: Data Enrichment & Threat Intelligence
@@ -47,6 +47,7 @@ configuration:
 script:
   script: |-
     import requests
+    from requests.auth import HTTPBasicAuth
     import json
     import base64
 
@@ -63,19 +64,24 @@ script:
         del os.environ['http_proxy']
         del os.environ['https_proxy']
 
-    VALIDATE_CERT = not demisto.params().get('insecure', True)
+    VALIDATE_CERT = not demisto.params().get('insecure')
 
+    account_id= demisto.getParam('credentials')['identifier']
+    api_key = demisto.getParam('credentials')['password']
     id_and_api_key = demisto.getParam('credentials')['identifier'] + ':' + demisto.getParam('credentials')['password']
     encoded_auth_key = base64.b64encode(id_and_api_key.encode("utf-8"))
-    # HEADERS = {'Authorization': 'Basic ' + encoded_auth_key, 'Content-Type': 'application/json', 'Account-Id': demisto.getParam('credentials')['identifier']}
-    HEADERS = {'Authorization': 'Basic ' + encoded_auth_key, 'Content-Type': 'application/json'}
-
+    # HEADERS = {'Authorization': 'Basic ' + encoded_auth_key, 'Content-Type': 'application/json', 'Account-Id': '56fa717fb6c16ba1033a3ab5'}
+    # HEADERS = {'Authorization': 'Basic ' + encoded_auth_key, 'Content-Type': 'application/json'}
+    HEADERS = {'Content-Type': 'application/json', 'Accept':'application/json', 'Account-Id': '56fa717fb6c16ba1033a3ab5'}
 
     def req(method, path, json_data=None, params=None):
         """
         Send the request to IntSights and return the JSON response
         """
-        r = requests.request(method, URL + path, headers=HEADERS, json=json_data, params=params, verify=VALIDATE_CERT)
+        # demisto.log("this is the Account-Id header {0}".format(HEADERS['Account-Id']))
+        # demisto.info("this is the Account-Id header {0}".format(HEADERS['Account-Id']))
+        demisto.info("This is the 500 try")
+        r = requests.request(method, URL + path, headers=HEADERS, json=json_data, timeout=5, params=params, verify=VALIDATE_CERT, auth=HTTPBasicAuth(account_id, api_key))
         if r.status_code < 200 or r.status_code > 299:
             if not (r.text == 'SeverityNotChanged' or r.text == 'TagExist' or r.text == 'IocBlocklistStatusNotChanged'):
                 return_error('Error in API call to IntSights service %s - [%d] %s' % (path, r.status_code, r.text))
@@ -123,10 +129,17 @@ script:
 
 
     def get_alerts_helper(params):
+        demisto.info("Executing get_alerts")
         resp = req('GET', 'public/v1/data/alerts/alerts-list', params=params)
+        demisto.results(resp.content)
+        #demisto.log("this is the response for the alerts-list endpoint {0}".format(resp.content))
+        #demisto.info("this is the response for the alerts-list endpoint {0}".format(resp.content))
+        #demisto.log("this is the reseponse status code {0}".format(resp.status_code))
+        #demisto.info("this is the reseponse status code {0}".format(resp.status_code))
         if resp.status_code == 204:
             r = []
         else:
+
             r = resp.json()
         alerts = []
         for alert_id in r:

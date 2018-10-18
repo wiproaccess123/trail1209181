@@ -1,0 +1,40 @@
+commonfields:
+  id: 97b4898d-835f-4669-8526-9e2061256d3c
+  version: 16
+name: Encryption_Log
+script: |
+  import json
+  import time
+  def encryptDecrypt(input):
+      key = ['P','T','J','b','F','Y','y','9','k','u','n','q','c','x','T','m','t','i','m','o','7','n','w','X','h','m','f','G','5','h','i','j','k','3','n','y','w','l','e','m'] #Can be any chars, and any size array
+      output = []
+      for i in range(len(input)):
+
+          xor_num = ord(input[i]) ^ ord(key[i % len(key)]);
+          output.append(chr(xor_num))
+
+
+      return ''.join(output)
+
+
+  #filename = input("enter file name")
+  file_name = demisto.args()['fileName']
+  timestr = time.strftime("%d%m%y%H%M%S")
+
+  filename_time = "Demisto#demistoServer#"+file_name+"#"+timestr
+
+  encrypted = encryptDecrypt(filename_time)
+  encrypted_data = '{\n"Filename ":"'+encrypted+'",\n“Metrics":[\n{\n}\n]\n}'
+
+  res = fileResult(filename_time, encrypted_data)
+  demisto.results(res)
+  decrypted = encryptDecrypt(encrypted);
+  demisto.results("Decrypted:"+decrypted);
+type: python
+tags: []
+enabled: true
+args:
+- name: fileName
+  required: true
+scripttarget: 0
+runonce: false

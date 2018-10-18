@@ -1,6 +1,6 @@
 commonfields:
   id: bfe3b7f7-6f6d-4f90-82a2-58ea9f3af18d
-  version: 59
+  version: 60
 name: ConvertCountryName
 script: |-
   text = demisto.args()["Country"]
@@ -17,6 +17,8 @@ script: |-
       demisto.results(d)
   else:
       demisto.results("Invalid Country Name")
+
+      p
 type: python
 tags:
 - Utility

@@ -1,0 +1,26 @@
+commonfields:
+  id: 0aee281b-277e-4798-8b44-4f98cea7a7a6
+  version: 23
+name: Read_UnzippedXPS_Files
+script: |
+  import zipfile
+  res = demisto.getFilePath(demisto.args()['entryID'])
+  zfile = zipfile.ZipFile(res['path'])
+  dir_list=zfile.namelist()
+  for file in dir_list:
+      #demisto.results(file)
+      f=str(file)
+      res=f.endswith(".fpage")
+      if (res):
+          data=zfile.read(f).decode('UTF-16','strict')
+          demisto.results(data)
+type: python
+tags:
+- Utility
+enabled: true
+args:
+- name: entryID
+  required: true
+  default: true
+scripttarget: 0
+runonce: false

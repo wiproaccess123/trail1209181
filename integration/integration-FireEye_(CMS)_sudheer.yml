@@ -1,0 +1,256 @@
+commonfields:
+  id: FireEye (CMS) sudheer
+  version: 5
+name: FireEye (CMS) sudheer
+display: FireEye (CMS) sudheer
+category: Case Management
+image: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAF8ElEQVRo3tVaa2wUVRQ+lUeolLZQHwQxEUIi/GgpakvTst2d7fax7RaEUFOIRW2x7e7cme220BawNSQ1MQZFgYaH8gvlFVAxUYIIJPxRA7FSLCpBJMYnL5FEyh8cvzttodvd6e527izpJCezO3Pn3Pvde853zzkzRKKPAmUOScp+Kg/MoVF7FCiZJLHz5JA1nL8jlzxzxLoklgw908iBc5xBZKPTSzqIAcmvPU3Ltk+NSc/S5vGUz9YASBd0XIXOb2jpKm+cQDAnOvw9CAQXm1ej0ubj9PW5yVHpaXplLJU3bKN83xA9+F+gtJAnkGAdCIm50dm1EBADYgeYrJrDlF0d2UTscj7ZfXcMdN2kJW2PWwPCIZdC/jYEESwHATopwsquHVZHgb9IPAinvhI3owTRJ5L8ITm8xisjye8N+7xLtQk2JyUHPnElJhB3CcB7hCpff9TATI8bPmfzXUCfqeJAuPyzoPinEYEYkMKGr8jtnztkhbmZ3gr1MYiTXaPFgWKRFDuenMpBUyD0wemsBGqVt2EVWmgRmMoh3wjTthdAdlGpP120cz8EO/7FNJBQswm95mR7qKTBoujAqUzADJ4QDiREWDe5lInWbn5FgWysyiEAOmNgDuZFkt+N107+AGw3hUrU6VSsLsTvo4LBHMFEJVDcD7syBh1vEQikFz5SRPflkNRU2PY5cebF/oBPLjM/sMWBVEShKpRuJxeLjsMdyibx/sL2UUXHCNmrtiUZ9n/0bhSaW3uL1A2RuVxiqy1ismvQvR7ycKxx1GuUP0hRdo1GLVvfjsK8NlpMzRdhbowKlSmRQVSumg/kt4csr0Y5dZepyvuEMXh/Ctr1kA1t56vDC28jmaLnbkQZ9VSoJhqxzzh08rmhguyXPqI9xxINzOotPsDkhbXavMZlWmZgeVjh93gbHYx5//kWYFZQkfLg0P2hAg3+M3xwQb1GFe0nacVaDz3XOB3m9xiU5UP64i/M9rzG5dq+6xnanqsZ2u4rc4OEX+P3eBt9ZYQRgnf/4IAwERe7IsyARnl1PBTX9IRKYteD7mNwfNb5gD+4nKG9/9fcIOHX+D3eRggQbp42Pp616wYBUVeaVtwPhM8+H/iuPzODhF/j94QB4RNaFviR1h1K6wPxYkcyZvqHUQckC2y6utN3bzWatzDKqtZGHZDcuh56oWNSH4h3dqRRSdP5frsfXUAkVn1vNTxyO+V5zfG6GGe/ohMIn1BOKFJEej5NBfKEwfHRAWE0OBL6ldh+0H4ussRpOqVXrfFQRdtJneqN+7qD+G9J8N7hbkzEalRBusynrDFuiE7lzbCbK990s6s/Ns732WGkweMMQgxs95JSB0BnzPF61CHKWVC+cY1rZWAG5fmuhs1Vlq96JprsbzLyZRmoL1gaADrZGxHHsiSwKagwwUtDLmV9rBEwKiasvb9sY0FezgIRx/BsUybCoN5Bz32G2CppZLlJTfNssrO94sEoG6MrCLIytN8KS/EB/CQBNS1WCflNIJgeOHvKfcrLlULd2YT5ibwZ5zHxB+JAicbBjgg1MV5KcjcuIk/TdFBrKnwzTsCcyk6LmIynBd04f0Lu1qctNi05CZ2dtbxkKiknyNmQaA0Il5qOTkLDmZyXrQDzMyRNLACPmgmlu+Ebt0MTG991Yhs6sUM34n6nvufYTfsMJ4G9VMjGigNR0+LRbTf84P4lW31wWdOtZlCx8qUpMPw9fZEyUxyI1rYpCA8uGQ5Kkr8I+5y39RFa4Ds8QiCXwVpZYk2q1C9FeIexw/BZm5yMmY01PbgBJ7egcF3oLxnWjl1Kc4Ty6USAPRBDSbTYGpZqacMGJf8TvnqBxEaS8yLqyKpJhnyqfzRgHPrzzzQsfIWweE0CuHw12euHMpVG5f7N+Nwiuh2Yf77hbj6mf84Rap6/YoO1x2cnL3m1Dp2e0h1RwtkuB5CSxhZGPL9zKj4UONX/NncAxEWS/E/FOcaSJ+mfHDlNhNFlrTP0l5x9weL38LF0GrWHq2m2/uLGpT4pWvX/zRDqQjZWrVoAAAAASUVORK5CYII=
+description: FireEye CMS integration
+configuration:
+- display: Server URL (e.g. https://192.168.0.1)
+  name: server
+  defaultvalue: ""
+  type: 0
+  required: true
+- display: ""
+  name: credentials
+  defaultvalue: ""
+  type: 9
+  required: true
+- display: version
+  name: version
+  defaultvalue: ""
+  type: 0
+  required: true
+- display: ""
+  name: proxy
+  defaultvalue: ""
+  type: 8
+  required: false
+script:
+  script: |+
+    import requests
+    import base64
+    import time
+    import json
+    import os
+    import urllib
+
+
+    # disable insecure warnings
+    requests.packages.urllib3.disable_warnings()
+
+    def set_proxies():
+
+        if demisto.params()['proxy']:
+            http = os.environ['http_proxy'] or os.environ['HTTP_PROXY']
+            https = os.environ['https_proxy'] or os.environ['HTTPS_PROXY']
+            proxies = {
+                'http': http,
+                'https': https
+            }
+            return proxies
+        return None
+
+    SERVER_URL = demisto.params()['server']
+    USERNAME = demisto.params()['credentials']['identifier']
+    PASSWORD = demisto.params()['credentials']['password']
+    #USE_SSL = not demisto.params()['insecure']
+    VERSION = demisto.params()['version']
+    PROXIES = set_proxies()
+    GET_HEADERS = {
+        'Accept': 'application/json'
+    }
+    POST_HEADERS = {
+        'Accept': 'application/json',
+        'Content-type': 'application/json'
+    }
+
+    BASE_PATH = '{}/wsapis/{}'.format(SERVER_URL, VERSION)
+
+
+    def authenticate(USERNAME,PASSWORD):
+        authurl= BASE_PATH + '/auth/login'
+        resp = requests.post(authurl,auth=(USERNAME,PASSWORD),verify=False,proxies=PROXIES)
+
+        if resp.status_code is 200:
+            token = resp.headers['X-FeApi-Token']
+            return resp.content
+        else:
+            message = parse_error_response(resp)
+            raise ValueError('Token request failed with status code {}\n{}'.format(resp.status_code, message))
+
+
+    def eventsRequest(token,filters):
+        url  = '{}/wsapis/v1.2.0/events'.format(SERVER_URL)
+        headers = GET_HEADERS
+        headers['x-FeApi-Token']=token
+
+        #remove None values
+        filters = {k:v for k,v in filters.items() if v is not None}
+
+        resp = requests.get(url,headers=headers,params=filters,verify=False)
+
+        if resp.status_code is 200:
+            demisto.results(resp.content)
+        else:
+            message = parse_error_response(resp)
+            raise ValueError('Token request failed with status code {}\n{}'.format(resp.status_code, message))
+
+    def alertRequest(token,filters):
+
+        url = "{}/wsapis/v2.0.0/alerts".format(SERVER_URL)
+        headers = {
+            'x-FeApi-Token' : token
+            'Accept' : application/json
+
+        }
+
+        #remove None values
+        filters = {k:v for k,v in filters.items() if v is not None}
+
+
+        resp = requests.get(url,headers=headers,params=filters,verify=False)
+
+
+
+        if resp.status_code is 200:
+            demisto.results(resp.content)
+        else:
+            message = parse_error_response(resp)
+            raise ValueError('Token request failed with status code {}\n{}'.format(resp.status_code, message))
+
+
+
+
+    def parse_error_response(response):
+        try:
+            return response.json().get('message')
+        except Exception as e:
+            return ''
+
+    def logout():
+        url = '{}/auth/logout'.format(BASE_PATH)
+        resp = requests.post(url,headers={'X-FeApi-Token' : token})
+
+
+    try:
+
+        token = authenticate(USERNAME,PASSWORD)
+
+        if demisto.command() == 'test-module':
+            #token generated - credentials are valid
+            demisto.results('ok')
+
+
+        if demisto.command() == 'fireeye-cms-getevents':
+            filters = {
+            'duration' : demisto.args()['duration']
+            'end_time' : demisto.args()['end_time']
+            'event_type' : urllib.parse.quote('Ips Event')
+            }
+
+            eventsRequest(token,filters)
+            logout(token)
+
+        if demisto.command() == 'fireeye-cms-alerts':
+            filters = {
+
+                "alert_id" : demisto.args()['alert_id']
+                "callback_domain" : demisto.args()['callback_domain']
+                "dst_ip" : demisto.args()['dst_ip']
+                "duration" : demisto.args()['duration']
+                "end_time" : demisto.args()['end_time']
+                "file_name" : demisto.args()['file_name']
+                "file_type" : demisto.args()['file_type']
+                "info_level" : demisto.args()['info_level']
+                "malware_name" : demisto.args()['malware_name']
+                "malware_type" : demisto.args()['malware_type']
+                "md5" : demisto.args()['md5']
+                "recipient_email" : demisto.args()['recipient_email']
+                "sender_email" : demisto.args()['sender_email']
+                "src_ip" : demisto.args()['src_ip']
+                "start_time" : demisto.args()['start_time']
+                "url" : demisto.args()['url']
+
+            }
+            alertRequest(token,filters)
+
+
+    except ValueError as e:
+        LOG(e.message)
+        LOG.print_log()
+
+
+
+
+
+
+
+  type: python
+  commands:
+  - name: fireeye-cms-getevents
+    arguments:
+    - name: duration
+      description: Specifies the time interval to search
+    - name: end_time
+      description: Specifies the end time of the search.
+    description: retrieves Multi-Vector Virtual Execution (MVX) correlated Intrusion
+      Prevention System (IPS) event data from the NX Series appliance managed by  CM
+      Series appliance.
+  - name: fireeye-cms-alerts
+    arguments:
+    - name: alert_id
+      description: 'Specifies the ID number of the alert to retrieve. Example: alert_id=13705 '
+    - name: callback_domain
+      description: 'Searches for alerts that include callbacks to the specified domain.
+        Example: callback_domain=onecompany.com'
+    - name: dst_ip
+      description: 'The destination IPv4 or IPv6 address related to the malware alert.
+        Syntax: dst_ip=ip_address Example: dst_ip=xxx.xxx.xxx.xxx'
+    - name: duration
+      description: 'Specifies the time interval to search. This filter is used with
+        either the start_time or end_time filter. If duration, start time, and end
+        time are not specified, the system defaults to duration=48_hours, end_time=current_
+        time. If only duration is specified, the end_time defaults to the current
+        . Example: duration=1_hour&start_time=2017-06-21T16:30:00.000- 07:00 '
+    - name: end_time
+      description: 'Specifies the end time of the search.   Syntax: end_time=YYYY-MM-DDTHH:mm:ss.sss-OH:om'
+    - name: file_name
+      description: 'The name of the malware file.  Syntax: file_name="file_name"'
+    - name: file_type
+      description: 'The malware file type. Syntax: file_type=file_type Example: file_type=com'
+    - name: info_level
+      auto: PREDEFINED
+      predefined:
+      - concise
+      - normal
+      - extended
+      description: 'Specifies the level of information to be returned. The default
+        is concise.  '
+    - name: malware_name
+      description: 'The name of the malware object. Syntax: malware_name=name  Example:
+        malware_name=trojan.exe'
+    - name: malware_type
+      auto: PREDEFINED
+      predefined:
+      - domain_match
+      - malware_callback
+      - malware_object
+      - web_infection
+      - infection_match
+      description: 'The type of the malware object:'
+    - name: md5
+      description: Searches for alerts that include a specific MD5 hash.
+    - name: recipient_email
+      description: The email address of the malware object receiver
+    - name: sender_email
+      description: The email address of the malware object sender
+    - name: src_ip
+      description: The email address of the malware object sender
+    - name: start_time
+      description: Specifies the start time of the search
+    - name: url
+      description: Searches for a specific alert URL.
+    description: requests existing alert profiles using an HTTP GET request
+  runonce: false

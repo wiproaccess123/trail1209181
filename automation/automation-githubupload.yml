@@ -1,0 +1,68 @@
+commonfields:
+  id: ca6d5517-d24c-49af-8108-d647457c1eb2
+  version: 2
+name: githubupload
+script: |-
+  from github import Github
+  from github import InputGitTreeElement
+  import os
+  # First create a Github instance:
+  from github import Github
+  from github import InputGitTreeElement
+  import os
+  # using username and password
+  g = Github("Gvarmas", "Varma@32")
+
+  # Github Enterprise with custom hostname
+  #g = Github(base_url="https://{hostname}/api/v3", login_or_token="access_token")
+
+  # Then play with your Github objects:
+  import tarfile
+
+  path_to_zip_file = "C:\Users\gu20027319\Desktop\content-bundle-10Oct1803_59EDT.tar.gz"
+  directory_to_extract_to = "C://Users//gu20027319//Downloads//extrcted_data//"
+
+  tar = tarfile.open(path_to_zip_file, 'r:gz')
+  for tar_info in tar:                  # tar_info is the metadata for a
+      file = tar.extractfile(tar_info)
+      with open(directory_to_extract_to+file.name, "w") as as_file:
+          as_file.write(file.read())
+
+  for repo in g.get_user().get_repos():
+     print(repo.name)
+  repo = g.get_user().get_repo('trail240918')
+  file_list = os.listdir(directory_to_extract_to)
+  commit_message = 'Add simple regression analysis'
+  master_ref = repo.get_git_ref('heads/master')
+  master_sha = master_ref.object.sha
+  base_tree = repo.get_git_tree(master_sha)
+  element_list = list()
+  #print file_list
+  for entry in file_list:
+      #print directory_to_extract_to+entry
+      with open(directory_to_extract_to+entry, 'rb') as input_file:
+          data = input_file.read()
+      if entry.endswith('.png'):
+          data = base64.b64encode(data)
+      if entry.find('-') != -1:
+          folder_name = entry.split('-')[0]
+          print folder_name+'/'+entry
+          element = InputGitTreeElement(folder_name+'/'+entry, '100644', 'blob', data)
+          element_list.append(element)
+  tree = repo.create_git_tree(element_list, base_tree)
+  parent = repo.get_git_commit(master_sha)
+  commit = repo.create_git_commit(commit_message, tree, [parent])
+  master_ref.edit(commit.sha)
+  """ An egregious hack to change the PNG contents after the commit """
+  for entry in file_list:
+      with open(directory_to_extract_to+entry, 'rb') as input_file:
+          data = input_file.read()
+      if entry.endswith('.png'):
+          old_file = repo.get_contents(entry)
+          commit = repo.update_file('/' + entry, 'Update PNG content', data, old_file.sha)
+type: python
+tags: []
+comment: "it is used to  upload the demisto scripts to github \n"
+enabled: true
+scripttarget: 0
+runonce: false

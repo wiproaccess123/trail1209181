@@ -1,0 +1,208 @@
+id: 7bbe10a1-c3f9-4378-8b31-5e83cf2bc1e1
+version: 6
+name: BS_Read_XPS_File_copy
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: ecba1640-5936-4210-85d6-9a7f98c49a91
+    type: start
+    task:
+      id: ecba1640-5936-4210-85d6-9a7f98c49a91
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 50
+        }
+      }
+    note: false
+  "1":
+    id: "1"
+    taskid: 7d92129a-a644-4cf1-8dcc-4c44857ba6c7
+    type: condition
+    task:
+      id: 7d92129a-a644-4cf1-8dcc-4c44857ba6c7
+      version: -1
+      name: Check XPS file?
+      script: Exists
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "4"
+      "yes":
+      - "5"
+    scriptarguments:
+      value:
+        simple: ${File(val.Extension=='xps')}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 195
+        }
+      }
+    note: false
+  "4":
+    id: "4"
+    taskid: 9e769029-0bb6-45c6-8e39-39b9e9c644ee
+    type: regular
+    task:
+      id: 9e769029-0bb6-45c6-8e39-39b9e9c644ee
+      version: -1
+      name: Close
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 1070
+        }
+      }
+    note: false
+  "5":
+    id: "5"
+    taskid: f098dc9f-f038-4e1a-8fea-6ebb6194fb75
+    type: regular
+    task:
+      id: f098dc9f-f038-4e1a-8fea-6ebb6194fb75
+      version: -1
+      name: Extracting  URLS from file
+      script: 126e2cdf-64a9-480b-872d-1d17e18ef88d
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "8"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='xps').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 370
+        }
+      }
+    note: false
+  "6":
+    id: "6"
+    taskid: ea58b6c4-6fff-45e7-880c-a799041c29c4
+    type: condition
+    task:
+      id: ea58b6c4-6fff-45e7-880c-a799041c29c4
+      version: -1
+      name: Check URL reputation whether it is malicious
+      script: IsMaliciousIndicatorFound
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      "no":
+      - "4"
+      "yes":
+      - "7"
+    scriptarguments:
+      includeSuspicious:
+        simple: "yes"
+      maliciousQueryOverride: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 710
+        }
+      }
+    note: false
+  "7":
+    id: "7"
+    taskid: 4cbf977f-c2c9-4fcc-8e3a-e26366d2ab63
+    type: regular
+    task:
+      id: 4cbf977f-c2c9-4fcc-8e3a-e26366d2ab63
+      version: -1
+      name: Extract and read unzipped file
+      script: 0aee281b-277e-4798-8b44-4f98cea7a7a6
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      entryID:
+        simple: ${File(val.Extension=='xps').EntryID}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 275,
+          "y": 895
+        }
+      }
+    note: false
+  "8":
+    id: "8"
+    taskid: 69e0a6c8-61da-4deb-8b45-6acf603b8227
+    type: regular
+    task:
+      id: 69e0a6c8-61da-4deb-8b45-6acf603b8227
+      version: -1
+      name: 'URLS '
+      script: VirusTotal|||url
+      type: regular
+      iscommand: true
+      brand: VirusTotal
+    nexttasks:
+      '#none#':
+      - "6"
+    scriptarguments:
+      long: {}
+      retries:
+        simple: "5"
+      sampleSize: {}
+      submitWait: {}
+      threshold: {}
+      url:
+        simple: ${HyperLinks}
+      wait: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 545
+        }
+      }
+    note: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 1115,
+        "width": 605,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []
